@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'laporanpengaturanproduk_view.dart';
+import 'home_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -41,26 +42,26 @@ class _LaporanViewState extends State<LaporanView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.white,
-                        //     borderRadius: BorderRadius.circular(25),
-                        //   ),
-                        //   child: IconButton(
-                        //     onPressed: () {
-                        //       Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => HomeView()),
-                        //       );
-                        //     },
-                        //     icon: Icon(Icons.arrow_back, color: Colors.black),
-                        //   ),
-                        // ),
-                        // SizedBox(width: 16),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                        SizedBox(width: 16),
                         Expanded(
                           child: Align(
-                            alignment: Alignment.center,
+                            alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Text(
