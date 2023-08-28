@@ -15,7 +15,7 @@ class ActorController extends GetxController {
   Future<void> fetchUserData() async {
     try {
       final response = await http.post(
-        Uri.parse('{YOUR_API}' + globalID.toString()),
+        Uri.parse('{YOUR API}' + globalID.toString()),
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
       );
       var data = jsonDecode(response.body);
