@@ -77,14 +77,14 @@ class _DashboardViewState extends State<DashboardView> {
                                   radius: 20,
                                 ),
                               ),
-                              SizedBox(width: 40),
+                              SizedBox(width: 30),
                               Text(
-                                "Selamat Bekerja !",
+                                "Selamat Bekerja, "+ _loginController.profileName.value + " !",
                                 style: GoogleFonts.montserrat(
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(width: 70),
+                              SizedBox(width: 40),
                             ],
                           ),
                         ),
@@ -389,7 +389,8 @@ class _DashboardViewState extends State<DashboardView> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Operator',
+                                'Monitoring Produksi',
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -427,6 +428,7 @@ class _DashboardViewState extends State<DashboardView> {
                               SizedBox(height: 4),
                               Text(
                                 'Audit',
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -465,6 +467,7 @@ class _DashboardViewState extends State<DashboardView> {
                               SizedBox(height: 4),
                               Text(
                                 'Warehouse',
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -577,6 +580,7 @@ class _DashboardViewState extends State<DashboardView> {
                               SizedBox(height: 4),
                               Text(
                                 'Monitoring',
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
