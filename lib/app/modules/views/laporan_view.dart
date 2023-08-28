@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'scanaudit_view.dart';
-import '../../routes/app_pages.dart';
+import 'package:get/get.dart';
+import 'laporanpengaturanproduk_view.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: LaporanView(),
+  ));
+}
 
 class LaporanView extends StatefulWidget {
   const LaporanView({Key? key}) : super(key: key);
@@ -102,42 +108,42 @@ class _LaporanViewState extends State<LaporanView> {
                           imageAsset: 'assets/icon.operator.png',
                           label: 'Pengaturan Produk',
                           onPressed: () {
-                            // Get.to(() => OperatorView());
+                            Get.to(() => PengaturanProdukView());
                           },
                         ),
                         DashboardMenuItem(
                           imageAsset: 'assets/icon.audit.png',
                           label: 'Produksi',
                           onPressed: () {
-                            // Get.to(() => HomeView());
+                            // Get.to(() => ProduksiView());
                           },
                         ),
                         DashboardMenuItem(
                           imageAsset: 'assets/icon.gudang.png',
                           label: 'Quality Control',
                           onPressed: () {
-                            // Get.to(() => HomeView());
+                            // Get.to(() => QcView());
                           },
                         ),
                         DashboardMenuItem(
                           imageAsset: 'assets/icon.qc.png',
                           label: 'Release',
                           onPressed: () {
-                            // Get.to(() => HomeView());
+                            // Get.to(() => ReleaseView());
                           },
                         ),
                         DashboardMenuItem(
                           imageAsset: 'assets/icon.monitor.png',
                           label: 'Logbook',
                           onPressed: () {
-                            // Get.to(() => HomeView());
+                            // Get.to(() => LogbookView());
                           },
                         ),
                         DashboardMenuItem(
                           imageAsset: 'assets/icon.tracker.png',
                           label: 'Laporan Hasil Produksi',
                           onPressed: () {
-                            // Get.to(() => HomeView());
+                            // Get.to(() => LaporanHasilView());
                           },
                         ),
                       ],
@@ -185,6 +191,7 @@ class DashboardMenuItem extends StatelessWidget {
           SizedBox(height: 4),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               fontSize: 16,
               color: Color(0xFF226EA4),
@@ -194,10 +201,4 @@ class DashboardMenuItem extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: LaporanView(),
-  ));
 }
