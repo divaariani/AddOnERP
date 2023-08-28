@@ -1,6 +1,12 @@
-import 'package:addon/app/modules/views/gudang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'gudang_view.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: ScanGudangView(),
+  ));
+}
 
 class ScanGudangView extends StatefulWidget {
   const ScanGudangView({Key? key}) : super(key: key);
@@ -10,24 +16,19 @@ class ScanGudangView extends StatefulWidget {
 }
 
 class _ScanGudangViewState extends State<ScanGudangView> {
-  String _barcodeResult = 'Scan barcode pada barang!';
+  String _barcodeGudangResult = 'Scan barcode pada barang!';
 
   Future<void> _scanBarcode() async {
-    String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+    String barcodeGudangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
       true,
       ScanMode.BARCODE,
     );
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GudangView(
-            // barcodeResult: barcodeResul
-            ),
-      ),
-    );
+    setState(() {
+      _barcodeGudangResult = barcodeGudangResult;
+    });
   }
 
   @override
@@ -57,44 +58,40 @@ class _ScanGudangViewState extends State<ScanGudangView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.circular(25),
-                            //   ),
-                            //   child: IconButton(
-                            //     onPressed: () {
-                            //       Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => HomeView()),
-                            //       );
-                            //     },
-                            //     icon: Icon(Icons.arrow_back, color: Colors.black),
-                            //   ),
-                            // ),
-                            // SizedBox(width: 16),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  child: Text(
-                                    "Scan Gudang",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        padding: EdgeInsets.only(left: 16),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GudangView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            "Scan Gudang",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -154,7 +151,7 @@ class _ScanGudangViewState extends State<ScanGudangView> {
                     ),
                   ),
                   Text(
-                    "$_barcodeResult",
+                    "$_barcodeGudangResult",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
@@ -169,10 +166,4 @@ class _ScanGudangViewState extends State<ScanGudangView> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ScanGudangView(),
-  ));
 }

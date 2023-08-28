@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'audit_view.dart';
 
+void main() {
+  runApp(MaterialApp(
+    home: ScanAuditView(),
+  ));
+}
+
 class ScanAuditView extends StatefulWidget {
   const ScanAuditView({Key? key}) : super(key: key);
 
@@ -10,22 +16,19 @@ class ScanAuditView extends StatefulWidget {
 }
 
 class _ScanAuditViewState extends State<ScanAuditView> {
-  String _barcodeResult = 'Scan barcode untuk Audit Stock!';
+  String _barcodeAuditResult = 'Scan barcode pada barang!';
 
   Future<void> _scanBarcode() async {
-    String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+    String barcodeAuditResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
       true,
       ScanMode.BARCODE,
     );
 
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => AuditView(barcodeResult: barcodeResult),
-    //   ),
-    // );
+    setState(() {
+      _barcodeAuditResult = barcodeAuditResult;
+    });
   }
 
   @override
@@ -55,44 +58,40 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.circular(25),
-                            //   ),
-                            //   child: IconButton(
-                            //     onPressed: () {
-                            //       Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => HomeView()),
-                            //       );
-                            //     },
-                            //     icon: Icon(Icons.arrow_back, color: Colors.black),
-                            //   ),
-                            // ),
-                            // SizedBox(width: 16),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  child: Text(
-                                    "Scan Audit",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        padding: EdgeInsets.only(left: 16),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AuditView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            "Scan Audit",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -152,7 +151,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                     ),
                   ),
                   Text(
-                    "$_barcodeResult",
+                    "$_barcodeAuditResult",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
@@ -167,10 +166,4 @@ class _ScanAuditViewState extends State<ScanAuditView> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ScanAuditView(),
-  ));
 }

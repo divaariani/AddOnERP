@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'laporanpengaturanproduk_view.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: ScanProdukView(),
-  ));
-}
-
 class ScanProdukView extends StatefulWidget {
   const ScanProdukView({Key? key}) : super(key: key);
 
@@ -16,24 +10,19 @@ class ScanProdukView extends StatefulWidget {
 }
 
 class _ScanProdukViewState extends State<ScanProdukView> {
-  String _barcodeResult = 'Scan barcode pada produk!';
+  String _barcodeProdukResult = 'Scan barcode pada barang!';
 
   Future<void> _scanBarcode() async {
-    String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+    String barcodeProdukResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
       true,
       ScanMode.BARCODE,
     );
 
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => PengaturanProdukView(
-    //         barcodeResult: barcodeResul
-    //         ),
-    //   ),
-    // );
+    setState(() {
+      _barcodeProdukResult = barcodeProdukResult;
+    });
   }
 
   @override
@@ -63,44 +52,40 @@ class _ScanProdukViewState extends State<ScanProdukView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.circular(25),
-                            //   ),
-                            //   child: IconButton(
-                            //     onPressed: () {
-                            //       Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => HomeView()),
-                            //       );
-                            //     },
-                            //     icon: Icon(Icons.arrow_back, color: Colors.black),
-                            //   ),
-                            // ),
-                            // SizedBox(width: 16),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  child: Text(
-                                    "Scan Gudang",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        padding: EdgeInsets.only(left: 16),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PengaturanProdukView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            "Scan Produk",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -160,7 +145,7 @@ class _ScanProdukViewState extends State<ScanProdukView> {
                     ),
                   ),
                   Text(
-                    "$_barcodeResult",
+                    "$_barcodeProdukResult",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
@@ -175,4 +160,10 @@ class _ScanProdukViewState extends State<ScanProdukView> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: ScanProdukView(),
+  ));
 }

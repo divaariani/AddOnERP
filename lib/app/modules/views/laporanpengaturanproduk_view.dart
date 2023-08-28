@@ -44,7 +44,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
             child: SafeArea(
               child: Column(
                 children: [
-                  Row(
+				Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
@@ -203,7 +203,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
                           alignment: Alignment.centerRight,
                           child: Container(
                             width: 200,
-                            height: 40,
+                            height: 60,
                             padding: const EdgeInsets.only(right: 7),
                             child: TextField(
                               decoration: InputDecoration(
@@ -369,25 +369,39 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('K10',
+                              child: Text('1',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('Forklift',
+                              child: Text('NA2XSY',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('C1',
+                              child: Text('Aluminium Conductor',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                            child: Text('8 Januari 2024',
+                            child: Text('Al/XLPE/CTS/PVC',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('80',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('Jalan',
                                 textAlign: TextAlign.center,
                                 style: tableCellStyle),
                           ),
@@ -398,25 +412,39 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('K10',
+                              child: Text('2',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('Forklift',
+                              child: Text('NA2XSY',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('C1',
+                              child: Text('Aluminium Conductor',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                            child: Text('8 Januari 2024',
+                            child: Text('Al/XLPE/CTS/PVC',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('80',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('Jalan',
                                 textAlign: TextAlign.center,
                                 style: tableCellStyle),
                           ),
@@ -427,25 +455,39 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('K10',
+                              child: Text('3',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('Forklift',
+                              child: Text('NA2XSY',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('C1',
+                              child: Text('Aluminium Conductor',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                            child: Text('8 Januari 2024',
+                            child: Text('Al/XLPE/CTS/PVC',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('80',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('Jalan',
                                 textAlign: TextAlign.center,
                                 style: tableCellStyle),
                           ),
@@ -456,25 +498,39 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('K10',
+                              child: Text('4',
+                                  textAlign: TextAlign.center,
+                                  style: tableCellStyle)),
+                        ),
+                       TableCell(
+                          child: Center(
+                              child: Text('NA2XSY',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('Forklift',
+                              child: Text('Aluminium Conductor',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
                         TableCell(
                           child: Center(
-                              child: Text('C1',
-                                  textAlign: TextAlign.center,
-                                  style: tableCellStyle)),
+                            child: Text('Al/XLPE/CTS/PVC',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
                         ),
                         TableCell(
                           child: Center(
-                            child: Text('8 Januari 2024',
+                            child: Text('80',
+                                textAlign: TextAlign.center,
+                                style: tableCellStyle),
+                          ),
+                        ),
+                        TableCell(
+                          child: Center(
+                            child: Text('Jalan',
                                 textAlign: TextAlign.center,
                                 style: tableCellStyle),
                           ),
