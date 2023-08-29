@@ -5,27 +5,17 @@ import 'scanproduk_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: PengaturanProdukView(),
+    home: ProduksiView(),
   ));
 }
 
-class PengaturanProdukView extends StatefulWidget {
-  const PengaturanProdukView({Key? key}) : super(key: key);
+class ProduksiView extends StatefulWidget {
+  const ProduksiView({Key? key}) : super(key: key);
   @override
-  State<PengaturanProdukView> createState() => _PengaturanProdukViewState();
+  State<ProduksiView> createState() => _ProduksiViewState();
 }
 
-class _PengaturanProdukViewState extends State<PengaturanProdukView> {
-  List<String> items = [
-    "Jenis Produk",
-    "Produk",
-  ];
-  List<IconData> icons = [
-    Icons.add_box,
-    Icons.add_box,
-  ];
-  int current = 0;
-
+class _ProduksiViewState extends State<ProduksiView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +34,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
             child: SafeArea(
               child: Column(
                 children: [
-				Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
@@ -91,67 +81,6 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
                     padding: EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: items.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (ctx, index) {
-                                return Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          current = index;
-                                        });
-                                      },
-                                      child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        margin: const EdgeInsets.all(5),
-                                        width: 110,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          color: current == index
-                                              ? Colors.blue[900]
-                                              : Color.fromARGB(
-                                                  255, 208, 228, 237),
-                                          borderRadius: current == index
-                                              ? BorderRadius.circular(15)
-                                              : BorderRadius.circular(10),
-                                          border: current == index
-                                              ? Border.all(
-                                                  color: Colors.white, width: 2)
-                                              : null,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            items[index],
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.laila(
-                                                fontWeight: FontWeight.w500,
-                                                color: current == index
-                                                    ? Colors.white
-                                                    : Colors.blue[900]),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                        visible: current == index,
-                                        child: Container(
-                                          width: 5,
-                                          height: 5,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle),
-                                        ))
-                                  ],
-                                );
-                              }),
-                        ),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(14),
@@ -165,8 +94,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ScanProdukView()),
+                                        builder: (context) => ScanProdukView()),
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -179,7 +107,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Kelola " + items[current],
+                                      "Tambah Produksi",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.blue[900],
@@ -189,7 +117,7 @@ class _PengaturanProdukViewState extends State<PengaturanProdukView> {
                                       width: 30,
                                     ),
                                     Icon(
-                                      icons[current],
+                                      Icons.add_box,
                                       color: Colors.blue[900],
                                     ),
                                   ],
@@ -266,7 +194,7 @@ class CardTable extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Data Produk',
+                  'Data Produksi',
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -290,7 +218,7 @@ class CardTable extends StatelessWidget {
                         child: Center(
                           child: Text(
                             textAlign: TextAlign.center,
-                            'No',
+                            'Tanggal',
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.normal,
                               color: Colors.blue[900],
@@ -329,7 +257,7 @@ class CardTable extends StatelessWidget {
                         child: Center(
                           child: Text(
                             textAlign: TextAlign.center,
-                            'Stok',
+                            'Status QC',
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.normal,
                               color: Colors.blue[900],
@@ -342,7 +270,7 @@ class CardTable extends StatelessWidget {
                         child: Center(
                           child: Text(
                             textAlign: TextAlign.center,
-                            'Status',
+                            'Jumlah Produksi',
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.normal,
                               color: Colors.blue[900],
@@ -369,7 +297,7 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('1',
+                              child: Text('7 Januari 2024',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
@@ -412,7 +340,7 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('2',
+                              child: Text('7 Januari 2024',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
@@ -455,7 +383,7 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('3',
+                              child: Text('7 Januari 2024',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
@@ -498,11 +426,11 @@ class CardTable extends StatelessWidget {
                       children: [
                         TableCell(
                           child: Center(
-                              child: Text('4',
+                              child: Text('7 Januari 2024',
                                   textAlign: TextAlign.center,
                                   style: tableCellStyle)),
                         ),
-                       TableCell(
+                        TableCell(
                           child: Center(
                               child: Text('NA2XSY',
                                   textAlign: TextAlign.center,

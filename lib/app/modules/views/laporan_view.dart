@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'laporanpengaturanproduk_view.dart';
+import 'laporanproduksi_view.dart';
 import 'home_view.dart';
 
 void main() {
@@ -116,7 +117,7 @@ class _LaporanViewState extends State<LaporanView> {
                           imageAsset: 'assets/icon.audit.png',
                           label: 'Produksi',
                           onPressed: () {
-                            // Get.to(() => ProduksiView());
+                            Get.to(() => ProduksiView());
                           },
                         ),
                         DashboardMenuItem(
