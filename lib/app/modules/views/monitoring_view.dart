@@ -1,8 +1,8 @@
+import 'package:addon/app/modules/views/home_view.dart';
+import 'package:addon/app/modules/views/monitoringbarang_view.dart';
+import 'package:addon/app/modules/views/monitoringriwayat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home_view.dart';
-import 'monitoringriwayat_view.dart';
-import 'monitoringbarang_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,32 +19,57 @@ class MonitoringView extends StatefulWidget {
 class CustomButton extends StatefulWidget {
   final String text;
   final bool isActive;
-  final VoidCallback onPressed;
+  final Widget targetPage;
 
   CustomButton(
-      {required this.text, required this.isActive, required this.onPressed});
+      {required this.text, required this.isActive, required this.targetPage});
 
   @override
   _CustomButtonState createState() => _CustomButtonState();
 }
 
 class _CustomButtonState extends State<CustomButton> {
+  void _navigateToTargetPage() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            widget.targetPage,
+        transitionDuration: Duration(milliseconds: 150),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onPressed,
+      onTap: _navigateToTargetPage,
       child: Container(
         decoration: BoxDecoration(
-          color: widget.isActive
-              ? Colors.blue.shade900
-              : Colors.blue.shade300, 
+          gradient: LinearGradient(
+            colors: widget.isActive
+                ? [
+                    const Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromARGB(56, 0, 151, 251)
+                  ]
+                : [
+                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromRGBO(96, 187, 231, 1)
+                  ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           borderRadius: BorderRadius.circular(30),
           boxShadow: widget.isActive
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2), 
+                    color: Colors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
+                    offset: Offset(0, 2),
                   )
                 ]
               : [],
@@ -53,8 +78,10 @@ class _CustomButtonState extends State<CustomButton> {
         child: Text(
           widget.text,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
+            color: widget.isActive
+                ? Colors.white
+                : const Color.fromRGBO(8, 77, 136, 1),
+            fontSize: 12,
           ),
         ),
       ),
@@ -78,7 +105,7 @@ class _MonitoringViewState extends State<MonitoringView> {
               gradient: LinearGradient(
                 begin: Alignment(0.99, -0.14),
                 end: Alignment(-0.99, 0.14),
-                colors: [ Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
               ),
             ),
           ),
@@ -88,8 +115,7 @@ class _MonitoringViewState extends State<MonitoringView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: 32, left: 16, right: 16, bottom: 32),
+                    padding: EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -116,9 +142,10 @@ class _MonitoringViewState extends State<MonitoringView> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Text(
-                                "Monitoring Stock⠀⠀⠀⠀",
+                                textAlign: TextAlign.left,
+                                "Monitoring Stock",
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -129,40 +156,49 @@ class _MonitoringViewState extends State<MonitoringView> {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomButton(
-                        text: "Produksi",
-                        isActive:
-                            true, 
-                        onPressed: () {
-                        },
+                  SizedBox(height: 20),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              16), 
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Aktivitas Produksi",
+                              isActive: true,
+                              targetPage: MonitoringView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Persediaan Barang",
+                              isActive: false,
+                              targetPage: MonitoringBarangView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Riwayat Perubahan",
+                              isActive: false,
+                              targetPage: MonitoringRiwayatView(),
+                            ),
+                          ),
+                        ],
                       ),
-                      CustomButton(
-                        text: "Barang",
-                        isActive:
-                            false, 
-                        onPressed: () {
-                          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BarangView()),
-                              );
-                        },
-                      ),
-                      CustomButton(
-                        text: "Riwayat",
-                        isActive: false, 
-                        onPressed: () {
-                         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MonitoringRiwayatView()),
-                              );
-                        },
-                      ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: 25),
                   Padding(
@@ -171,23 +207,21 @@ class _MonitoringViewState extends State<MonitoringView> {
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          ],
+                          children: [],
                         ),
                         Spacer(),
                         Container(
                           width: 200,
                           child: TextField(
                             decoration: InputDecoration(
-                              hintText: "search",
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide.none,
-                              ),
-                              prefixIcon: Icon(Icons.search)
-                            ),
+                                hintText: "search",
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide.none,
+                                ),
+                                prefixIcon: Icon(Icons.search)),
                           ),
                         ),
                       ],

@@ -6,63 +6,18 @@ import 'monitoringriwayat_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: BarangView(),
+    home: MonitoringBarangView(),
   ));
 }
 
-class BarangView extends StatefulWidget {
-  const BarangView({Key? key}) : super(key: key);
+class MonitoringBarangView extends StatefulWidget {
+  const MonitoringBarangView({Key? key}) : super(key: key);
 
   @override
-  State<BarangView> createState() => _BarangViewState();
+  State<MonitoringBarangView> createState() => _MonitoringBarangViewState();
 }
 
-class CustomButton extends StatefulWidget {
-  final String text;
-  final bool isActive;
-  final VoidCallback onPressed;  
-  CustomButton(
-      {required this.text, required this.isActive, required this.onPressed});
-
-  @override
-  _CustomButtonState createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.isActive
-              ? Colors.blue.shade900
-              : Colors.blue.shade300, 
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: widget.isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2), 
-                    blurRadius: 4,
-                    spreadRadius: 2,
-                  )
-                ]
-              : [],
-        ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-        child: Text(
-          widget.text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BarangViewState extends State<BarangView> {
+class _MonitoringBarangViewState extends State<MonitoringBarangView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,8 +43,7 @@ class _BarangViewState extends State<BarangView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: 32, left: 16, right: 16, bottom: 32),
+                    padding: EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -116,9 +70,10 @@ class _BarangViewState extends State<BarangView> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Text(
-                                "Monitoring Stock⠀⠀⠀⠀",
+                                textAlign: TextAlign.left,
+                                "Monitoring Stock",
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -129,40 +84,49 @@ class _BarangViewState extends State<BarangView> {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomButton(
-                        text: "Produksi",
-                        isActive:
-                          false, 
-                        onPressed: () {
-                          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MonitoringView()),
-                              );
-                        },
+                  SizedBox(height: 20),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              16), 
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Aktivitas Produksi",
+                              isActive: false,
+                              targetPage: MonitoringView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Persediaan Barang",
+                              isActive: true,
+                              targetPage: MonitoringBarangView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Riwayat Perubahan",
+                              isActive: false,
+                              targetPage: MonitoringRiwayatView(),
+                            ),
+                          ),
+                        ],
                       ),
-                      CustomButton(
-                        text: "Barang",
-                        isActive:
-                            true, 
-                        onPressed: () {
-                        },
-                      ),
-                      CustomButton(
-                        text: "Riwayat",
-                        isActive: false, 
-                        onPressed: () {
-                         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MonitoringRiwayatView()),
-                              );
-                        },
-                      ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: 25),
                   Padding(
@@ -245,6 +209,78 @@ class _BarangViewState extends State<BarangView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatefulWidget {
+  final String text;
+  final bool isActive;
+  final Widget targetPage;
+  CustomButton(
+      {required this.text, required this.isActive, required this.targetPage});
+
+  @override
+  _CustomButtonState createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  void _navigateToTargetPage() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            widget.targetPage,
+        transitionDuration: Duration(milliseconds: 150),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _navigateToTargetPage,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: widget.isActive
+                ? [
+                    const Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromARGB(56, 0, 151, 251)
+                  ]
+                : [
+                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromRGBO(96, 187, 231, 1)
+                  ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: widget.isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: Offset(0, 2),
+                  )
+                ]
+              : [],
+        ),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            color: widget.isActive
+                ? Colors.white
+                : const Color.fromRGBO(8, 77, 136, 1),
+            fontSize: 12,
+          ),
+        ),
       ),
     );
   }
