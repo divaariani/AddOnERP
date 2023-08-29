@@ -1,16 +1,4 @@
-# myapp
+# Add On ERP - Intern Project as Mobile Developer
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Project Description
+This project involves creating a mobile application aimed at simplifying the process for machine operators and data processors to report the end results of cable production to the company. One of the valuable features we're incorporating is a barcode scanning function, which allows easy data entry stored in a secure database. This enhancement proves to be incredibly beneficial for companies. 
