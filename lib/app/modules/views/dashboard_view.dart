@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'operatorpresensi_view.dart';
+import 'operatorstatus_view.dart';
 import 'audit_view.dart';
 import 'gudang_view.dart';
 import 'home_view.dart';
@@ -104,7 +105,7 @@ class _DashboardViewState extends State<DashboardView> {
                       ],
                     ),
                   ),
-                  CustomCard(
+                  CardID(
                     name: _loginController.profileName.value,
                     id: _loginController.profileId.value,
                   ),
@@ -187,177 +188,12 @@ class _DashboardViewState extends State<DashboardView> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            'Status Mesin'),
-                                                        content:
-                                                            SingleChildScrollView(
-                                                          child: ListBody(
-                                                            children: [
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  // on pressed logic here
-                                                                },
-                                                                child: Text('Start'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                      return AlertDialog(
-                                                                        title: Text('Pause'),
-                                                                        content:
-                                                                            SingleChildScrollView(
-                                                                          child:
-                                                                              ListBody(
-                                                                            children: [
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Naik WIP');
-                                                                                },
-                                                                                child: Text('Naik WIP'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Set Up Mesin');
-                                                                                },
-                                                                                child: Text('Set Up Mesin'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Naik Bobin');
-                                                                                },
-                                                                                child: Text('Naik Bobin'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Istirahat/Pergi');
-                                                                                },
-                                                                                child: Text('Istirahat/Pergi'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Lingkungan');
-                                                                                },
-                                                                                child: Text('Lingkungan'),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) {
-                                                                    if (value != null) {
-                                                                      print(value);
-                                                                    }
-                                                                  });
-                                                                },
-                                                                child: Text('Pause'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return AlertDialog(
-                                                                        title: Text('Blocked'),
-                                                                        content: SingleChildScrollView(
-                                                                          child: ListBody(
-                                                                            children: [
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Material Availability');
-                                                                                },
-                                                                                child: Text('Material Availability'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Equipment Failure');
-                                                                                },
-                                                                                child: Text('Equipment Failure'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Setup and Adjustments');
-                                                                                },
-                                                                                child: Text('Setup and Adjustments'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Reduced Speed');
-                                                                                },
-                                                                                child: Text('Reduced Speed'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Process Defect');
-                                                                                },
-                                                                                child: Text('Process Defect'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Reduced Yield');
-                                                                                },
-                                                                                child: Text('Reduced Yield'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context, 'Fully Productive Time');
-                                                                                },
-                                                                                child: Text('Fully Productive Time'),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) {
-                                                                    if (value != null) {
-                                                                      print(value);
-                                                                    }
-                                                                  });
-                                                                },
-                                                                child: Text('Blocked'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  // on pressed logic here
-                                                                },
-                                                                child: Text(
-                                                                    'Cancel'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  // on pressed logic here
-                                                                },
-                                                                child: Text(
-                                                                    'Ready'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  // on pressed logic here
-                                                                },
-                                                                child: Text(
-                                                                    'Done'),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ).then((value) {
-                                                    if (value != null) {
-                                                      print(value);
-                                                    }
-                                                  });
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OperatorStatusView()),
+                                                  );
                                                 },
                                                 child: Text('Status Mesin'),
                                               ),
@@ -394,9 +230,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isOperator.value ==
-                                              't' ||
-                                          _actorController.isAdmin == 't'
+                                  color: _actorController.isOperator.value == 't' || _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -405,8 +239,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isAuditor.value == 't' ||
-                                  _actorController.isAdmin == 't'
+                          onPressed: _actorController.isAuditor.value == 't' || _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => AuditView());
                                 }
@@ -433,8 +266,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      _actorController.isAuditor.value == 't' ||
-                                              _actorController.isAdmin == 't'
+                                      _actorController.isAuditor.value == 't' || _actorController.isAdmin == 't'
                                           ? Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
@@ -444,8 +276,7 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                         ElevatedButton(
                           onPressed:
-                              _actorController.isWarehouse.value == 't' ||
-                                      _actorController.isAdmin == 't'
+                              _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
                                   ? () {
                                       Get.to(() => GudangView());
                                     }
@@ -471,9 +302,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isWarehouse.value ==
-                                              't' ||
-                                          _actorController.isAdmin == 't'
+                                  color: _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -482,8 +311,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isQC.value == 't' ||
-                                  _actorController.isAdmin == 't'
+                          onPressed: _actorController.isQC.value == 't' || _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => LaporanView());
                                 }
@@ -509,8 +337,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isQC.value == 't' ||
-                                          _actorController.isAdmin == 't'
+                                  color: _actorController.isQC.value == 't' || _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -519,8 +346,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isCustomer.value == 't' ||
-                                  _actorController.isAdmin == 't'
+                          onPressed: _actorController.isCustomer.value == 't' || _actorController.isAdmin == 't'
                               ? () {
                                   // Get.to(() => CustomerView());
                                 }
@@ -546,9 +372,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isCustomer.value ==
-                                              't' ||
-                                          _actorController.isAdmin == 't'
+                                  color: _actorController.isCustomer.value == 't' || _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -557,8 +381,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isMonitor.value == 't' ||
-                                  _actorController.isAdmin == 't'
+                          onPressed: _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => MonitoringView());
                                 }
@@ -585,8 +408,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      _actorController.isMonitor.value == 't' ||
-                                              _actorController.isAdmin == 't'
+                                      _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
                                           ? Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
@@ -608,10 +430,10 @@ class _DashboardViewState extends State<DashboardView> {
   }
 }
 
-class CustomCard extends StatelessWidget {
+class CardID extends StatelessWidget {
   final String name;
   final String id;
-  const CustomCard({required this.name, required this.id});
+  const CardID({required this.name, required this.id});
 
   @override
   Widget build(BuildContext context) {
