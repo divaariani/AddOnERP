@@ -13,8 +13,9 @@ import '../controllers/actor_controller.dart';
 
 class DashboardView extends StatefulWidget {
   final String barcodeResult;
-  
-  const DashboardView({Key? key, required this.barcodeResult}) : super(key: key);
+
+  const DashboardView({Key? key, required this.barcodeResult})
+      : super(key: key);
 
   @override
   State<DashboardView> createState() => _DashboardViewState();
@@ -80,7 +81,9 @@ class _DashboardViewState extends State<DashboardView> {
                               ),
                               SizedBox(width: 30),
                               Text(
-                                "Selamat Bekerja, "+ _loginController.profileName.value + " !",
+                                "Selamat Bekerja, " +
+                                    _loginController.profileName.value +
+                                    " !",
                                 style: GoogleFonts.montserrat(
                                   color: Colors.black,
                                 ),
@@ -165,37 +168,99 @@ class _DashboardViewState extends State<DashboardView> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       children: [
                         ElevatedButton(
-                          onPressed: _actorController.isOperator.value == 't' || _actorController.isAdmin == 't'
+                          onPressed: _actorController.isOperator.value == 't' ||
+                                  _actorController.isAdmin == 't'
                               ? () {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Operator'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
+                                      return Dialog(
+                                        backgroundColor: Color(0xFFFAFAFA),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          side: BorderSide(
+                                              color: Color(0xFF084D88), width: 2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
+                                              Container(
+                                                height: 50,
+                                                width: 150,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: Color(0xFF084D88),
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OperatorPresensiView()),
-                                                  );
-                                                },
-                                                child: Text('Isi Presensi'),
+                                                            OperatorPresensiView(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/icon.presensi.png',
+                                                        width: 24,
+                                                        height: 24,
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        'Isi Presensi',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
+                                              SizedBox(height: 10),
+                                              Container(
+                                                height: 50,
+                                                width: 150,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: Color(0xFF084D88),
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OperatorStatusView()),
-                                                  );
-                                                },
-                                                child: Text('Status Mesin'),
+                                                            OperatorStatusView(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/icon.mesin.png',
+                                                        width: 24,
+                                                        height: 24,
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        'Status Mesin',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -230,7 +295,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isOperator.value == 't' || _actorController.isAdmin == 't'
+                                  color: _actorController.isOperator.value ==
+                                              't' ||
+                                          _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -239,7 +306,8 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isAuditor.value == 't' || _actorController.isAdmin == 't'
+                          onPressed: _actorController.isAuditor.value == 't' ||
+                                  _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => AuditView());
                                 }
@@ -266,7 +334,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      _actorController.isAuditor.value == 't' || _actorController.isAdmin == 't'
+                                      _actorController.isAuditor.value == 't' ||
+                                              _actorController.isAdmin == 't'
                                           ? Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
@@ -276,7 +345,8 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                         ElevatedButton(
                           onPressed:
-                              _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
+                              _actorController.isWarehouse.value == 't' ||
+                                      _actorController.isAdmin == 't'
                                   ? () {
                                       Get.to(() => GudangView());
                                     }
@@ -302,7 +372,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
+                                  color: _actorController.isWarehouse.value ==
+                                              't' ||
+                                          _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -311,7 +383,8 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isQC.value == 't' || _actorController.isAdmin == 't'
+                          onPressed: _actorController.isQC.value == 't' ||
+                                  _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => LaporanView());
                                 }
@@ -337,7 +410,8 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isQC.value == 't' || _actorController.isAdmin == 't'
+                                  color: _actorController.isQC.value == 't' ||
+                                          _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -346,7 +420,8 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isCustomer.value == 't' || _actorController.isAdmin == 't'
+                          onPressed: _actorController.isCustomer.value == 't' ||
+                                  _actorController.isAdmin == 't'
                               ? () {
                                   // Get.to(() => CustomerView());
                                 }
@@ -372,7 +447,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isCustomer.value == 't' || _actorController.isAdmin == 't'
+                                  color: _actorController.isCustomer.value ==
+                                              't' ||
+                                          _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -381,7 +458,8 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
+                          onPressed: _actorController.isMonitor.value == 't' ||
+                                  _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => MonitoringView());
                                 }
@@ -408,7 +486,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
+                                      _actorController.isMonitor.value == 't' ||
+                                              _actorController.isAdmin == 't'
                                           ? Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
@@ -464,7 +543,8 @@ class CardID extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => OperatorPresensiView()),
+                      MaterialPageRoute(
+                          builder: (context) => OperatorPresensiView()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

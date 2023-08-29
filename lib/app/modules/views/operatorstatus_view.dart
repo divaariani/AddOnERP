@@ -204,8 +204,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.start.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                                 SizedBox(width: 10, height: 10),
@@ -214,46 +214,124 @@ class CardTable extends StatelessWidget {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Pause'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
+                                        return Dialog(
+                                          backgroundColor: Color(0xFF084D88),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Naik WIP');
-                                                  },
-                                                  child: Text('Naik WIP'),
+                                                Text(
+                                                  'Pause',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFD9D9D9),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Set Up Mesin');
-                                                  },
-                                                  child: Text('Set Up Mesin'),
+                                                SizedBox(height: 20),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9), 
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Naik WIP',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Naik Bobin');
-                                                  },
-                                                  child: Text('Naik Bobin'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Set Up Mesin',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Istirahat/Pergi');
-                                                  },
-                                                  child:
-                                                      Text('Istirahat/Pergi'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Naik Bobin',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Lingkungan');
-                                                  },
-                                                  child: Text('Lingkungan'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Pergi/Istirahat',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Lingkungan',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -268,8 +346,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.pause.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -278,63 +356,164 @@ class CardTable extends StatelessWidget {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Blocked'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
+                                        return Dialog(
+                                          backgroundColor: Color(0xFF084D88),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Material Availability');
-                                                  },
-                                                  child: Text(
-                                                      'Material Availability'),
+                                                Text(
+                                                  'Blocked',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFD9D9D9),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Equipment Failure');
-                                                  },
-                                                  child:
-                                                      Text('Equipment Failure'),
+                                                SizedBox(height: 20),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9), 
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Material Availability',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Setup and Adjustments');
-                                                  },
-                                                  child: Text(
-                                                      'Setup and Adjustments'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Equipment Failure',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Reduced Speed');
-                                                  },
-                                                  child: Text('Reduced Speed'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Setup and Adjustments',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Process Defect');
-                                                  },
-                                                  child: Text('Process Defect'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Reduced Speed',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Reduced Yield');
-                                                  },
-                                                  child: Text('Reduced Yield'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Process Defect',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Fully Productive Time');
-                                                  },
-                                                  child: Text(
-                                                      'Fully Productive Time'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Reduced Yield',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Fully Productive Time',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -349,8 +528,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.block.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -360,8 +539,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.end.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                               ],
@@ -391,56 +570,134 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.start.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                SizedBox(width: 10, height: 10),
                                 InkWell(
                                   onTap: () {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Pause'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
+                                        return Dialog(
+                                          backgroundColor: Color(0xFF084D88),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Naik WIP');
-                                                  },
-                                                  child: Text('Naik WIP'),
+                                                Text(
+                                                  'Pause',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFD9D9D9),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Set Up Mesin');
-                                                  },
-                                                  child: Text('Set Up Mesin'),
+                                                SizedBox(height: 20),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9), 
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Naik WIP',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Naik Bobin');
-                                                  },
-                                                  child: Text('Naik Bobin'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Set Up Mesin',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Istirahat/Pergi');
-                                                  },
-                                                  child:
-                                                      Text('Istirahat/Pergi'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Naik Bobin',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        context, 'Lingkungan');
-                                                  },
-                                                  child: Text('Lingkungan'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Pergi/Istirahat',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Lingkungan',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -455,8 +712,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.pause.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -465,63 +722,164 @@ class CardTable extends StatelessWidget {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Blocked'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
+                                        return Dialog(
+                                          backgroundColor: Color(0xFF084D88),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Material Availability');
-                                                  },
-                                                  child: Text(
-                                                      'Material Availability'),
+                                                Text(
+                                                  'Blocked',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFD9D9D9),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Equipment Failure');
-                                                  },
-                                                  child:
-                                                      Text('Equipment Failure'),
+                                                SizedBox(height: 20),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9), 
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Material Availability',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Setup and Adjustments');
-                                                  },
-                                                  child: Text(
-                                                      'Setup and Adjustments'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Equipment Failure',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Reduced Speed');
-                                                  },
-                                                  child: Text('Reduced Speed'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Setup and Adjustments',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Process Defect');
-                                                  },
-                                                  child: Text('Process Defect'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Reduced Speed',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Reduced Yield');
-                                                  },
-                                                  child: Text('Reduced Yield'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Process Defect',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        'Fully Productive Time');
-                                                  },
-                                                  child: Text(
-                                                      'Fully Productive Time'),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Reduced Yield',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    color: Color(0xFFD9D9D9),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      // onpressed logic
+                                                    },
+                                                    child: Text(
+                                                      'Fully Productive Time',
+                                                      style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -536,8 +894,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.block.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -547,8 +905,8 @@ class CardTable extends StatelessWidget {
                                   },
                                   child: Image.asset(
                                     'assets/icon.end.png',
-                                    height: 20, 
-                                    width: 20, 
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                               ],
