@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
-import 'laporanpengaturanproduk_view.dart';
-import 'laporanproduksi_view.dart';
+import 'package:intl/intl.dart';
 import 'home_view.dart';
+import 'monitoringbarang_view.dart';
+import 'monitoringriwayat_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -26,10 +25,14 @@ class _LaporanViewState extends State<LaporanView> {
         fit: StackFit.expand,
         children: [
           Container(
+            width: 360,
+            height: 800,
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bgscreen.png"),
-                fit: BoxFit.cover,
+              gradient: LinearGradient(
+                begin: Alignment(0.99, -0.14),
+                end: Alignment(-0.99, 0.14),
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
               ),
             ),
           ),
@@ -39,7 +42,7 @@ class _LaporanViewState extends State<LaporanView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -66,7 +69,7 @@ class _LaporanViewState extends State<LaporanView> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Text(
-                                "Produksi",
+                                "Laporan",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -80,77 +83,71 @@ class _LaporanViewState extends State<LaporanView> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 26),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search...",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: Icon(Icons.search),
-                        suffixIconConstraints: BoxConstraints(minWidth: 40),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              16), 
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Produksi",
+                              isActive: true,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Quality Control",
+                              isActive: false,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Stock",
+                              isActive: false,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Release",
+                              isActive: false,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    3), 
+                            child: CustomButton(
+                              text: "Log Book",
+                              isActive: false,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SizedBox(height: 20),
-                  Center(
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      children: [
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.operator.png',
-                          label: 'Pengaturan Produk',
-                          onPressed: () {
-                            Get.to(() => PengaturanProdukView());
-                          },
-                        ),
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.audit.png',
-                          label: 'Produksi',
-                          onPressed: () {
-                            Get.to(() => ProduksiView());
-                          },
-                        ),
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.gudang.png',
-                          label: 'Quality Control',
-                          onPressed: () {
-                            // Get.to(() => QcView());
-                          },
-                        ),
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.qc.png',
-                          label: 'Release',
-                          onPressed: () {
-                            // Get.to(() => ReleaseView());
-                          },
-                        ),
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.monitor.png',
-                          label: 'Logbook',
-                          onPressed: () {
-                            // Get.to(() => LogbookView());
-                          },
-                        ),
-                        DashboardMenuItem(
-                          imageAsset: 'assets/icon.tracker.png',
-                          label: 'Laporan Hasil Produksi',
-                          onPressed: () {
-                            // Get.to(() => LaporanHasilView());
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  CardTable(),
                 ],
               ),
             ),
@@ -161,46 +158,185 @@ class _LaporanViewState extends State<LaporanView> {
   }
 }
 
-class DashboardMenuItem extends StatelessWidget {
-  final String imageAsset;
-  final String label;
-  final VoidCallback onPressed;
+class MyData {
+  final int No;
+  final DateTime tanggalProduksi;
+  final String kodeProduksi;
+  final String produk;
+  final int jumlah;
 
-  const DashboardMenuItem({
-    required this.imageAsset,
-    required this.label,
-    required this.onPressed,
+  MyData({
+    required this.No,
+    required this.tanggalProduksi,
+    required this.kodeProduksi,
+    required this.produk,
+    required this.jumlah,
   });
+}
+
+class CustomButton extends StatefulWidget {
+  final String text;
+  final bool isActive;
+  final Widget targetPage;
+
+  CustomButton(
+      {required this.text, required this.isActive, required this.targetPage});
+
+  @override
+  _CustomButtonState createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  void _navigateToTargetPage() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            widget.targetPage,
+        transitionDuration: Duration(milliseconds: 150),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 255, 255, 255),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: _navigateToTargetPage,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: widget.isActive
+                ? [
+                    const Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromARGB(56, 0, 151, 251)
+                  ]
+                : [
+                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromRGBO(96, 187, 231, 1)
+                  ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: widget.isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: Offset(0, 2),
+                  )
+                ]
+              : [],
+        ),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            color: widget.isActive
+                ? Colors.white
+                : const Color.fromRGBO(8, 77, 136, 1),
+            fontSize: 12,
+          ),
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            imageAsset,
-            width: 52, 
-            height: 52,
+    );
+  }
+}
+
+class MyDataTableSource extends DataTableSource {
+  final List<MyData> data;
+  final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+
+  MyDataTableSource(this.data);
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= data.length) {
+      return null;
+    }
+    final entry = data[index];
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Center(child: Text((index + 1).toString()))), 
+        DataCell(Center(child: Text(dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
+        DataCell(Center(child: Text(entry.kodeProduksi))),
+        DataCell(Center(child: Text(entry.produk))),
+        DataCell(Center(child: Text(entry.jumlah.toString()))),
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
+class CardTable extends StatelessWidget {
+  final List<MyData> data = [
+    MyData(
+      No: 1,
+      tanggalProduksi: DateTime(2021, 8,1),
+      kodeProduksi: 'C1',
+      produk: 'Kabel C',
+      jumlah: 100,
+    ),
+    MyData(
+      No: 1,
+      tanggalProduksi: DateTime(2021, 9,2),
+      kodeProduksi: 'A1',
+      produk: 'Kabel A',
+      jumlah: 100,
+    ),
+    MyData(
+      No: 1,
+      tanggalProduksi: DateTime(2021, 10,4),
+      kodeProduksi: 'B1',
+      produk: 'Kabel B',
+      jumlah: 100,
+    ),
+    // Add more data items here
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Card(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          SizedBox(height: 4),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.roboto(
-              fontSize: 16,
-              color: Color(0xFF226EA4),
+          color: Color.fromARGB(255, 255, 255, 255)!,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: PaginatedDataTable(
+              // header: Text('Data Barang'),
+              columns: [
+                DataColumn(label: Text('No')),
+                DataColumn(label: Text('Tanggal Produksi')),
+                DataColumn(label: Text('kode Produksi')),
+                DataColumn(label: Text('Produk')),
+                DataColumn(label: Text('Jumlah')),
+              ],
+              source: MyDataTableSource(data),
+              rowsPerPage: 5,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
