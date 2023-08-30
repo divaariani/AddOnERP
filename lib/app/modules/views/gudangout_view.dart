@@ -1,21 +1,200 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../routes/app_pages.dart';
+import 'gudang_view.dart';
 import 'gudangin_view.dart';
 import 'gudangout_view.dart';
 import 'home_view.dart';
 import 'scangudang_view.dart';
-import '../../routes/app_pages.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: GudangView(),
+    home: GudangOutView(),
   ));
 }
 
-class GudangView extends StatefulWidget {
-  const GudangView({Key? key}) : super(key: key);
+class GudangOutView extends StatefulWidget {
+  const GudangOutView({Key? key}) : super(key: key);
   @override
-  State<GudangView> createState() => _GudangViewState();
+  State<GudangOutView> createState() => _GudangOutViewState();
+}
+
+class _GudangOutViewState extends State<GudangOutView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            width: 360,
+            height: 800,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.99, -0.14),
+                end: Alignment(-0.99, 0.14),
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Text(
+                                textAlign: TextAlign.left,
+                                "Warehouse",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3),
+                          child: CustomButton(
+                            text: "Data Gudang",
+                            isActive: false,
+                            targetPage: GudangView(),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3),
+                          child: CustomButton(
+                            text: "Data In",
+                            isActive: false,
+                            targetPage: GudangInView(),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3),
+                          child: CustomButton(
+                            text: "Data Out",
+                            isActive: true,
+                            targetPage: GudangOutView(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                                prefixIcon: Icon(Icons.search),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  CardTable(),
+                  SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ScanGudangView()),
+                          );
+                        },
+                        icon: Icon(Icons.qr_code_scanner),
+                        label: Text('Scan QR Code'),
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromRGBO(8, 77, 136, 136),
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          elevation: 4,
+                          minimumSize: Size(160, 48),
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.LOGIN);
+                        },
+                        icon: Icon(Icons.exit_to_app),
+                        label: Text('Keluar'),
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromRGBO(8, 77, 136, 136),
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          elevation: 4,
+                          minimumSize: Size(160, 48),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class MyData {
@@ -105,184 +284,6 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
-class _GudangViewState extends State<GudangView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            width: 360,
-            height: 800,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.99, -0.14),
-                end: Alignment(-0.99, 0.14),
-                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeView()),
-                              );
-                            },
-                            icon: Icon(Icons.arrow_back, color: Colors.black),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Text(
-                                textAlign: TextAlign.left,
-                                "Warehouse",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data Gudang",
-                            isActive: true,
-                            targetPage: GudangView(),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data In",
-                            isActive: false,
-                            targetPage: GudangInView(),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data Out",
-                            isActive: false,
-                            targetPage: GudangOutView(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Search",
-                                prefixIcon: Icon(Icons.search),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  CardTable(),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScanGudangView()),
-                          );
-                        },
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: Text('Scan QR Code'),
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(8, 77, 136, 136),
-                          onPrimary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 4,
-                          minimumSize: Size(160, 48),
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.LOGIN);
-                        },
-                        icon: Icon(Icons.exit_to_app),
-                        label: Text('Keluar'),
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(8, 77, 136, 136),
-                          onPrimary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 4,
-                          minimumSize: Size(160, 48),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class MyDataTableSource extends DataTableSource {
   final List<MyData> data;
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
@@ -345,7 +346,7 @@ class CardTable extends StatelessWidget {
               header: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Data Gudang',
+                  'Data Out Gudang',
                   style: TextStyle(
                     fontWeight: FontWeight.bold, // Atur tebal (bold)
                     fontSize: 18, // Atur ukuran font

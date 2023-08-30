@@ -1,111 +1,24 @@
+import 'scangudang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'gudangin_view.dart';
+import '../../routes/app_pages.dart';
+import 'gudang_view.dart';
 import 'gudangout_view.dart';
 import 'home_view.dart';
-import 'scangudang_view.dart';
-import '../../routes/app_pages.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: GudangView(),
+    home: GudangInView(),
   ));
 }
 
-class GudangView extends StatefulWidget {
-  const GudangView({Key? key}) : super(key: key);
+class GudangInView extends StatefulWidget {
+  const GudangInView({Key? key}) : super(key: key);
   @override
-  State<GudangView> createState() => _GudangViewState();
+  State<GudangInView> createState() => _GudangInViewState();
 }
 
-class MyData {
-  final String kodeBarang;
-  final String namaBarang;
-  final String lokasi;
-  final DateTime tanggal;
-
-  MyData({
-    required this.kodeBarang,
-    required this.namaBarang,
-    required this.lokasi,
-    required this.tanggal,
-  });
-}
-
-class CustomButton extends StatefulWidget {
-  final String text;
-  final bool isActive;
-  final Widget targetPage;
-
-  CustomButton(
-      {required this.text, required this.isActive, required this.targetPage});
-
-  @override
-  _CustomButtonState createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
-  void _navigateToTargetPage() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            widget.targetPage,
-        transitionDuration: Duration(milliseconds: 150),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _navigateToTargetPage,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: widget.isActive
-                ? [
-                    const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
-                  ]
-                : [
-                    Color.fromARGB(255, 255, 255, 255),
-                    const Color.fromRGBO(96, 187, 231, 1)
-                  ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: widget.isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 4,
-                    spreadRadius: 2,
-                    offset: Offset(0, 2),
-                  )
-                ]
-              : [],
-        ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-        child: Text(
-          widget.text,
-          style: TextStyle(
-            color: widget.isActive
-                ? Colors.white
-                : const Color.fromRGBO(8, 77, 136, 1),
-            fontSize: 12,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GudangViewState extends State<GudangView> {
+class _GudangInViewState extends State<GudangInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,7 +95,7 @@ class _GudangViewState extends State<GudangView> {
                           padding: EdgeInsets.symmetric(horizontal: 3),
                           child: CustomButton(
                             text: "Data Gudang",
-                            isActive: true,
+                            isActive: false,
                             targetPage: GudangView(),
                           ),
                         ),
@@ -190,7 +103,7 @@ class _GudangViewState extends State<GudangView> {
                           padding: EdgeInsets.symmetric(horizontal: 3),
                           child: CustomButton(
                             text: "Data In",
-                            isActive: false,
+                            isActive: true,
                             targetPage: GudangInView(),
                           ),
                         ),
@@ -283,6 +196,92 @@ class _GudangViewState extends State<GudangView> {
   }
 }
 
+class MyData {
+  final String kodeBarang;
+  final String namaBarang;
+  final String lokasi;
+  final DateTime tanggal;
+
+  MyData({
+    required this.kodeBarang,
+    required this.namaBarang,
+    required this.lokasi,
+    required this.tanggal,
+  });
+}
+
+class CustomButton extends StatefulWidget {
+  final String text;
+  final bool isActive;
+  final Widget targetPage;
+
+  CustomButton({required this.text, required this.isActive, required this.targetPage});
+
+  @override
+  _CustomButtonState createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  void _navigateToTargetPage() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            widget.targetPage,
+        transitionDuration: Duration(milliseconds: 150),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _navigateToTargetPage,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: widget.isActive
+                ? [
+                    const Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromARGB(56, 0, 151, 251)
+                  ]
+                : [
+                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromRGBO(96, 187, 231, 1)
+                  ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: widget.isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: Offset(0, 2),
+                  )
+                ]
+              : [],
+        ),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            color: widget.isActive
+                ? Colors.white
+                : const Color.fromRGBO(8, 77, 136, 1),
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MyDataTableSource extends DataTableSource {
   final List<MyData> data;
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
@@ -345,10 +344,10 @@ class CardTable extends StatelessWidget {
               header: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Data Gudang',
+                  'Data In Gudang',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, // Atur tebal (bold)
-                    fontSize: 18, // Atur ukuran font
+                    fontWeight: FontWeight.bold, 
+                    fontSize: 16, 
                   ),
                 ),
               ),
