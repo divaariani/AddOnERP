@@ -535,7 +535,7 @@ class CardTable extends StatelessWidget {
                 'Monitoring Mesin',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
