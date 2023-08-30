@@ -217,7 +217,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     Text(
                                       'Kehadiran',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: 16,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -372,7 +372,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   child: Text(
                                     '90%',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -451,6 +451,7 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 40),
                       ],
                     ),
                   ),

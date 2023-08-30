@@ -263,7 +263,7 @@ class CardTable extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          color: Color.fromARGB(255, 255, 255, 255)!,
+          color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: PaginatedDataTable(

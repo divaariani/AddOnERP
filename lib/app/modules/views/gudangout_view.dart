@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import '../../routes/app_pages.dart';
 import 'gudang_view.dart';
 import 'gudangin_view.dart';
-import 'gudangout_view.dart';
 import 'home_view.dart';
 import 'scangudang_view.dart';
 
@@ -348,8 +347,8 @@ class CardTable extends StatelessWidget {
                 child: Text(
                   'Data Out Gudang',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, // Atur tebal (bold)
-                    fontSize: 18, // Atur ukuran font
+                    fontWeight: FontWeight.bold, 
+                    fontSize: 18,
                   ),
                 ),
               ),

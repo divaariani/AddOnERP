@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
-import 'register_view.dart';
+import 'login_view.dart';
 import '../controllers/login_controller.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class RegisterView extends StatefulWidget {
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   LoginController controller = Get.put(LoginController());
   bool _isObscure = true;
 
@@ -34,7 +34,7 @@ class _LoginViewState extends State<LoginView> {
           children: [
             Spacer(),
             Image.asset("assets/logo.png"),
-            SizedBox(height: 120),
+            SizedBox(height: 60),
             Card(
               margin: EdgeInsets.zero,
               elevation: 3,
@@ -53,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
                       height: 30,
                       alignment: Alignment.bottomLeft,
                       child: Text(
-                        "Login to your account",
+                        "Create a new account",
                         style: TextStyle(
                           color: Color(0xFF084D88),
                           fontSize: 16,
@@ -63,19 +63,31 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     SizedBox(height: 20),
                     TextField(
-                      controller: controller.emailController,
+                      // controller: controller.emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        hintText: "Username or Email",
+                        hintText: "Username",
                       ),
                     ),
                     SizedBox(height: 15),
                     TextField(
-                      controller: controller.passwordController,
+                      // controller: controller.emailController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        hintText: "Email",
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      // controller: controller.passwordController,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -84,6 +96,27 @@ class _LoginViewState extends State<LoginView> {
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                              icon: Icon(_isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              })),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      // controller: controller.passwordController,
+                      obscureText: _isObscure,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          hintText: "Confirm Password",
                           suffixIcon: IconButton(
                               icon: Icon(_isObscure
                                   ? Icons.visibility_off
@@ -119,7 +152,7 @@ class _LoginViewState extends State<LoginView> {
                               child: controller.loading.value
                                   ? CircularProgressIndicator()
                                   : Text(
-                                      'LOGIN',
+                                      'REGISTER',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -135,15 +168,15 @@ class _LoginViewState extends State<LoginView> {
                     Center(
                       child: RichText(
                         text: TextSpan(
-                          text: "Don't have an account? ",
+                          text: "Already have an account? ",
                           style: TextStyle(color: Colors.black),
                           children: [
                             TextSpan(
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Get.to(() => RegisterView());
+                                  Get.to(() => LoginView());
                                 },
-                              text: "Register",
+                              text: "Login",
                               style: TextStyle(
                                 color: Color(0xFF084D88),
                               ),

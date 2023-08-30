@@ -51,7 +51,8 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => HomeView()),
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView()),
                               );
                             },
                             icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -117,8 +118,8 @@ class AksiCellWidget extends StatelessWidget {
             },
             child: Image.asset(
               'assets/icon.start.png',
-              height: 20,
-              width: 20,
+              height: 25,
+              width: 25,
             ),
           ),
           SizedBox(width: 10, height: 10),
@@ -253,8 +254,8 @@ class AksiCellWidget extends StatelessWidget {
             },
             child: Image.asset(
               'assets/icon.pause.png',
-              height: 20,
-              width: 20,
+              height: 25,
+              width: 25,
             ),
           ),
           SizedBox(width: 10),
@@ -427,8 +428,8 @@ class AksiCellWidget extends StatelessWidget {
             },
             child: Image.asset(
               'assets/icon.block.png',
-              height: 20,
-              width: 20,
+              height: 25,
+              width: 25,
             ),
           ),
           SizedBox(width: 10),
@@ -438,8 +439,8 @@ class AksiCellWidget extends StatelessWidget {
             },
             child: Image.asset(
               'assets/icon.end.png',
-              height: 20,
-              width: 20,
+              height: 25,
+              width: 25,
             ),
           ),
         ],
@@ -462,22 +463,22 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Center(
-            child: Text(
+        DataCell(Text(
           entry.mesin,
+          textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
-        ))),
-        DataCell(Center(
-            child: Text(
+        )),
+        DataCell(Text(
           entry.operator,
+          textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
-        ))),
+        )),
         DataCell(AksiCellWidget(
           parentContext: parentContext,
           entry: entry,

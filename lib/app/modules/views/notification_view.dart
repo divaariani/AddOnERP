@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home_view.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: NotificationView(),
+  ));
+}
 
 class NotificationView extends StatefulWidget {
   const NotificationView({Key? key}) : super(key: key);
@@ -213,10 +218,4 @@ class _NotificationViewState extends State<NotificationView> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: NotificationView(),
-  ));
 }

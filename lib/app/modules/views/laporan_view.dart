@@ -289,7 +289,7 @@ class MyDataTableSource extends DataTableSource {
       index: index,
       cells: [
         DataCell(Center(child: Text((index + 1).toString()))), 
-        DataCell(Center(child: Text(dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
+        DataCell(Center(child: Text(dateFormat.format(entry.tanggalProduksi)))), 
         DataCell(Center(child: Text(entry.kodeProduksi))),
         DataCell(Center(child: Text(entry.produk))),
         DataCell(Center(child: Text(entry.jumlah.toString()))),
@@ -330,7 +330,6 @@ class CardTable extends StatelessWidget {
       produk: 'Kabel B',
       jumlah: 100,
     ),
-    // Add more data items here
   ];
 
   @override
@@ -349,7 +348,6 @@ class CardTable extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: PaginatedDataTable(
-              // header: Text('Data Barang'),
               columns: [
                 DataColumn(label: Text('No')),
                 DataColumn(label: Text('Tanggal Produksi')),

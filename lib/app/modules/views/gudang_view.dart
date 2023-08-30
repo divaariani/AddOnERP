@@ -347,8 +347,8 @@ class CardTable extends StatelessWidget {
                 child: Text(
                   'Data Gudang',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, // Atur tebal (bold)
-                    fontSize: 18, // Atur ukuran font
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18, 
                   ),
                 ),
               ),

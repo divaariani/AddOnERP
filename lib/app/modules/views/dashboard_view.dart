@@ -84,7 +84,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 "Selamat Bekerja, " +
                                     _loginController.profileName.value +
                                     " !",
-                                style: GoogleFonts.montserrat(
+                                style: GoogleFonts.poppins(
                                   color: Colors.black,
                                 ),
                               ),
@@ -292,7 +292,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Monitoring Produksi',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isOperator.value ==
@@ -330,7 +330,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Audit',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
@@ -369,7 +369,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Warehouse',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isWarehouse.value ==
@@ -407,7 +407,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Laporan Produksi',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isQC.value == 't' ||
@@ -444,7 +444,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Customer Tracker',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isCustomer.value ==
@@ -482,7 +482,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Monitoring',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color:
