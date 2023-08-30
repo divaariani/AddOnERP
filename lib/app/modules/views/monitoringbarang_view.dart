@@ -1,7 +1,7 @@
-import 'package:addon/app/modules/views/home_view.dart';
-import 'package:addon/app/modules/views/monitoring_view.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'home_view.dart';
+import 'monitoring_view.dart';
 import 'monitoringriwayat_view.dart';
 
 void main() {
@@ -12,7 +12,6 @@ void main() {
 
 class MonitoringBarangView extends StatefulWidget {
   const MonitoringBarangView({Key? key}) : super(key: key);
-
   @override
   State<MonitoringBarangView> createState() => _MonitoringBarangViewState();
 }
@@ -33,7 +32,7 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
               gradient: LinearGradient(
                 begin: Alignment(0.99, -0.14),
                 end: Alignment(-0.99, 0.14),
-                colors: [ Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
               ),
             ),
           ),
@@ -88,26 +87,20 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              16), 
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
-                              text: "Aktivitas Produksi",
+                              text: "Aktifitas Produksi",
                               isActive: false,
                               targetPage: MonitoringView(),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Persediaan Barang",
                               isActive: true,
@@ -115,9 +108,7 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Riwayat Perubahan",
                               isActive: false,
@@ -174,7 +165,7 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Rentang waktu',
+                              'Rentang Waktu',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -202,8 +193,9 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 3),
+                  SizedBox(height: 30),
                   CardTable(),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -214,10 +206,25 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
   }
 }
 
+class MyData {
+  final DateTime tanggal;
+  final int produkx;
+  final int produky;
+  final int produkz;
+
+  MyData({
+    required this.tanggal,
+    required this.produkx,
+    required this.produky,
+    required this.produkz,
+  });
+}
+
 class CustomButton extends StatefulWidget {
   final String text;
   final bool isActive;
   final Widget targetPage;
+
   CustomButton(
       {required this.text, required this.isActive, required this.targetPage});
 
@@ -286,18 +293,57 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
+class MyDataTableSource extends DataTableSource {
+  final List<MyData> data;
+  final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+
+  MyDataTableSource(this.data);
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= data.length) {
+      return null;
+    }
+    final entry = data[index];
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Center(
+            child: Text(
+                dateFormat.format(entry.tanggal)))),
+        DataCell(Center(child: Text(entry.produkx.toString()))),
+        DataCell(Center(child: Text(entry.produky.toString()))),
+        DataCell(Center(child: Text(entry.produkz.toString()))),
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
 class CardTable extends StatelessWidget {
-  final TextStyle tableCellnew = GoogleFonts.poppins(
-    fontWeight: FontWeight.bold,
-    color: Color.fromARGB(255, 3, 1, 49),
-    fontSize: 11,
-  );
+  final List<MyData> data = [
+    MyData(
+      tanggal: DateTime(2021, 8, 1),
+      produkx: 10,
+      produky: 20,
+      produkz: 30,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 20),
           elevation: 4,
@@ -307,102 +353,25 @@ class CardTable extends StatelessWidget {
           color: Color.fromARGB(255, 255, 255, 255)!,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+            child: PaginatedDataTable(
+              header: Align(
+                alignment: Alignment.center,
+                child: Text(
                   'Detail Data',
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.blue.shade800,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.3),
-                        offset: Offset(0, 4),
-                        blurRadius: 3,
-                      ),
-                    ],
+                    fontSize: 18,
                   ),
                 ),
-                SizedBox(height: 10),
-                Table(
-                  border: TableBorder.all(color: Colors.black),
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: [
-                    TableRow(children: [
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Tanggal',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk X',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk X',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk Y',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
-                    TableRow(
-                      children: [
-                        TableCell(
-                          child:
-                              Center(child: Text('K10', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(
-                              child: Text('Forklift', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(child: Text('C1', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(
-                            child: Text('8 Januari 2024', style: tableCellnew),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              ),
+              columns: [
+                DataColumn(label: Text('Tanggal')),
+                DataColumn(label: Text('Stok Produk X')),
+                DataColumn(label: Text('Stok Produk Y')),
+                DataColumn(label: Text('Stok Produk Z')),
               ],
+              source: MyDataTableSource(data),
+              rowsPerPage: 4,
             ),
           ),
         ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'monitoringbarang_view.dart';
+import 'package:intl/intl.dart';
 import 'home_view.dart';
 import 'monitoring_view.dart';
-
+import 'monitoringbarang_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,7 +12,6 @@ void main() {
 
 class MonitoringRiwayatView extends StatefulWidget {
   const MonitoringRiwayatView({Key? key}) : super(key: key);
-
   @override
   State<MonitoringRiwayatView> createState() => _MonitoringRiwayatViewState();
 }
@@ -34,7 +32,7 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
               gradient: LinearGradient(
                 begin: Alignment(0.99, -0.14),
                 end: Alignment(-0.99, 0.14),
-                colors: [ Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
               ),
             ),
           ),
@@ -89,26 +87,20 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              16), 
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3),
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
-                              text: "Aktivitas Produksi",
+                              text: "Aktifitas Produksi",
                               isActive: false,
                               targetPage: MonitoringView(),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Persediaan Barang",
                               isActive: false,
@@ -116,9 +108,7 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Riwayat Perubahan",
                               isActive: true,
@@ -212,7 +202,7 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Rentang waktu',
+                              'Rentang Waktu',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -240,8 +230,24 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 3),
+                   SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Riwayat Perubahan Data",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   CardTable(),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -252,12 +258,29 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
   }
 }
 
+class MyData {
+  final int no;
+  final DateTime tanggal;
+  final String jenisPerubahan;
+  final String keterangan;
+  final String status;
+  
+  MyData({
+    required this.no,
+    required this.tanggal,
+    required this.jenisPerubahan,
+    required this.keterangan,
+    required this.status,
+  });
+}
+
 class CustomButton extends StatefulWidget {
   final String text;
   final bool isActive;
   final Widget targetPage;
+
   CustomButton(
-      {required this.text, required this.isActive, required this.targetPage,});
+      {required this.text, required this.isActive, required this.targetPage});
 
   @override
   _CustomButtonState createState() => _CustomButtonState();
@@ -324,19 +347,59 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
+class MyDataTableSource extends DataTableSource {
+  final List<MyData> data;
+  final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+
+  MyDataTableSource(this.data);
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= data.length) {
+      return null;
+    }
+    final entry = data[index];
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Center(child: Text(entry.no.toString()))),
+        DataCell(Center(
+            child: Text(
+                dateFormat.format(entry.tanggal)))),
+        DataCell(Center(child: Text(entry.jenisPerubahan))),
+        DataCell(Center(child: Text(entry.keterangan))),
+        DataCell(Center(child: Text(entry.status))),
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
 class CardTable extends StatelessWidget {
-  final TextStyle tableCellnew = GoogleFonts.poppins(
-    fontWeight: FontWeight.bold,
-    color: Color.fromARGB(255, 3, 1, 49),
-    fontSize: 11,
-  );
+  final List<MyData> data = [
+    MyData(
+      no: 1,
+      tanggal: DateTime(2021, 8, 1),
+      jenisPerubahan: 'rusak',
+      keterangan: 'bagus',
+      status: 'ok',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 20),
           elevation: 4,
@@ -346,102 +409,16 @@ class CardTable extends StatelessWidget {
           color: Color.fromARGB(255, 255, 255, 255)!,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Detail Data',
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.blue.shade800,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.3),
-                        offset: Offset(0, 4),
-                        blurRadius: 3,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Table(
-                  border: TableBorder.all(color: Colors.black),
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: [  
-                    TableRow(children: [
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Tanggal',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk X',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk X',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text(
-                            'Stok Prudk Y',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromARGB(255, 3, 1, 49),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
-                    TableRow(
-                      children: [
-                        TableCell(
-                          child:
-                              Center(child: Text('K10', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(
-                              child: Text('Forklift', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(child: Text('C1', style: tableCellnew)),
-                        ),
-                        TableCell(
-                          child: Center(
-                            child: Text('8 Januari 2024', style: tableCellnew),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+            child: PaginatedDataTable(
+              columns: [
+                DataColumn(label: Text('No')),
+                DataColumn(label: Text('Tanggal')),
+                DataColumn(label: Text('Jenis Perubahan')),
+                DataColumn(label: Text('Keterangan')),
+                DataColumn(label: Text('Status')),
               ],
+              source: MyDataTableSource(data),
+              rowsPerPage: 4,
             ),
           ),
         ),
