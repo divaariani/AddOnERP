@@ -1,198 +1,33 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'home_view.dart';
-import 'laporanlogbook_view.dart';
+import 'laporan_view.dart';
 import 'laporanqc_view.dart';
 import 'laporanrelease_view.dart';
 import 'laporanstok_view.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: LaporanView(),
+    home: LaporanLogbookView(),
   ));
 }
 
-class LaporanView extends StatefulWidget {
-  const LaporanView({Key? key}) : super(key: key);
+class LaporanLogbookView extends StatefulWidget {
+  const LaporanLogbookView({Key? key}) : super(key: key);
   @override
-  State<LaporanView> createState() => _LaporanViewState();
-}
-
-class _LaporanViewState extends State<LaporanView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            width: 360,
-            height: 800,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.99, -0.14),
-                end: Alignment(-0.99, 0.14),
-                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeView()),
-                              );
-                            },
-                            icon: Icon(Icons.arrow_back, color: Colors.black),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Text(
-                                "Laporan",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              16), 
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
-                            child: CustomButton(
-                              text: "Produksi",
-                              isActive: true,
-                              targetPage: LaporanView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
-                            child: CustomButton(
-                              text: "Quality Control",
-                              isActive: false,
-                              targetPage: LaporanQcView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
-                            child: CustomButton(
-                              text: "Stock",
-                              isActive: false,
-                              targetPage: LaporanStokView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
-                            child: CustomButton(
-                              text: "Release",
-                              isActive: false,
-                              targetPage: LaporanReleaseView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
-                            child: CustomButton(
-                              text: "Log Book",
-                              isActive: false,
-                              targetPage: LaporanLogbookView(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "LAPORAN PRODUKSI",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Periode",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  CardTable(),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  State<LaporanLogbookView> createState() =>
+      _LaporanLogbookViewState();
 }
 
 class MyData {
-  final int No;
+  final int no;
   final DateTime tanggalProduksi;
   final String kodeProduksi;
   final String produk;
   final int jumlah;
 
   MyData({
-    required this.No,
+    required this.no,
     required this.tanggalProduksi,
     required this.kodeProduksi,
     required this.produk,
@@ -273,6 +108,160 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
+class _LaporanLogbookViewState extends State<LaporanLogbookView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            width: 360,
+            height: 800,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.99, -0.14),
+                end: Alignment(-0.99, 0.14),
+                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView()),
+                              );
+                            },
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Text(
+                                "Laporan",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Produksi",
+                              isActive: false,
+                              targetPage: LaporanView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Quality Control",
+                              isActive: false,
+                              targetPage: LaporanQcView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Stock",
+                              isActive: false,
+                              targetPage: LaporanStokView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Release",
+                              isActive: false,
+                              targetPage: LaporanReleaseView(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Log Book",
+                              isActive: true,
+                              targetPage: LaporanLogbookView(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "LAPORAN QUALITY LOGBOOK",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Periode",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 50),
+                  CardTable(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class MyDataTableSource extends DataTableSource {
   final List<MyData> data;
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
@@ -288,8 +277,10 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Center(child: Text((index + 1).toString()))), 
-        DataCell(Center(child: Text(dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
+        DataCell(Center(child: Text((index + 1).toString()))),
+        DataCell(Center(
+            child: Text(
+                dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
         DataCell(Center(child: Text(entry.kodeProduksi))),
         DataCell(Center(child: Text(entry.produk))),
         DataCell(Center(child: Text(entry.jumlah.toString()))),
@@ -310,22 +301,22 @@ class MyDataTableSource extends DataTableSource {
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 8,1),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 8, 1),
       kodeProduksi: 'C1',
       produk: 'Kabel C',
       jumlah: 100,
     ),
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 9,2),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 9, 2),
       kodeProduksi: 'A1',
       produk: 'Kabel A',
       jumlah: 100,
     ),
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 10,4),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 10, 4),
       kodeProduksi: 'B1',
       produk: 'Kabel B',
       jumlah: 100,

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'home_view.dart';
+import 'laporan_view.dart';
 import 'laporanlogbook_view.dart';
 import 'laporanqc_view.dart';
 import 'laporanrelease_view.dart';
-import 'laporanstok_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: LaporanView(),
+    home: LaporanStokView(),
   ));
 }
 
-class LaporanView extends StatefulWidget {
-  const LaporanView({Key? key}) : super(key: key);
+class LaporanStokView extends StatefulWidget {
+  const LaporanStokView({Key? key}) : super(key: key);
   @override
-  State<LaporanView> createState() => _LaporanViewState();
+  State<LaporanStokView> createState() =>
+      _LaporanStokViewState();
 }
 
-class _LaporanViewState extends State<LaporanView> {
+class _LaporanStokViewState extends State<LaporanStokView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,26 +89,20 @@ class _LaporanViewState extends State<LaporanView> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              16), 
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Produksi",
-                              isActive: true,
+                              isActive: false,
                               targetPage: LaporanView(),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Quality Control",
                               isActive: false,
@@ -115,19 +110,15 @@ class _LaporanViewState extends State<LaporanView> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Stock",
-                              isActive: false,
+                              isActive: true,
                               targetPage: LaporanStokView(),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Release",
                               isActive: false,
@@ -135,9 +126,7 @@ class _LaporanViewState extends State<LaporanView> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    3), 
+                            padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Log Book",
                               isActive: false,
@@ -148,31 +137,19 @@ class _LaporanViewState extends State<LaporanView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "LAPORAN PRODUKSI",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 5),
                   Align(
-                    alignment: Alignment.center,
+                    alignment: Alignment.topLeft,
                     child: Text(
-                      "Periode",
+                      "Laporan stok yang masih terdapat di line produksi",
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w200,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 50),
                   CardTable(),
                 ],
               ),
@@ -185,14 +162,14 @@ class _LaporanViewState extends State<LaporanView> {
 }
 
 class MyData {
-  final int No;
+  final int no;
   final DateTime tanggalProduksi;
   final String kodeProduksi;
   final String produk;
   final int jumlah;
 
   MyData({
-    required this.No,
+    required this.no,
     required this.tanggalProduksi,
     required this.kodeProduksi,
     required this.produk,
@@ -288,8 +265,10 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Center(child: Text((index + 1).toString()))), 
-        DataCell(Center(child: Text(dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
+        DataCell(Center(child: Text((index + 1).toString()))),
+        DataCell(Center(
+            child: Text(
+                dateFormat.format(entry.tanggalProduksi)))), // Format DateTime
         DataCell(Center(child: Text(entry.kodeProduksi))),
         DataCell(Center(child: Text(entry.produk))),
         DataCell(Center(child: Text(entry.jumlah.toString()))),
@@ -310,22 +289,22 @@ class MyDataTableSource extends DataTableSource {
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 8,1),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 8, 1),
       kodeProduksi: 'C1',
       produk: 'Kabel C',
       jumlah: 100,
     ),
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 9,2),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 9, 2),
       kodeProduksi: 'A1',
       produk: 'Kabel A',
       jumlah: 100,
     ),
     MyData(
-      No: 1,
-      tanggalProduksi: DateTime(2021, 10,4),
+      no: 1,
+      tanggalProduksi: DateTime(2021, 10, 4),
       kodeProduksi: 'B1',
       produk: 'Kabel B',
       jumlah: 100,
