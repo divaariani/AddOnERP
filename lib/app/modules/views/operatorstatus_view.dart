@@ -133,115 +133,117 @@ class AksiCellWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Pause',
-                            style: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Pause',
+                              style: TextStyle(
+                                color: Color(0xFFD9D9D9),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Naik WIP',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 20),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Naik WIP',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Set Up Mesin',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Set Up Mesin',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Naik Bobin',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Naik Bobin',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Pergi/Istirahat',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Pergi/Istirahat',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Lingkungan',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Lingkungan',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -269,153 +271,155 @@ class AksiCellWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Blocked',
-                            style: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Blocked',
+                              style: TextStyle(
+                                color: Color(0xFFD9D9D9),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Material Availability',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 20),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Material Availability',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Equipment Failure',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Equipment Failure',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Setup and Adjustments',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Setup and Adjustments',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Reduced Speed',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Reduced Speed',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Process Defect',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Process Defect',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Reduced Yield',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Reduced Yield',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                // onpressed logic
-                              },
-                              child: Text(
-                                'Fully Productive Time',
-                                style: TextStyle(
-                                  color: Colors.blue[900],
+                            SizedBox(height: 10),
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // onpressed logic
+                                },
+                                child: Text(
+                                  'Fully Productive Time',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
