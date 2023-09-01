@@ -1,46 +1,31 @@
-import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'response_model.dart';
 
-class AbsensiController extends GetxController {
-  RxString isIdWorkCenter = ''.obs;
-  RxString isId = ''.obs;
-  RxString isInOrOut = ''.obs;
+class AbsensiController{
+  static const String baseUrl = 'http://192.168.2.37/API_SKI_IPB/apiski.php';
 
-  Future<void> fetchUserData() async {
-    try {
-      final response = await http.post(
-        Uri.parse('{YOUR API}'),
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
-      );
-      var data = jsonDecode(response.body);
+  static Future<ResponseModel> postFormData({
+    required int idwc,
+    required int userId,
+    required String oprTap,
+    required String tap,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl?function=absensi_operator_id_2'),
+      body: {
+        'idwc': idwc.toString(),
+        'userid': userId.toString(),
+        'oprtap': oprTap,
+        'tap': tap,
+      },
+    );
 
-      if (response.statusCode == 200) {
-        var responseData = data[0];
-        isIdWorkCenter.value = responseData['idwc'];
-        isId.value = responseData['userid'];
-        isInOrOut.value = responseData['tap'];
-      } else {
-        print('Failed to fetch user data: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Exception occurred: $e');
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body); 
+      return ResponseModel.fromJson(responseData);
+    } else {
+      throw Exception('Failed to post form data');
     }
   }
-
-final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-    fetchUserData();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

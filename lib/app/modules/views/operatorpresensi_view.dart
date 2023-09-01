@@ -1,17 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
-import 'scanoperator_view.dart';
+import '../utils/globals.dart';
+import '../controllers/absensi_controller.dart';
 import '../controllers/login_controller.dart';
+import '../controllers/response_model.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: OperatorPresensiView(),
+  ));
+}
 
 class OperatorPresensiView extends StatefulWidget {
   const OperatorPresensiView({Key? key}) : super(key: key);
+
   @override
   State<OperatorPresensiView> createState() => _OperatorPresensiViewState();
 }
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   final LoginController _loginController = Get.find<LoginController>();
+
+  // TextEditingController userIdController = TextEditingController();
+  TextEditingController idwcController = TextEditingController();
+  TextEditingController tapController = TextEditingController();
+  late DateTime currentTime;
+
+  final userIdController = TextEditingController();
+  String profileId = globalID.toString();
+
+  @override
+  void initState() {
+    super.initState();
+    currentTime = DateTime.now();
+    userIdController.text = profileId;
+  }
+
+  Future<void> fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _submitForm() async {
+    final int idwc = int.parse(idwcController.text);
+    final int userId = int.parse(userIdController.text);
+    final String tap = tapController.text;
+
+    try {
+      await fetchCurrentTime();
+
+      ResponseModel response = await AbsensiController.postFormData(
+        idwc: idwc,
+        userId: userId,
+        oprTap: currentTime.toString(),
+        tap: tap,
+      );
+
+      if (response.status == 1) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request berhasil: ${response.message}'),
+          ),
+        );
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +154,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   SizedBox(height: 20),
                   Center(
                     child: Container(
-                      height: 250,
+                      height: 300,
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -104,7 +181,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                     width: 80,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: NetworkImage(_loginController.profilePhotoUrl.value),
+                                        image: NetworkImage(_loginController
+                                            .profilePhotoUrl.value),
                                       ),
                                       borderRadius: BorderRadius.circular(40),
                                       border: Border.all(
@@ -128,7 +206,15 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
-                                        _loginController.profileId.value,
+                                        "Id: " + userIdController.text,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        "Kode Mesin: ",
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -145,6 +231,44 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                     ),
                   ),
                   SizedBox(height: 20),
+
+                  // INSERT BARCODE AND IN/OUT TO API
+                  TextField(
+                    controller: idwcController,
+                    style: TextStyle(
+                      color: Colors.white, 
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'ID WC',
+                      labelStyle: TextStyle(
+                        color:
+                            Colors.white, 
+                      ),
+                      hintText: 'Enter ID WC',
+                      hintStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  TextField(
+                    controller: tapController,
+                    style: TextStyle(
+                      color: Colors.white, 
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Tap',
+                      labelStyle: TextStyle(
+                        color:
+                            Colors.white, 
+                      ),
+                      hintText: 'Enter IN (I) / OUT (O)',
+                      hintStyle: TextStyle(
+                        color: Colors.white, 
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -154,13 +278,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                           width: 100,
                           margin: EdgeInsets.only(right: 20),
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ScanOperatorView()),
-                              );
-                            },
+                            onPressed: _submitForm,
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -237,10 +355,4 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: OperatorPresensiView(),
-  ));
 }
