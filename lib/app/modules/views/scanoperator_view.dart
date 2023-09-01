@@ -148,7 +148,8 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                     ),
                   ),
                   Text(
-                    "Scan barcode pada mesin yang akan Anda gunakan!",
+                    textAlign: TextAlign.center,
+					"Scan barcode pada mesin yang akan Anda gunakan!",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,

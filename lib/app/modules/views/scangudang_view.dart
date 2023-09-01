@@ -151,6 +151,7 @@ class _ScanGudangViewState extends State<ScanGudangView> {
                     ),
                   ),
                   Text(
+					textAlign: TextAlign.center,
                     "$_barcodeGudangResult",
                     style: TextStyle(
                       fontSize: 14,

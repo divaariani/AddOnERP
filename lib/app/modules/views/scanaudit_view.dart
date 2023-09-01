@@ -151,7 +151,8 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                     ),
                   ),
                   Text(
-                    "$_barcodeAuditResult",
+                    textAlign: TextAlign.center,
+					"$_barcodeAuditResult",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
