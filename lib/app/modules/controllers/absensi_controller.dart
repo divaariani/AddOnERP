@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'response_model.dart';
 
 class AbsensiController{
-  static const String baseUrl = 'http://192.168.2.37/API_SKI_IPB/apiski.php';
+  static const String baseUrl = '{YOUR API}';
 
   static Future<ResponseModel> postFormData({
     required int idwc,
