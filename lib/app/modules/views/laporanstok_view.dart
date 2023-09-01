@@ -1,10 +1,10 @@
+import 'package:addon/app/modules/views/home_view.dart';
+import 'package:addon/app/modules/views/laporan_view.dart';
+import 'package:addon/app/modules/views/laporanlogbook_view.dart';
+import 'package:addon/app/modules/views/laporanqc_view.dart';
+import 'package:addon/app/modules/views/laporanrelease_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'home_view.dart';
-import 'laporan_view.dart';
-import 'laporanlogbook_view.dart';
-import 'laporanqc_view.dart';
-import 'laporanrelease_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -15,8 +15,7 @@ void main() {
 class LaporanStokView extends StatefulWidget {
   const LaporanStokView({Key? key}) : super(key: key);
   @override
-  State<LaporanStokView> createState() =>
-      _LaporanStokViewState();
+  State<LaporanStokView> createState() => _LaporanStokViewState();
 }
 
 class _LaporanStokViewState extends State<LaporanStokView> {
@@ -137,16 +136,47 @@ class _LaporanStokViewState extends State<LaporanStokView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Laporan stok yang masih terdapat di line produksi",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w200,
-                        color: Colors.white,
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Laporan stok yang masih terdapat di line produksi",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white,
+                        ),
                       ),
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [],
+                        ),
+                        Spacer(),
+                        Container(
+                          width: 200,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "search",
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide.none,
+                              ),
+                              suffixIcon: Icon(Icons.search),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 50),
@@ -190,18 +220,28 @@ class CustomButton extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomButton> {
+  bool isCurrentPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isCurrentPage = widget.targetPage.runtimeType == LaporanStokView;
+  }
+
   void _navigateToTargetPage() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            widget.targetPage,
-        transitionDuration: Duration(milliseconds: 150),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-      ),
-    );
+    if (!isCurrentPage) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              widget.targetPage,
+          transitionDuration: Duration(milliseconds: 150),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    }
   }
 
   @override
