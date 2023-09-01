@@ -18,94 +18,8 @@ class GudangView extends StatefulWidget {
   State<GudangView> createState() => _GudangViewState();
 }
 
-class MyData {
-  final String kodeBarang;
-  final String namaBarang;
-  final String lokasi;
-  final DateTime tanggal;
-
-  MyData({
-    required this.kodeBarang,
-    required this.namaBarang,
-    required this.lokasi,
-    required this.tanggal,
-  });
-}
-
-class CustomButton extends StatefulWidget {
-  final String text;
-  final bool isActive;
-  final Widget targetPage;
-
-  CustomButton(
-      {required this.text, required this.isActive, required this.targetPage});
-
-  @override
-  _CustomButtonState createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
-  void _navigateToTargetPage() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            widget.targetPage,
-        transitionDuration: Duration(milliseconds: 150),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _navigateToTargetPage,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: widget.isActive
-                ? [
-                    const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
-                  ]
-                : [
-                    Color.fromARGB(255, 255, 255, 255),
-                    const Color.fromRGBO(96, 187, 231, 1)
-                  ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: widget.isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 4,
-                    spreadRadius: 2,
-                    offset: Offset(0, 2),
-                  )
-                ]
-              : [],
-        ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-        child: Text(
-          widget.text,
-          style: TextStyle(
-            color: widget.isActive
-                ? Colors.white
-                : const Color.fromRGBO(8, 77, 136, 1),
-            fontSize: 12,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _GudangViewState extends State<GudangView> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +49,7 @@ class _GudangViewState extends State<GudangView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                         Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(25),
@@ -283,10 +197,107 @@ class _GudangViewState extends State<GudangView> {
   }
 }
 
+class MyData {
+  final String kodeBarang;
+  final String namaBarang;
+  final String lokasi;
+  final DateTime tanggal;
+
+  MyData({
+    required this.kodeBarang,
+    required this.namaBarang,
+    required this.lokasi,
+    required this.tanggal,
+  });
+}
+
+class CustomButton extends StatefulWidget {
+  final String text;
+  final bool isActive;
+  final Widget targetPage;
+
+  CustomButton(
+      {required this.text, required this.isActive, required this.targetPage});
+
+  @override
+  _CustomButtonState createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  bool isCurrentPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isCurrentPage = widget.targetPage.runtimeType == GudangView;
+  }
+
+  void _navigateToTargetPage() {
+    if (!isCurrentPage) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              widget.targetPage,
+          transitionDuration: Duration(milliseconds: 150),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _navigateToTargetPage,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: widget.isActive
+                ? [
+                    const Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromARGB(56, 0, 151, 251)
+                  ]
+                : [
+                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromRGBO(96, 187, 231, 1)
+                  ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: widget.isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: Offset(0, 2),
+                  )
+                ]
+              : [],
+        ),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            color: widget.isActive
+                ? Colors.white
+                : const Color.fromRGBO(8, 77, 136, 1),
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MyDataTableSource extends DataTableSource {
   final List<MyData> data;
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-
   MyDataTableSource(this.data);
 
   @override
