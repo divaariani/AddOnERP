@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,8 +28,6 @@ class SplashScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    width: Get.width * 0.7,
-                    height: Get.width * 0.7,
                     margin: EdgeInsets.symmetric(horizontal: 50),
                     child: Image.asset("assets/logo.png"),
                   ),
@@ -49,8 +46,8 @@ class SplashScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: Get.width * 0.25,
-                      height: Get.width * 0.25,
+                      width: 0.25 * MediaQuery.of(context).size.width,
+                      height: 0.25 * MediaQuery.of(context).size.height,
                       child: Image.asset("assets/logocopyright.png"),
                     ),
                     SizedBox(width: 10),
