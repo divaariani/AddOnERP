@@ -54,44 +54,50 @@ class _DashboardViewState extends State<DashboardView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                height: 45,
-                                width: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  border: Border.all(
-                                    color: Colors.blue[900]!,
-                                    style: BorderStyle.solid,
-                                    width: 4,
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  height: 45,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(
+                                      color: Colors.blue[900]!,
+                                      style: BorderStyle.solid,
+                                      width: 4,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        _loginController.profilePhotoUrl.value),
+                                    radius: 20,
                                   ),
                                 ),
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      _loginController.profilePhotoUrl.value),
-                                  radius: 20,
+                                Spacer(),
+                                Expanded(
+                                  flex: 3,
+                                  child: Center(
+                                    child: Text(
+                                      "Selamat Bekerja !",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 30),
-                              Text(
-                                "Selamat Bekerja, " +
-                                    _loginController.profileName.value +
-                                    " !",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(width: 40),
-                            ],
+                                Spacer(),
+                              ],
+                            ),
                           ),
                         ),
+                        SizedBox(width: 20),
                         InkWell(
                           onTap: () {
                             // Get.to(() => NotificationsView());
@@ -180,7 +186,8 @@ class _DashboardViewState extends State<DashboardView> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           side: BorderSide(
-                                              color: Color(0xFF084D88), width: 2),
+                                              color: Color(0xFF084D88),
+                                              width: 2),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(20),
@@ -189,7 +196,7 @@ class _DashboardViewState extends State<DashboardView> {
                                             children: [
                                               Container(
                                                 height: 50,
-                                                width: 150,
+                                                width: 250,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(15),
@@ -206,7 +213,9 @@ class _DashboardViewState extends State<DashboardView> {
                                                     );
                                                   },
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Image.asset(
                                                         'assets/icon.presensi.png',
@@ -227,7 +236,7 @@ class _DashboardViewState extends State<DashboardView> {
                                               SizedBox(height: 10),
                                               Container(
                                                 height: 50,
-                                                width: 150,
+                                                width: 250,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(15),
@@ -244,7 +253,9 @@ class _DashboardViewState extends State<DashboardView> {
                                                     );
                                                   },
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Image.asset(
                                                         'assets/icon.mesin.png',
@@ -254,6 +265,46 @@ class _DashboardViewState extends State<DashboardView> {
                                                       SizedBox(width: 10),
                                                       Text(
                                                         'Status Mesin',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Container(
+                                                height: 50,
+                                                width: 250,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: Color(0xFF084D88),
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OperatorStatusView(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/icon.monitoring.png',
+                                                        width: 24,
+                                                        height: 24,
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        'Production Monitoring',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                         ),
@@ -539,40 +590,40 @@ class CardID extends StatelessWidget {
                     color: Color(0xFF226EA4),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OperatorPresensiView()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF226EA4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      side: BorderSide.none,
-                    ),
-                    shadowColor: Color(0x3F000000),
-                    elevation: 4,
-                  ),
-                  child: Container(
-                    width: 88,
-                    height: 35,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Isi Presensi",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => OperatorPresensiView()),
+                //     );
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     primary: Color(0xFF226EA4),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.only(
+                //         topRight: Radius.circular(15),
+                //         bottomLeft: Radius.circular(15),
+                //         bottomRight: Radius.circular(15),
+                //       ),
+                //       side: BorderSide.none,
+                //     ),
+                //     shadowColor: Color(0x3F000000),
+                //     elevation: 4,
+                //   ),
+                //   child: Container(
+                //     width: 88,
+                //     height: 35,
+                //     alignment: Alignment.center,
+                //     child: Text(
+                //       "Isi Presensi",
+                //       style: TextStyle(
+                //         fontSize: 14,
+                //         color: Color.fromARGB(255, 255, 255, 255),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(height: 10),
