@@ -165,7 +165,7 @@ class _DashboardViewState extends State<DashboardView> {
                     child: GridView.count(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      crossAxisCount: 2,
+                      crossAxisCount: 3,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -223,7 +223,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       Text(
                                                         'Isi Presensi',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.white
                                                         ),
                                                       ),
                                                     ],
@@ -333,15 +333,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.operator.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Monitoring Produksi',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isOperator.value ==
                                               't' ||
@@ -371,15 +371,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.audit.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Audit',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color:
                                       _actorController.isAuditor.value == 't' ||
@@ -410,15 +410,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.gudang.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Warehouse',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isWarehouse.value ==
                                               't' ||
@@ -448,15 +448,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.qc.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Laporan Produksi',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isQC.value == 't' ||
                                           _actorController.isAdmin == 't'
@@ -485,15 +485,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.tracker.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Customer Tracker',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isCustomer.value ==
                                               't' ||
@@ -523,15 +523,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.monitor.png',
-                                width: 52,
-                                height: 52,
+                                width: 30,
+                                height: 30,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Monitoring',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color:
                                       _actorController.isMonitor.value == 't' ||
