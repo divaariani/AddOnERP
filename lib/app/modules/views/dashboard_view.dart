@@ -5,7 +5,7 @@ import 'scanoperator_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
 import 'gudang_view.dart';
-import 'home_view.dart';
+import 'operatormonitoring_view.dart';
 import 'laporan_view.dart';
 import 'monitoring_view.dart';
 import '../controllers/login_controller.dart';
@@ -285,7 +285,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OperatorStatusView(),
+                                                            OperatorMonitorView(),
                                                       ),
                                                     );
                                                   },
