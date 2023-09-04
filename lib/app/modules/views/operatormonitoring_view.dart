@@ -329,52 +329,15 @@ class SemiCircleProgressBar extends CustomPainter {
       radius: size.width / 2,
     );
 
-    final double startAngle = -0.5 * 3.14; // Start at the top (12 o'clock)
-    final double progressAngle = (progress / 100) * 3.14; // Calculate progress angle
+    final double progressAngle = (progress / 100) * 3.14;
 
     canvas.drawArc(
       rect,
-      startAngle,
+      3.14,
       progressAngle,
       false,
       paint,
     );
-
-    // Add "0" text at the start of the progress half circle (9 o'clock)
-    TextPainter textPainter = TextPainter(
-      text: TextSpan(
-        text: '0',
-        style: TextStyle(fontSize: 12, color: Colors.black),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    textPainter.layout();
-    double textX = size.width / 4 - textPainter.width / 2; // Adjust X position for 9 o'clock
-    double textY = size.height / 2 - textPainter.height / 2;
-    textPainter.paint(canvas, Offset(textX, textY));
-
-    // Add "MTR" text at the center
-    textPainter.text = TextSpan(
-      text: 'MTR',
-      style: TextStyle(fontSize: 12, color: Colors.black),
-    );
-
-    textPainter.layout();
-    textX = size.width / 2 - textPainter.width / 2;
-    textY = size.height / 2 - textPainter.height / 2;
-    textPainter.paint(canvas, Offset(textX, textY));
-
-    // Add "500000" text at the end of the progress half circle (3 o'clock)
-    textPainter.text = TextSpan(
-      text: '500000',
-      style: TextStyle(fontSize: 12, color: Colors.black),
-    );
-
-    textPainter.layout();
-    textX = (3 * size.width) / 4 - textPainter.width / 2; // Adjust X position for 3 o'clock
-    textY = size.height / 2 - textPainter.height / 2;
-    textPainter.paint(canvas, Offset(textX, textY));
   }
 
   @override
