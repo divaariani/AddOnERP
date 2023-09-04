@@ -6,35 +6,31 @@ import '../controllers/absensi_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/response_model.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: OperatorPresensiView(),
-  ));
-}
-
 class OperatorPresensiView extends StatefulWidget {
-  const OperatorPresensiView({Key? key}) : super(key: key);
+  final String barcodeResult;
+
+  const OperatorPresensiView({Key? key, required this.barcodeResult}) : super(key: key);
 
   @override
   State<OperatorPresensiView> createState() => _OperatorPresensiViewState();
 }
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
-  final LoginController _loginController = Get.find<LoginController>();
-
-  // TextEditingController userIdController = TextEditingController();
-  TextEditingController idwcController = TextEditingController();
-  TextEditingController tapController = TextEditingController();
   late DateTime currentTime;
-
+  final LoginController _loginController = Get.find<LoginController>();
   final userIdController = TextEditingController();
+  final idwcController = TextEditingController();
+
+  TextEditingController tapController = TextEditingController();
   String profileId = globalID.toString();
+  String barcodeMachineResult = globalBarcodeResult;
 
   @override
   void initState() {
     super.initState();
     currentTime = DateTime.now();
     userIdController.text = profileId;
+    idwcController.text = barcodeMachineResult;
   }
 
   Future<void> fetchCurrentTime() async {
@@ -214,7 +210,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
-                                        "Kode Mesin: ",
+                                        "Kode Mesin: " + idwcController.text,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -232,31 +228,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   ),
                   SizedBox(height: 20),
 
-                  // INSERT BARCODE AND IN/OUT TO API
-                  TextField(
-                    controller: idwcController,
-                    style: TextStyle(
-                      color: Colors.white, 
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'ID WC',
-                      labelStyle: TextStyle(
-                        color:
-                            Colors.white, 
-                      ),
-                      hintText: 'Enter ID WC',
-                      hintStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  // INSERT MANUAL IN/OUT TO API
                   TextField(
                     controller: tapController,
                     style: TextStyle(
                       color: Colors.white, 
                     ),
                     decoration: InputDecoration(
-                      labelText: 'Tap',
+                      labelText: 'Tap I/O',
                       labelStyle: TextStyle(
                         color:
                             Colors.white, 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'operatorpresensi_view.dart';
+import 'scanoperator_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
 import 'gudang_view.dart';
@@ -10,12 +10,10 @@ import 'laporan_view.dart';
 import 'monitoring_view.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/actor_controller.dart';
+import '../utils/globals.dart';
 
 class DashboardView extends StatefulWidget {
-  final String barcodeResult;
-
-  const DashboardView({Key? key, required this.barcodeResult})
-      : super(key: key);
+  const DashboardView({Key? key}) : super(key: key);
 
   @override
   State<DashboardView> createState() => _DashboardViewState();
@@ -24,11 +22,10 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   final LoginController _loginController = Get.find<LoginController>();
   final ActorController _actorController = Get.put(ActorController());
-  final BarcodeController _barcodeController = Get.put(BarcodeController());
 
   @override
   Widget build(BuildContext context) {
-    String barcodeResult = _barcodeController.barcodeResult.value;
+    String barcodeResult = globalBarcodeResult;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -208,7 +205,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OperatorPresensiView(),
+                                                            ScanOperatorView(),
                                                       ),
                                                     );
                                                   },

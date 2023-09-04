@@ -5,3 +5,8 @@ import 'package:get/get.dart';
 final LoginController _loginController = Get.find<LoginController>();
 
 String globalID = _loginController.profileId.value;
+String globalBarcodeResult = '';
+
+void setGlobalBarcodeResult(String barcodeResult) {
+  globalBarcodeResult = barcodeResult;
+}

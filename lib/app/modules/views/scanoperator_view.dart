@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'home_view.dart';
+import 'operatorpresensi_view.dart';
+import '../utils/globals.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: ScanOperatorView(),
+  ));
+}
 
 class ScanOperatorView extends StatefulWidget {
   const ScanOperatorView({Key? key}) : super(key: key);
@@ -11,8 +18,6 @@ class ScanOperatorView extends StatefulWidget {
 }
 
 class _ScanOperatorViewState extends State<ScanOperatorView> {
-  final BarcodeController _barcodeController = Get.put(BarcodeController());
-
   Future<void> _scanBarcode() async {
     String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -21,10 +26,13 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
       ScanMode.BARCODE,
     );
 
-    _barcodeController.barcodeResult.value = barcodeResult;
-    Navigator.pushNamed(
+    setGlobalBarcodeResult(barcodeResult);
+    
+    Navigator.push(
       context,
-      '/home',
+      MaterialPageRoute(
+        builder: (context) => OperatorPresensiView(barcodeResult: barcodeResult),
+      ),
     );
   }
 
@@ -41,14 +49,14 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment(1.99, -1.14),
-                end: Alignment(-1.99, 1.14),
+                begin: Alignment(0.99, -0.14),
+                end: Alignment(-0.99, 0.14),
                 colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: SafeArea(
+          SafeArea(
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   Row(
@@ -148,8 +156,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                     ),
                   ),
                   Text(
-                    textAlign: TextAlign.center,
-					"Scan barcode pada mesin yang akan Anda gunakan!",
+                    "Scan barcode pada mesin yang Anda gunakan!",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
@@ -164,10 +171,4 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ScanOperatorView(),
-  ));
 }

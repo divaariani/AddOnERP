@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:get/get.dart';
 import 'operatorpresensi_view.dart';
 import 'scanoperator_view.dart';
 import 'notification_view.dart';
@@ -16,8 +15,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-    DashboardView(barcodeResult: ''),
-    OperatorPresensiView(), 
+    DashboardView(),
+    OperatorPresensiView(barcodeResult: ''), 
     ScanOperatorView(),
     NotificationView(),
     ProfileView(),
@@ -103,19 +102,4 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-}
-
-class BarcodeController extends GetxController {
-  RxString barcodeResult = ''.obs;
-}
-
-void main() {
-  runApp(
-    GetMaterialApp(
-      home: HomeView(),
-      initialBinding: BindingsBuilder(() {
-        Get.put(BarcodeController());
-      }),
-    ),
-  );
 }
