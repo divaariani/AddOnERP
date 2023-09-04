@@ -9,7 +9,8 @@ import '../controllers/response_model.dart';
 class OperatorPresensiView extends StatefulWidget {
   final String barcodeResult;
 
-  const OperatorPresensiView({Key? key, required this.barcodeResult}) : super(key: key);
+  const OperatorPresensiView({Key? key, required this.barcodeResult})
+      : super(key: key);
 
   @override
   State<OperatorPresensiView> createState() => _OperatorPresensiViewState();
@@ -17,7 +18,7 @@ class OperatorPresensiView extends StatefulWidget {
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   late DateTime currentTime;
-  
+
   final LoginController _loginController = Get.find<LoginController>();
   final userIdController = TextEditingController();
   final idwcController = TextEditingController();
@@ -211,11 +212,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
-                                        "Kode Mesin: " + idwcController.text,
+                                        idwcController.text,
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                         ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                       ),
                                     ],
                                   ),
@@ -228,7 +232,6 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                     ),
                   ),
                   SizedBox(height: 20),
-
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
