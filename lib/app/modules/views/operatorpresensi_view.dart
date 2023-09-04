@@ -17,11 +17,12 @@ class OperatorPresensiView extends StatefulWidget {
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   late DateTime currentTime;
+  
   final LoginController _loginController = Get.find<LoginController>();
   final userIdController = TextEditingController();
   final idwcController = TextEditingController();
+  final tapController = TextEditingController();
 
-  TextEditingController tapController = TextEditingController();
   String profileId = globalID.toString();
   String barcodeMachineResult = globalBarcodeResult;
 
@@ -228,26 +229,6 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   ),
                   SizedBox(height: 20),
 
-                  // INSERT MANUAL IN/OUT TO API
-                  TextField(
-                    controller: tapController,
-                    style: TextStyle(
-                      color: Colors.white, 
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Tap I/O',
-                      labelStyle: TextStyle(
-                        color:
-                            Colors.white, 
-                      ),
-                      hintText: 'Enter IN (I) / OUT (O)',
-                      hintStyle: TextStyle(
-                        color: Colors.white, 
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -257,7 +238,10 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                           width: 100,
                           margin: EdgeInsets.only(right: 20),
                           child: ElevatedButton(
-                            onPressed: _submitForm,
+                            onPressed: () {
+                              tapController.text = "I";
+                              _submitForm();
+                            },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -290,11 +274,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                           width: 100,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeView()),
-                              );
+                              tapController.text = "O";
+                              _submitForm();
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
