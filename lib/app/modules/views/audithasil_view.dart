@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'scanaudit_view.dart';
 import 'home_view.dart';
-import 'audithasil_view.dart';
+import 'audit_view.dart';
 import 'auditisi_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: AuditView(),
+    home: AuditHasilView(),
   ));
 }
 
-class AuditView extends StatefulWidget {
-  const AuditView({Key? key}) : super(key: key);
+class AuditHasilView extends StatefulWidget {
+  const AuditHasilView({Key? key}) : super(key: key);
   @override
-  State<AuditView> createState() => _AuditViewState();
+  State<AuditHasilView> createState() => _AuditHasilViewState();
 }
 
-class _AuditViewState extends State<AuditView> {
+class _AuditHasilViewState extends State<AuditHasilView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +83,7 @@ class _AuditViewState extends State<AuditView> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 23),
+                      padding: EdgeInsets.only(left: 23),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -92,7 +91,7 @@ class _AuditViewState extends State<AuditView> {
                             padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Barang Scan",
-                              isActive: true,
+                              isActive: false,
                               targetPage: AuditView(),
                             ),
                           ),
@@ -100,7 +99,7 @@ class _AuditViewState extends State<AuditView> {
                             padding: EdgeInsets.symmetric(horizontal: 3),
                             child: CustomButton(
                               text: "Hasil Scan",
-                              isActive: false,
+                              isActive: true,
                               targetPage: AuditHasilView(),
                             ),
                           ),
@@ -110,108 +109,24 @@ class _AuditViewState extends State<AuditView> {
                   ),
                   SizedBox(height: 20),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Text(
-                            'User: ' + '',
-                            style: GoogleFonts.poppins(
-                              color: Colors.blue[900],
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(horizontal: 26),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: " Search...",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
                         ),
+                        suffixIcon: Icon(Icons.search),
+                        suffixIconConstraints: BoxConstraints(minWidth: 40),
                       ),
                     ),
                   ),
                   SizedBox(height: 10),
                   CardTable(),
-                  SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AuditIsiView()),
-                            );
-                          },
-                          icon: Icon(Icons.person_outline, size: 15),
-                          label: Text('Isi Auditor',
-                              style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(130, 48),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ScanAuditView()),
-                            );
-                          },
-                          icon: Icon(Icons.qr_code_scanner, size: 15),
-                          label: Text('Scan QR Code',
-                              style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(130, 48),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            // Navigator.pushNamed(context, Routes.HOME);
-                          },
-                          icon: Icon(Icons.save_alt, size: 15),
-                          label: Text('Simpan', style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(100, 48),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -241,7 +156,7 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   void initState() {
     super.initState();
-    isCurrentPage = widget.targetPage.runtimeType == AuditView;
+    isCurrentPage = widget.targetPage.runtimeType == AuditHasilView;
   }
 
   void _navigateToTargetPage() {
@@ -362,7 +277,7 @@ class MyDataTableSource extends DataTableSource {
           entry.state,
           style: TextStyle(
             fontSize: 12,
-            color: Colors.orange,
+            color: Colors.green,
             fontWeight: FontWeight.bold,
           ),
         ))),
@@ -382,9 +297,14 @@ class MyDataTableSource extends DataTableSource {
 
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
-    // MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Draft'),
-    // MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Draft'),
-    // MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Draft'),
+    MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
+    MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
   ];
 
   @override
@@ -402,91 +322,55 @@ class CardTable extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: data.isEmpty 
-                ? EmptyData() 
-                : PaginatedDataTable(
-                    header: Text(
-                      'Audit Stock',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          'Kode',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Nama Barang',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Kuantitas',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ],
-                    source: MyDataTableSource(data),
-                    rowsPerPage: 5,
+            child: PaginatedDataTable(
+              header: Text(
+                'Audit Stock',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              columns: [
+                DataColumn(
+                    label: Text(
+                  'Ruangan',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
                   ),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Lot Barang',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Kuantitas',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Status',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )),
+              ],
+              source: MyDataTableSource(data),
+              rowsPerPage: 10,
+            ),
           ),
         ),
       ],
-    );
-  }
-}
-
-class EmptyData extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 26),
-      child: Container(
-        width: 1 * MediaQuery.of(context).size.width,
-        height: 300,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icon.nodata.png', 
-              width: 30, 
-              height: 30, 
-              color: Colors.blue[900], 
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                'Tidak ada hasil scan barang',
-                style: GoogleFonts.poppins(
-                  color: Colors.blue[900],
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
