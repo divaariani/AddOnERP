@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
+import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/login_controller.dart';
@@ -61,11 +62,27 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       );
 
       if (response.status == 1) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Request berhasil: ${response.message}'),
-          ),
-        );
+        if (tap == "I") {
+          Get.snackbar('IN Mesin', 'Operator '+_loginController.profileName.value);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return OperatorStatusView();
+              },
+            ),
+          );
+        } else if (tap == "O") {
+          Get.snackbar('OUT Mesin', 'Operator '+_loginController.profileName.value);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return HomeView();
+              },
+            ),
+          );
+        }
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
