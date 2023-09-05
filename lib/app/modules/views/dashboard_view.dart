@@ -166,8 +166,8 @@ class _DashboardViewState extends State<DashboardView> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: 3,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       children: [
                         ElevatedButton(
@@ -415,7 +415,7 @@ class _DashboardViewState extends State<DashboardView> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Warehouse',
+                                'Gudang',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
