@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'audit_view.dart';
 import 'auditlokasi_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: ScanAuditView(),
+    home: ScanAuditBarangView(),
   ));
 }
 
-class ScanAuditView extends StatefulWidget {
-  const ScanAuditView({Key? key}) : super(key: key);
+class ScanAuditBarangView extends StatefulWidget {
+  const ScanAuditBarangView({Key? key}) : super(key: key);
 
   @override
-  State<ScanAuditView> createState() => _ScanAuditViewState();
+  State<ScanAuditBarangView> createState() => _ScanAuditBarangViewState();
 }
 
-class _ScanAuditViewState extends State<ScanAuditView> {
-  String _barcodeAuditResult = 'Scan barcode pada lokasi!';
+class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
+  String _barcodeAuditBarangResult = 'Scan barcode pada barang!';
 
   Future<void> _scanBarcode() async {
-    String barcodeAuditResult = await FlutterBarcodeScanner.scanBarcode(
+    String barcodeAuditBarangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
       true,
@@ -28,14 +27,8 @@ class _ScanAuditViewState extends State<ScanAuditView> {
     );
 
     setState(() {
-      _barcodeAuditResult = barcodeAuditResult;
+      _barcodeAuditBarangResult = barcodeAuditBarangResult;
     });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AuditLokasiView(result: barcodeAuditResult),
-      ),
-    );
   }
 
   @override
@@ -79,7 +72,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AuditView()),
+                                    builder: (context) => AuditLokasiView(result: '')),
                               );
                             },
                             icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -91,7 +84,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Text(
-                            "Scan Lokasi",
+                            "Scan Barang",
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 20,
@@ -159,7 +152,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                   ),
                   Text(
                     textAlign: TextAlign.center, 
-                    "$_barcodeAuditResult",
+                    "$_barcodeAuditBarangResult",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,

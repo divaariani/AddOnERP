@@ -429,14 +429,6 @@ class CardTable extends StatelessWidget {
             child: data.isEmpty
                 ? EmptyData()
                 : PaginatedDataTable(
-                    header: Text(
-                      'Audit Stock',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     columns: [
                       DataColumn(
                         label: Text(
