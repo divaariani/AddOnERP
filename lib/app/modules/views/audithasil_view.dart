@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'scanaudit_view.dart';
 import 'home_view.dart';
 import 'audit_view.dart';
-import 'auditisi_view.dart';
 
 void main() {
   runApp(MaterialApp(

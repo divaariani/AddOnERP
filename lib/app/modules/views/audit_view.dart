@@ -18,6 +18,15 @@ class AuditView extends StatefulWidget {
 }
 
 class _AuditViewState extends State<AuditView> {
+  String? _textToSave;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    _textToSave = arguments != null ? arguments.toString() : "-";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,13 +130,25 @@ class _AuditViewState extends State<AuditView> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16),
-                          child: Text(
-                            'User: ' + '',
-                            style: GoogleFonts.poppins(
-                              color: Colors.blue[900],
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'User: ',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.blue[900],
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                _textToSave ?? '-',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.blue[900],
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -146,7 +167,10 @@ class _AuditViewState extends State<AuditView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AuditIsiView()),
+                                  builder: (context) => AuditIsiView(
+                                          onSaveText: (String textToSave) {
+                                        print('Saved: $textToSave');
+                                      })),
                             );
                           },
                           icon: Icon(Icons.person_outline, size: 15),
@@ -382,9 +406,9 @@ class MyDataTableSource extends DataTableSource {
 
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
-    // MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Draft'),
-    // MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Draft'),
-    // MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Draft'),
+    MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Draft'),
+    MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Draft'),
+    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Draft'),
   ];
 
   @override
@@ -402,8 +426,8 @@ class CardTable extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: data.isEmpty 
-                ? EmptyData() 
+            child: data.isEmpty
+                ? EmptyData()
                 : PaginatedDataTable(
                     header: Text(
                       'Audit Stock',
@@ -416,7 +440,7 @@ class CardTable extends StatelessWidget {
                     columns: [
                       DataColumn(
                         label: Text(
-                          'Kode',
+                          'Ruangan',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
@@ -425,7 +449,7 @@ class CardTable extends StatelessWidget {
                       ),
                       DataColumn(
                         label: Text(
-                          'Nama Barang',
+                          'Lot Barang',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
@@ -435,6 +459,15 @@ class CardTable extends StatelessWidget {
                       DataColumn(
                         label: Text(
                           'Kuantitas',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Status',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
@@ -468,10 +501,10 @@ class EmptyData extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/icon.nodata.png', 
-              width: 30, 
-              height: 30, 
-              color: Colors.blue[900], 
+              'assets/icon.nodata.png',
+              width: 30,
+              height: 30,
+              color: Colors.blue[900],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
