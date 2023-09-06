@@ -504,17 +504,47 @@ class MyDataTableSource extends DataTableSource {
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
     MyData(
-      mesin: 'Draw-A',
+      mesin: 'Drawing A',
       operator: 'Bayu',
       aksi: '',
     ),
     MyData(
-      mesin: 'Draw-B',
+      mesin: 'Drawing C',
       operator: 'Anggara',
       aksi: '',
     ),
     MyData(
-      mesin: 'Draw-C',
+      mesin: 'Drawing MC',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Drawing MD',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Bunching A',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Tubular 12',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Tubular 19',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Extruder 100 A',
+      operator: 'Daniel',
+      aksi: '',
+    ),
+    MyData(
+      mesin: 'Pairing',
       operator: 'Daniel',
       aksi: '',
     ),
@@ -580,7 +610,7 @@ class CardTable extends StatelessWidget {
                 ),
               ],
               source: MyDataTableSource(data, context),
-              rowsPerPage: 5,
+              rowsPerPage: 10,
             ),
           ),
         ),
