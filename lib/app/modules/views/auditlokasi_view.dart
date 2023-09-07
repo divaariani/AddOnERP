@@ -5,16 +5,25 @@ import 'home_view.dart';
 
 class AuditLokasiView extends StatefulWidget {
   final String result;
-
-  AuditLokasiView({required this.result, Key? key}) : super(key: key);
+  final String resultBarang;
+  
+  AuditLokasiView({required this.result, required this.resultBarang, Key? key}) : super(key: key);
 
   @override
   State<AuditLokasiView> createState() => _AuditLokasiViewState();
 }
 
 class _AuditLokasiViewState extends State<AuditLokasiView> {
+  List<String> cardTableData = [];
+
   @override
   Widget build(BuildContext context) {
+    final cardTable = CardTable(data: cardTableData);
+
+    if (widget.resultBarang.isNotEmpty) {
+      cardTableData.add(widget.resultBarang);
+    }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -113,7 +122,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  CardTable(),
+                  cardTable,
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,
@@ -215,16 +224,16 @@ class MyDataTableSource extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-class CardTable extends StatelessWidget {
-  final List<MyData> data = [
-    MyData(lotbarang: 'K0D2512'),
-    MyData(lotbarang: 'K0A0909'),
-    MyData(lotbarang: 'K0H2512'),
-    MyData(lotbarang: 'K0D2512'),
-    MyData(lotbarang: 'K0A0909'),
-    MyData(lotbarang: 'K0H2512'),
-  ];
+class CardTable extends StatefulWidget {
+  final List<String> data; // Accept a list of strings as data
 
+  CardTable({required this.data});
+
+  @override
+  _CardTableState createState() => _CardTableState();
+}
+
+class _CardTableState extends State<CardTable> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -233,35 +242,49 @@ class CardTable extends StatelessWidget {
         SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 26),
-          //elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           color: Colors.white,
           child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: data.isEmpty
-                  ? EmptyData()
-                  : PaginatedDataTable(
-                      columns: [
-                        DataColumn(
-                          label: SizedBox(
-                            width: 0.6 * MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: Text(
-                                'Lot Barang',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
+            padding: const EdgeInsets.all(20.0),
+            child: widget.data.isEmpty
+                ? EmptyData()
+                : DataTable(
+                    columns: [
+                      DataColumn(
+                        label: SizedBox(
+                          width: 0.6 * MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: Text(
+                              'Lot Barang',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                           ),
                         ),
-                      ],
-                      source: MyDataTableSource(data),
-                      rowsPerPage: 5,
-                    )),
+                      ),
+                    ],
+                    rows: widget.data.map((item) {
+                      return DataRow(cells: [
+                        DataCell(
+                          // Display each item from the data list
+                          Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ]);
+                    }).toList(),
+                    // Change rowsPerPage to adjust the number of rows per page
+                    //rowsPerPage: 5,
+                  ),
+          ),
         ),
       ],
     );

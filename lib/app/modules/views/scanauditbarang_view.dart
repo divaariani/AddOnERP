@@ -29,6 +29,12 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
     setState(() {
       _barcodeAuditBarangResult = barcodeAuditBarangResult;
     });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AuditLokasiView(result: '', resultBarang: barcodeAuditBarangResult),
+      ),
+    );
   }
 
   @override
@@ -72,7 +78,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AuditLokasiView(result: '')),
+                                    builder: (context) => AuditLokasiView(result: '', resultBarang: '')),
                               );
                             },
                             icon: Icon(Icons.arrow_back, color: Colors.black),

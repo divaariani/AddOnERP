@@ -196,7 +196,7 @@ class _AuditViewState extends State<AuditView> {
                             );
                           },
                           icon: Icon(Icons.qr_code_scanner, size: 15),
-                          label: Text('Scan QR Code',
+                          label: Text('Scan Lokasi',
                               style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
