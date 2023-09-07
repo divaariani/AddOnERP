@@ -1,13 +1,19 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:addon/app/modules/views/home_view.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'actor_controller.dart';
+import '../views/home_view.dart';
+import '../views/login_view.dart';
+import '../utils/sessionmanager.dart';
 
 class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  SessionManager sessionManager = SessionManager();
+
+  var userID = ''.obs;
 
   RxBool isPasswordVisible = false.obs;
   RxBool loading = false.obs;
@@ -21,45 +27,74 @@ class LoginController extends GetxController {
   }
 
   void loginApi() async {
-    loading.value = true;
-    try {
-      final response = await http.post(
-        Uri.parse('{YOUR_API}'),
-        body: jsonEncode({
-          "params": {
-            'email': emailController.text,
-            'password': passwordController.text,
-          }
-        }),
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
-      );
-      var data = jsonDecode(response.body);
-      print(response.statusCode);
-      print(data);
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        loading.value = false;
-        Get.snackbar('Login Successful', 'Congratulations');
-
-        var responseData = data['data']['user'];
-        profileId.value = responseData['id'].toString();
-        profileName.value = responseData['name'];
-        profilePhotoUrl.value = responseData['avatar'];
-        
-        ActorController _actorController = Get.put(ActorController());
-        await _actorController.fetchUserData();
-        
-        Get.to(() => HomeView());
-      } else {
-        loading.value = false;
-        Get.snackbar('Login Failed', data['error']);
-      }
-    } catch (e) {
-      loading.value = false;
-      Get.snackbar('Exception', e.toString());
-    }
+  if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    Get.snackbar('Error', 'Email and password must be filled');
+    return;
   }
+
+  loading.value = true;
+  var connectivityResult = await Connectivity().checkConnectivity();
+  if (connectivityResult == ConnectivityResult.none) {
+    loading.value = false;
+    Get.snackbar('No Internet Connection', 'Please check your internet connection.');
+    return;
+  }
+
+  try {
+    final response = await http.post(
+      Uri.parse('{YOUR_API}'),
+      body: jsonEncode({
+        "params": {
+          'email': emailController.text,
+          'password': passwordController.text,
+        }
+      }),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+    var data = jsonDecode(response.body);
+    print(response.statusCode);
+    print(data);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      
+      loading.value = false;
+      Get.snackbar('Login Successful', 'Congratulations');
+
+      var responseData = data['data']['user'];
+      profileId.value = responseData['id'].toString();
+      profileName.value = responseData['name'];
+      profilePhotoUrl.value = responseData['avatar'];
+
+      await sessionManager.setLoggedIn(true);
+      await sessionManager.setUserId(profileId.value);
+      await sessionManager.setUsername(profileName.value);
+
+      ActorController _actorController = Get.put(ActorController());
+      await _actorController.fetchUserData();
+
+      Get.to(() => HomeView());
+    } else {
+      loading.value = false;
+      if (data.containsKey('error')) {
+        Get.snackbar('Login Failed', data['error']);
+      } else {
+
+        Get.snackbar('Login Failed', 'Account not registered.');
+      }
+    }
+  } catch (e) {
+    loading.value = false;
+    Get.snackbar('Exception', e.toString());
+  }
+}
+
+void logout() {
+  final SessionManager sessionManager = SessionManager();
+  sessionManager.clearSession();
+
+  Get.offAll(() => LoginView());
+}
 
   final count = 0.obs;
   @override

@@ -417,7 +417,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           children: [
                                             TextButton(
                                               onPressed: () {
-                                                Get.to(() => LoginView());
+                                                Get.find<LoginController>().logout();
                                               },
                                               child: Text('Ya'),
                                             ),

@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../utils/globals.dart';
-
+import 'dart:convert';
+import '../utils/sessionmanager.dart';
+        
 class ActorController extends GetxController {
+  final SessionManager sessionManager = SessionManager();
+
   RxString isAdmin = ''.obs;
   RxString isOperator = ''.obs;
   RxString isWarehouse = ''.obs;
@@ -14,9 +16,10 @@ class ActorController extends GetxController {
 
   Future<void> fetchUserData() async {
     try {
+      final String? userId = await sessionManager.getUserId();      
       final response = await http.post(
-        Uri.parse('{YOUR API}' + globalID.toString()),
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        Uri.parse('{YOUR_API}' + userId.toString()),
+        headers: {'Contentri-Type': 'application/json; charset=UTF-8'},
       );
       var data = jsonDecode(response.body);
 
@@ -29,6 +32,7 @@ class ActorController extends GetxController {
         isQC.value = responseData['user_qc'];
         isCustomer.value = responseData['user_customer'];
         isMonitor.value = responseData['user_monitor'];
+        
       } else {
         print('Failed to fetch user data: ${response.statusCode}');
       }
@@ -37,7 +41,8 @@ class ActorController extends GetxController {
     }
   }
 
-final count = 0.obs;
+  final count = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
