@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/globals.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
 
 class AuditLokasiView extends StatefulWidget {
   final String result;
-  final String resultBarang;
-  
-  AuditLokasiView({required this.result, required this.resultBarang, Key? key}) : super(key: key);
+  final List<String> resultBarang;
+
+  AuditLokasiView({required this.result, required this.resultBarang, Key? key})
+      : super(key: key);
 
   @override
   State<AuditLokasiView> createState() => _AuditLokasiViewState();
 }
 
 class _AuditLokasiViewState extends State<AuditLokasiView> {
-  List<String> cardTableData = [];
+  String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
 
   @override
   Widget build(BuildContext context) {
-    final cardTable = CardTable(data: cardTableData);
-
-    if (widget.resultBarang.isNotEmpty) {
-      cardTableData.add(widget.resultBarang);
-    }
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -108,7 +104,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                 ),
                               ),
                               Text(
-                                widget.result,
+                                barcodeAuditLokasiResult,
                                 style: GoogleFonts.poppins(
                                   color: Colors.blue[900],
                                   fontSize: 14,
@@ -122,7 +118,42 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  cardTable,
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 26),
+                    child: Container(
+                      width: 1 * MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Daftar Barang',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                color: Colors.blue[900],
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height:8), 
+                            Text(
+                              widget.resultBarang.join(', '),
+                              style: GoogleFonts.poppins(
+                                color: Colors.blue[900],
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,
@@ -177,116 +208,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class MyData {
-  final String lotbarang;
-
-  MyData({
-    required this.lotbarang,
-  });
-}
-
-class MyDataTableSource extends DataTableSource {
-  final List<MyData> data;
-  MyDataTableSource(this.data);
-
-  @override
-  DataRow? getRow(int index) {
-    if (index >= data.length) {
-      return null;
-    }
-    final entry = data[index];
-    return DataRow.byIndex(
-      index: index,
-      cells: [
-        DataCell(Center(
-            child: Text(
-          entry.lotbarang,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ))),
-      ],
-    );
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => data.length;
-
-  @override
-  int get selectedRowCount => 0;
-}
-
-class CardTable extends StatefulWidget {
-  final List<String> data; // Accept a list of strings as data
-
-  CardTable({required this.data});
-
-  @override
-  _CardTableState createState() => _CardTableState();
-}
-
-class _CardTableState extends State<CardTable> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(height: 10),
-        Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: widget.data.isEmpty
-                ? EmptyData()
-                : DataTable(
-                    columns: [
-                      DataColumn(
-                        label: SizedBox(
-                          width: 0.6 * MediaQuery.of(context).size.width,
-                          child: Center(
-                            child: Text(
-                              'Lot Barang',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    rows: widget.data.map((item) {
-                      return DataRow(cells: [
-                        DataCell(
-                          // Display each item from the data list
-                          Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                      ]);
-                    }).toList(),
-                    // Change rowsPerPage to adjust the number of rows per page
-                    //rowsPerPage: 5,
-                  ),
-          ),
-        ),
-      ],
     );
   }
 }

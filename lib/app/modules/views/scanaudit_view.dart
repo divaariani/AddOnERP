@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import '../utils/globals.dart';
 import 'audit_view.dart';
 import 'auditlokasi_view.dart';
 
@@ -30,10 +31,13 @@ class _ScanAuditViewState extends State<ScanAuditView> {
     setState(() {
       _barcodeAuditResult = barcodeAuditResult;
     });
+
+    setGlobalBarcodeLokasiResult(barcodeAuditResult);
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AuditLokasiView(result: barcodeAuditResult, resultBarang: ''),
+        builder: (context) => AuditLokasiView(result: barcodeAuditResult, resultBarang: ['']),
       ),
     );
   }

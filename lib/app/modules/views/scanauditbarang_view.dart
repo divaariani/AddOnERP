@@ -16,8 +16,9 @@ class ScanAuditBarangView extends StatefulWidget {
 }
 
 class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
-  String _barcodeAuditBarangResult = 'Scan barcode pada barang!';
+  final String _barcodeAuditBarangResult = 'Scan barcode pada barang!';
 
+  List<String> barcodeAuditBarangResults = [];
   Future<void> _scanBarcode() async {
     String barcodeAuditBarangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -26,13 +27,21 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
       ScanMode.BARCODE,
     );
 
-    setState(() {
-      _barcodeAuditBarangResult = barcodeAuditBarangResult;
-    });
+    if (barcodeAuditBarangResult.isNotEmpty) {
+      setState(() {
+        barcodeAuditBarangResults.add(barcodeAuditBarangResult);
+      });
+    }
+
+    // setState(() {
+    //   barcodeAuditBarangResults.add(barcodeAuditBarangResult);
+    // });
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AuditLokasiView(result: '', resultBarang: barcodeAuditBarangResult),
+        builder: (context) =>
+            AuditLokasiView(result: '', resultBarang: [barcodeAuditBarangResult]),
       ),
     );
   }
@@ -78,7 +87,8 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AuditLokasiView(result: '', resultBarang: '')),
+                                    builder: (context) => AuditLokasiView(
+                                        result: '', resultBarang: [''])),
                               );
                             },
                             icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -157,7 +167,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                     ),
                   ),
                   Text(
-                    textAlign: TextAlign.center, 
+                    textAlign: TextAlign.center,
                     "$_barcodeAuditBarangResult",
                     style: TextStyle(
                       fontSize: 14,
