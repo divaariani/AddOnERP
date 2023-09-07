@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../controllers/machine_controller.dart';
 import 'home_view.dart';
 
 void main() {
@@ -14,6 +15,45 @@ class OperatorStatusView extends StatefulWidget {
 }
 
 class _OperatorStatusViewState extends State<OperatorStatusView> {
+  List<MyData> _data = [];
+
+  int page = 1;
+  int pageSize = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromAPI();
+  }
+
+  Future<void> fetchDataFromAPI() async {
+    try {
+      final response = await MachineController.postFormData(
+        id: 1,
+        name: '',
+        userId: 1,
+        namaoperator: '',
+        statusmesin: '',
+      );
+
+      final List<dynamic> nameDataList = response.data;
+
+      final List<MyData> myDataList = nameDataList.map((data) {
+        return MyData(
+          mesin: data['name'] ?? '',
+          operator: data['namaoperator'] ?? '',
+          aksi: '',
+        );
+      }).toList();
+
+      setState(() {
+        _data = myDataList;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +117,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  CardTable(),
+                  CardTable(data: _data),
                   SizedBox(height: 20),
                 ],
               ),
@@ -91,13 +131,13 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
 
 class MyData {
   final String mesin;
-  final String operator;
   final String aksi;
+  final String operator;
 
   MyData({
     required this.mesin,
-    required this.operator,
     required this.aksi,
+    required this.operator,
   });
 }
 
@@ -475,6 +515,10 @@ class MyDataTableSource extends DataTableSource {
             fontWeight: FontWeight.bold,
           ),
         )),
+        DataCell(AksiCellWidget(
+          parentContext: parentContext,
+          entry: entry,
+        )),
         DataCell(Text(
           entry.operator,
           textAlign: TextAlign.left,
@@ -482,10 +526,6 @@ class MyDataTableSource extends DataTableSource {
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
-        )),
-        DataCell(AksiCellWidget(
-          parentContext: parentContext,
-          entry: entry,
         )),
       ],
     );
@@ -502,53 +542,9 @@ class MyDataTableSource extends DataTableSource {
 }
 
 class CardTable extends StatelessWidget {
-  final List<MyData> data = [
-    MyData(
-      mesin: 'Drawing A',
-      operator: 'Bayu',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Drawing C',
-      operator: 'Anggara',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Drawing MC',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Drawing MD',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Bunching A',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Tubular 12',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Tubular 19',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Extruder 100 A',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-    MyData(
-      mesin: 'Pairing',
-      operator: 'Daniel',
-      aksi: '',
-    ),
-  ];
+  final List<MyData> data;
+
+  CardTable({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -564,7 +560,7 @@ class CardTable extends StatelessWidget {
           ),
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(1),
             child: PaginatedDataTable(
               header: Text(
                 'Monitoring Mesin',
@@ -589,7 +585,7 @@ class CardTable extends StatelessWidget {
                 DataColumn(
                   label: Flexible(
                     child: Text(
-                      'Operator',
+                      'Aksi',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
@@ -600,7 +596,7 @@ class CardTable extends StatelessWidget {
                 DataColumn(
                   label: Flexible(
                     child: Text(
-                      'Aksi',
+                      'Operator',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
