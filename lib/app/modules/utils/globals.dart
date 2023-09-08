@@ -8,6 +8,7 @@ String globalID = _loginController.profileId.value;
 String globalName = _loginController.profileName.value;
 String globalBarcodeResult = '';
 String globalBarcodeLokasiResult = '';
+List<String> globalBarcodeBarangResults = [];
 
 void setGlobalBarcodeResult(String barcodeResult) {
   globalBarcodeResult = barcodeResult;

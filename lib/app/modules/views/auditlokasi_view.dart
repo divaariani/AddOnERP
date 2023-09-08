@@ -118,41 +118,47 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    child: Container(
-                      width: 1 * MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Daftar Barang',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                color: Colors.blue[900],
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                  Visibility(
+                    visible: widget.resultBarang.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      child: Container(
+                        width: 1 * MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Daftar Barang',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.blue[900],
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            SizedBox(height:8), 
-                            Text(
-                              widget.resultBarang.join(', '),
-                              style: GoogleFonts.poppins(
-                                color: Colors.blue[900],
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                              Text(
+                                widget.resultBarang.join('\n'),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.blue[900],
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                  ),
+                  Visibility(
+                    visible: widget.resultBarang.isEmpty,
+                    child: EmptyData(),
                   ),
                   SizedBox(height: 20),
                   Align(

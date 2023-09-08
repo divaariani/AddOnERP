@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'auditlokasi_view.dart';
+import '../utils/globals.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -16,9 +17,6 @@ class ScanAuditBarangView extends StatefulWidget {
 }
 
 class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
-  final String _barcodeAuditBarangResult = 'Scan barcode pada barang!';
-
-  List<String> barcodeAuditBarangResults = [];
   Future<void> _scanBarcode() async {
     String barcodeAuditBarangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -29,19 +27,15 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
 
     if (barcodeAuditBarangResult.isNotEmpty) {
       setState(() {
-        barcodeAuditBarangResults.add(barcodeAuditBarangResult);
+        globalBarcodeBarangResults.add(barcodeAuditBarangResult);
       });
     }
-
-    // setState(() {
-    //   barcodeAuditBarangResults.add(barcodeAuditBarangResult);
-    // });
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            AuditLokasiView(result: '', resultBarang: [barcodeAuditBarangResult]),
+            AuditLokasiView(result: '', resultBarang: globalBarcodeBarangResults),
       ),
     );
   }
@@ -168,7 +162,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                   ),
                   Text(
                     textAlign: TextAlign.center,
-                    "$_barcodeAuditBarangResult",
+                    "Scan barcode pada barang!",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,

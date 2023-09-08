@@ -37,7 +37,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AuditLokasiView(result: barcodeAuditResult, resultBarang: ['']),
+        builder: (context) => AuditLokasiView(result: barcodeAuditResult, resultBarang: []),
       ),
     );
   }
