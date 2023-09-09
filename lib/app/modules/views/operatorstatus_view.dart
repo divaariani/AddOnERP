@@ -43,6 +43,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
           mesin: data['name'] ?? '',
           operator: data['namaoperator'] ?? '',
           aksi: '',
+          status: data['statusmesin'] ?? '',
         );
       }).toList();
 
@@ -130,14 +131,16 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
 }
 
 class MyData {
-  final String mesin;
   final String aksi;
+  final String mesin;
   final String operator;
+  final String status;
 
   MyData({
-    required this.mesin,
     required this.aksi,
+    required this.mesin,
     required this.operator,
+    required this.status,
   });
 }
 
@@ -507,6 +510,10 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
+        DataCell(AksiCellWidget(
+          parentContext: parentContext,
+          entry: entry,
+        )),
         DataCell(Text(
           entry.mesin,
           textAlign: TextAlign.left,
@@ -515,12 +522,16 @@ class MyDataTableSource extends DataTableSource {
             fontWeight: FontWeight.bold,
           ),
         )),
-        DataCell(AksiCellWidget(
-          parentContext: parentContext,
-          entry: entry,
-        )),
         DataCell(Text(
           entry.operator,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
+        DataCell(Text(
+          entry.status,
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 12,
@@ -574,17 +585,6 @@ class CardTable extends StatelessWidget {
                 DataColumn(
                   label: Flexible(
                     child: Text(
-                      'Mesin',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Flexible(
-                    child: Text(
                       'Aksi',
                       style: TextStyle(
                         fontSize: 12,
@@ -596,7 +596,29 @@ class CardTable extends StatelessWidget {
                 DataColumn(
                   label: Flexible(
                     child: Text(
+                      'Mesin',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Flexible(
+                    child: Text(
                       'Operator',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Flexible(
+                    child: Text(
+                      'Status',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
