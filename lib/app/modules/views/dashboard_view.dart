@@ -8,6 +8,7 @@ import 'gudang_view.dart';
 import 'operatormonitoring_view.dart';
 import 'laporan_view.dart';
 import 'monitoring_view.dart';
+import 'customer_view.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/actor_controller.dart';
 import '../utils/globals.dart';
@@ -471,7 +472,7 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isCustomer.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  // Get.to(() => CustomerView());
+                                  Get.to(() => CustomerView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(

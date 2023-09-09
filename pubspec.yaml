@@ -1,7 +1,7 @@
 name: addon
 version: 1.0.0+1
 publish_to: none
-description: A new Flutter project.
+description: Add On ERP Project owned by PT Sutrakabel Intimandiri and Vocational School IPB University.
 environment: 
   sdk: '>=3.0.6 <4.0.0'
 
