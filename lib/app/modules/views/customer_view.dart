@@ -1,3 +1,5 @@
+import 'package:addon/app/modules/components/timeline_active_widget.dart';
+import 'package:addon/app/modules/components/timeline_passive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
@@ -16,7 +18,16 @@ class CustomerView extends StatefulWidget {
 }
 
 class _CustomerViewState extends State<CustomerView> {
-  int _currentStep = 0;
+  bool isvisible = true;
+  final TextEditingController controller = TextEditingController();
+  double borderwidth = 1.0;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,31 +51,20 @@ class _CustomerViewState extends State<CustomerView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeView()),
-                              );
-                            },
-                            icon: const Icon(Icons.arrow_back,
-                                color: Colors.black),
-                          ),
-                        ),
+                      SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeView()),
+                          );
+                        },
+                        child: Image.asset('assets/icon.back.png',
+                            width: 60, height: 60),
                       ),
                       const SizedBox(width: 16),
                       const Expanded(
@@ -83,18 +83,19 @@ class _CustomerViewState extends State<CustomerView> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Visibility(
-                    visible: true,
+                  const SizedBox(height: 10),
+                  AnimatedContainer(
+                    padding: EdgeInsets.symmetric(vertical: isvisible ? 20 : 0),
+                    duration: const Duration(milliseconds: 500),
                     child: Center(
                       child: Image.asset(
-                        "assets/delivery.png",
+                        'assets/delivery.png',
                         width: 350,
                         height: 200,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: Row(
@@ -114,6 +115,13 @@ class _CustomerViewState extends State<CustomerView> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: controller,
+                                    onSubmitted: (value) {
+                                      setState(() {
+                                        isvisible = false;
+                                        borderwidth = 0.0;
+                                      });
+                                    },
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Masukkan Nomor Order',
@@ -152,161 +160,86 @@ class _CustomerViewState extends State<CustomerView> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      color: const Color(0xffFAFAFA),
-                      child: Container(
-                        height: 100,
-                        width: 1 * MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.only(left: 10, top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "ID Customer : John Doe",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xff084D88)),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Detail Pesanan : ",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xff084D88)),
-                            )
-                          ],
+                  Visibility(
+                    visible: !isvisible,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        color: const Color(0xffFAFAFA),
+                        child: Container(
+                          height: 100,
+                          width: 1 * MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.only(left: 10, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "ID Customer : John Doe",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xff084D88)),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Detail Pesanan : ",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xff084D88)),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 20,
                   ),
-                  Stepper(
-                    steps: [
-                      Step(
-                        title: Text(
-                          'Order Placed',
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xffFAFAFA)),
-                        ),
-                        content: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Text(
-                              "This is step 4 content",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14, color: const Color(0xff084D88)),
-                            ),
-                          ),
-                        ),
+                  Visibility(
+                    visible: !isvisible,
+                    child: Center(
+                      child: Text(
+                        "Status Pesanan",
+                        style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xffFAFAFA)),
                       ),
-                      Step(
-                        title: Text(
-                          'Order Placed',
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xffFAFAFA)),
-                        ),
-                        content: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Text(
-                              "This is step 4 content",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14, color: const Color(0xff084D88)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Step(
-                        title: Text(
-                          'Order Placed',
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xffFAFAFA)),
-                        ),
-                        content: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Text(
-                              "This is step 4 content",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14, color: const Color(0xff084D88)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Step(
-                        title: Text(
-                          'Order Placed',
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xffFAFAFA)),
-                        ),
-                        content: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Text(
-                              "This is step 4 content",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14, color: const Color(0xff084D88)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    onStepTapped: (int newIndex) {
-                      setState(() {
-                        _currentStep = newIndex;
-                      });
-                    },
-                    currentStep: _currentStep,
-                    onStepContinue: () {
-                      if (_currentStep != 3) {
-                        setState(() {
-                          _currentStep += 1;
-                        });
-                      }
-                    },
-                    onStepCancel: () {
-                      if (_currentStep != 3) {
-                        setState(() {
-                          _currentStep += 1;
-                        });
-                      }
-                    },
+                    ),
                   ),
+                  Visibility(
+                    visible: !isvisible,
+                    child: const Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          TimeLineActiveWidget(
+                            isFirst: true,
+                            title: 'Dibayar',
+                            subtitle: "we have received your order",
+                          ),
+                          TimeLinePasiveWidget(
+                              title: 'Diproses',
+                              subtitle: 'we have received your order'),
+                          TimeLinePasiveWidget(
+                              title: 'Dikirim',
+                              subtitle: 'we have received your order'),
+                          TimeLinePasiveWidget(
+                            title: 'Diterima',
+                            subtitle: 'we have received your order',
+                            isLast: true,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
