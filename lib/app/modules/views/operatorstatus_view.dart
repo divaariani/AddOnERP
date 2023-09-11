@@ -574,7 +574,7 @@ class CardTable extends StatelessWidget {
             padding: const EdgeInsets.all(1),
             child: PaginatedDataTable(
               header: Text(
-                'Monitoring Mesin',
+                'Status Mesin',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
