@@ -35,6 +35,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
   }
 
   Future<void> fetchDataFromAPI() async {
+    
     try {
       final response = await MachineController.postFormData(
         id: 1,
@@ -123,7 +124,6 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
                   CardTable(data: _data),
                   SizedBox(height: 20),
                 ],
@@ -166,14 +166,6 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(
-          entry.id,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
         DataCell(AksiCellWidget(
           parentContext: parentContext,
           entry: entry,
@@ -246,17 +238,6 @@ class CardTable extends StatelessWidget {
                 ),
               ),
               columns: [
-                DataColumn(
-                  label: Flexible(
-                    child: Text(
-                      'ID',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
                 DataColumn(
                   label: Flexible(
                     child: Text(
@@ -357,40 +338,40 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
       );
 
       if (response.status == 1) {
+        final machineName = widget.entry.mesin;
+
         if (state == "Start") {
-          Get.snackbar('nama mesin', 'started');
+          Get.snackbar('Mesin $machineName', 'started');
         } else if (state == "Pause (Naik WIP)") {
-          Get.snackbar('nama mesin', 'paused');
+          Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Pause (Naik Bobin)") {
-          Get.snackbar('nama mesin', 'paused');
+          Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Pause (Setup Mesin)") {
-          Get.snackbar('nama mesin', 'paused');
+          Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Pause (Pergi/Istirahat)") {
-          Get.snackbar('nama mesin', 'paused');
+          Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Pause (Lingkungan)") {
-          Get.snackbar('nama mesin', 'paused');
+          Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Block (Material Availability)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Equiment Failure)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Setup Adjustments)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Reduced Speed)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Process Defect)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Reduced Yield)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "Block (Fully Productive Time)") {
-          Get.snackbar('nama mesin', 'blocked');
+          Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "End") {
-          Get.snackbar('nama mesin', 'ended');
+          Get.snackbar('Mesin $machineName', 'ended');
         }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => OperatorStatusView()),
-        );
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OperatorStatusView()));
+
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -714,7 +695,8 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text = "Block (Process Defect)";
+                                  stateController.text =
+                                      "Block (Process Defect)";
                                   _submitState();
                                 },
                                 child: Text(
