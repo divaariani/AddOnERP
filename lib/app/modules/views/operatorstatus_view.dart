@@ -12,6 +12,7 @@ void main() {
 }
 
 class OperatorStatusView extends StatefulWidget {
+  
   const OperatorStatusView({Key? key}) : super(key: key);
   @override
   State<OperatorStatusView> createState() => _OperatorStatusViewState();
@@ -206,6 +207,11 @@ class MyDataTableSource extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
+
+  void updateData(List<MyData> newData) {
+  data.clear(); 
+  data.addAll(newData); 
+}
 }
 
 class CardTable extends StatelessWidget {
@@ -229,14 +235,6 @@ class CardTable extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(1),
             child: PaginatedDataTable(
-              header: Text(
-                'Status Mesin',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               columns: [
                 DataColumn(
                   label: Flexible(
@@ -371,6 +369,8 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
         }
 
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => OperatorStatusView()));
+        // setState(() {});
+        
 
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
