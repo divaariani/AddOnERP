@@ -212,7 +212,7 @@ class _AuditViewState extends State<AuditView> {
                             // Navigator.pushNamed(context, Routes.HOME);
                           },
                           icon: Icon(Icons.save_alt, size: 15),
-                          label: Text('Simpan', style: TextStyle(fontSize: 12)),
+                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -422,7 +422,7 @@ class CardTable extends StatelessWidget {
                     columns: [
                       DataColumn(
                         label: Text(
-                          'Ruangan',
+                          'Lokasi',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
