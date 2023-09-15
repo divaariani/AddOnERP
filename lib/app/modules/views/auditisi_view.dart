@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../utils/globals.dart';
+import 'package:get/get.dart';
+import '../utils/sessionmanager.dart';
+import '../controllers/actor_controller.dart';
 import 'audit_view.dart';
 
 void main() {
@@ -22,6 +24,23 @@ class AuditIsiView extends StatefulWidget {
 }
 
 class _AuditIsiViewState extends State<AuditIsiView> {
+  final ActorController _actorController = Get.put(ActorController());
+  final SessionManager sessionManager = SessionManager();
+
+  final SessionManager _sessionManager = SessionManager();
+  String userName = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+
+  }
+
+  Future<void> _fetchUserId() async {
+    userName = await _sessionManager.getUsername() ?? "";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +99,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                     margin: const EdgeInsets.symmetric(horizontal: 26),
                     child: Container(
                       width: 1 * MediaQuery.of(context).size.width,
-                      height: 150,
+                      height: 120,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -101,32 +120,12 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                   ),
                                 ),
                                 Text(
-                                  'Auditor_' + globalName + "_" + DateFormat('ddMMyy').format(DateTime.now()),
+                                  'Auditor_' + userName + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
                                   style: GoogleFonts.poppins(
                                     color: Colors.blue[900],
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'State: ',
-                                  style: TextStyle(
-                                    color: Colors.blue[900],
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Text(
-                                  "Draft",
-                                  style: TextStyle(
-                                      color: Colors.blue[900],
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14),
                                 ),
                               ],
                             ),
@@ -152,13 +151,33 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                             SizedBox(height: 8),
                             Row(
                               children: [
-                                Text("Company: ",
+                                Text("Department: ",
                                     style: TextStyle(
                                       color: Colors.blue[900],
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     )),
-                                Text("Auditor",
+                                Text(_actorController.isOperator.value == 't'
+                                      ? 'Operator'
+                                      : _actorController.isAdmin.value == 't'
+                                          ? 'Administrator'
+                                          : _actorController.isAuditor.value ==
+                                                  't'
+                                              ? 'Auditor'
+                                              : _actorController
+                                                          .isWarehouse.value ==
+                                                      't'
+                                                  ? 'Staff Gudang'
+                                                  : _actorController
+                                                              .isQC.value ==
+                                                          't'
+                                                      ? 'Staff Laporan Produksi'
+                                                      : _actorController
+                                                                  .isCustomer
+                                                                  .value ==
+                                                              't'
+                                                          ? 'Customer'
+                                                          : 'Unknown Staff',
                                     style: TextStyle(
                                       color: Colors.blue[900],
                                       fontWeight: FontWeight.normal,
@@ -179,7 +198,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            String textToSave = 'Auditor_' + globalName + "_" + DateFormat('ddMMyy').format(DateTime.now());
+                            String textToSave = 'Auditor_' + userName + "_" + DateFormat('ddMMyyyy').format(DateTime.now());
                             widget.onSaveText(textToSave);
                             Navigator.push(
                               context,
