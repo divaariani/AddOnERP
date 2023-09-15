@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'home_view.dart';
 import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
+import '../utils/sessionmanager.dart';
 import '../controllers/absensi_controller.dart';
-import '../controllers/login_controller.dart';
 import '../controllers/response_model.dart';
 
 class OperatorPresensiView extends StatefulWidget {
@@ -19,21 +19,22 @@ class OperatorPresensiView extends StatefulWidget {
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   late DateTime currentTime;
-
-  final LoginController _loginController = Get.find<LoginController>();
   final userIdController = TextEditingController();
   final idwcController = TextEditingController();
   final tapController = TextEditingController();
 
-  String profileId = globalID.toString();
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
+  String userIdLogin = "";
+  String userName = "";
+  String userPhoto = "";
   String barcodeMachineResult = globalBarcodeResult;
 
-  @override
-  void initState() {
-    super.initState();
-    currentTime = DateTime.now();
-    userIdController.text = profileId;
-    idwcController.text = barcodeMachineResult;
+  Future<void> _fetchUserId() async {
+    userIdLogin = await _sessionManager.getUserId() ?? "";
+    userName = await _sessionManager.getUsername() ?? "";
+    userPhoto = await _sessionManager.getUserProfile() ?? "";
+    setState(() {});
   }
 
   Future<void> fetchCurrentTime() async {
@@ -44,6 +45,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
     } catch (error) {
       print(error);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+    currentTime = DateTime.now();
+    idwcController.text = barcodeMachineResult;
   }
 
   Future<void> _submitForm() async {
@@ -63,7 +72,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
 
       if (response.status == 1) {
         if (tap == "I") {
-          Get.snackbar('IN Mesin', 'Operator '+_loginController.profileName.value);
+          Get.snackbar('IN Mesin', 'Operator '+ userName);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -73,7 +82,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
             ),
           );
         } else if (tap == "O") {
-          Get.snackbar('OUT Mesin', 'Operator '+_loginController.profileName.value);
+          Get.snackbar('OUT Mesin', 'Operator '+ userName);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -186,8 +195,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                     width: 80,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: NetworkImage(_loginController
-                                            .profilePhotoUrl.value),
+                                        image: NetworkImage(userPhoto),
                                       ),
                                       borderRadius: BorderRadius.circular(40),
                                       border: Border.all(
@@ -203,7 +211,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        _loginController.profileName.value,
+                                        userName,
                                         style: TextStyle(
                                           fontSize: 18,
                                           color: Color(0xFF226EA4),
@@ -211,7 +219,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
-                                        "Id: " + userIdController.text,
+                                        "Id: " + userIdLogin,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
