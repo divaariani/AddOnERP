@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
 import '../controllers/actor_controller.dart';
+import '../utils/sessionmanager.dart';
 import 'home_view.dart';
 
 class KartuView extends StatefulWidget {
@@ -13,8 +13,26 @@ class KartuView extends StatefulWidget {
 }
 
 class _KartuViewState extends State<KartuView> {
-  final LoginController _loginController = Get.find<LoginController>();
   final ActorController _actorController = Get.put(ActorController());
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
+  String userId = "";
+  String userName = "";
+  String userPhoto = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+
+  }
+
+  Future<void> _fetchUserId() async {
+    userId = await _sessionManager.getUserId() ?? "";
+    userName = await _sessionManager.getUsername() ?? "";
+    userPhoto = await _sessionManager.getUserProfile() ?? "";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +127,7 @@ class _KartuViewState extends State<KartuView> {
                                     width: 64,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: NetworkImage(_loginController
-                                            .profilePhotoUrl.value),
+                                        image: NetworkImage(userPhoto),
                                       ),
                                       borderRadius: BorderRadius.circular(64),
                                       border: Border.all(
@@ -123,7 +140,7 @@ class _KartuViewState extends State<KartuView> {
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  'ID: ' + _loginController.profileId.value,
+                                  'ID: ' + userId,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -132,7 +149,7 @@ class _KartuViewState extends State<KartuView> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  _loginController.profileName.value,
+                                  userName,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontSize: 12,
