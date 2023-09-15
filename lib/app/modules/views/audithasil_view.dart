@@ -210,13 +210,13 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 class MyData {
-  final String ruangan;
+  final String lokasi;
   final String lotbarang;
   final int kuantitas;
   final String state;
 
   MyData({
-    required this.ruangan,
+    required this.lokasi,
     required this.lotbarang,
     required this.kuantitas,
     required this.state,
@@ -238,7 +238,7 @@ class MyDataTableSource extends DataTableSource {
       cells: [
         DataCell(Center(
             child: Text(
-          entry.ruangan,
+          entry.lokasi,
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
@@ -285,14 +285,14 @@ class MyDataTableSource extends DataTableSource {
 
 class CardTable extends StatelessWidget {
   final List<MyData> data = [
-    MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
-    MyData(ruangan: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'HRD', lotbarang: 'K0H2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'IT', lotbarang: 'K0D2512', kuantitas: 1, state: 'Confirm'),
+    MyData(lokasi: 'IT', lotbarang: 'K0A0909', kuantitas: 1, state: 'Confirm'),
   ];
 
   @override
@@ -322,7 +322,7 @@ class CardTable extends StatelessWidget {
               columns: [
                 DataColumn(
                     label: Text(
-                  'Ruangan',
+                  'Lokasi',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
