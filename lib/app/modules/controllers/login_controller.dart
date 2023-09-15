@@ -11,9 +11,9 @@ import '../utils/sessionmanager.dart';
 class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  SessionManager sessionManager = SessionManager();
-
   var userID = ''.obs;
+
+  SessionManager sessionManager = SessionManager();
 
   RxBool isPasswordVisible = false.obs;
   RxBool loading = false.obs;
@@ -27,74 +27,78 @@ class LoginController extends GetxController {
   }
 
   void loginApi() async {
-  if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-    Get.snackbar('Error', 'Email and password must be filled');
-    return;
-  }
-
-  loading.value = true;
-  var connectivityResult = await Connectivity().checkConnectivity();
-  if (connectivityResult == ConnectivityResult.none) {
-    loading.value = false;
-    Get.snackbar('No Internet Connection', 'Please check your internet connection.');
-    return;
-  }
-
-  try {
-    final response = await http.post(
-      Uri.parse('{YOUR_API}'),
-      body: jsonEncode({
-        "params": {
-          'email': emailController.text,
-          'password': passwordController.text,
-        }
-      }),
-      headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    );
-    var data = jsonDecode(response.body);
-    print(response.statusCode);
-    print(data);
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      
-      loading.value = false;
-      Get.snackbar('Login Successful', 'Congratulations');
-
-      var responseData = data['data']['user'];
-      profileId.value = responseData['id'].toString();
-      profileName.value = responseData['name'];
-      profilePhotoUrl.value = responseData['avatar'];
-
-      await sessionManager.setLoggedIn(true);
-      await sessionManager.setUserId(profileId.value);
-      await sessionManager.setUsername(profileName.value);
-
-      ActorController _actorController = Get.put(ActorController());
-      await _actorController.fetchUserData();
-
-      Get.to(() => HomeView());
-    } else {
-      loading.value = false;
-      if (data.containsKey('error')) {
-        Get.snackbar('Login Failed', data['error']);
-      } else {
-
-        Get.snackbar('Login Failed', 'Account not registered.');
-      }
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      Get.snackbar('Error', 'Email and password must be filled');
+      return;
     }
-  } catch (e) {
-    loading.value = false;
-    Get.snackbar('Exception', e.toString());
+
+    loading.value = true;
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      loading.value = false;
+      Get.snackbar(
+          'No Internet Connection', 'Please check your internet connection.');
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('{API}'),
+        body: jsonEncode({
+          "params": {
+            'email': emailController.text,
+            'password': passwordController.text,
+          }
+        }),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      );
+      var data = jsonDecode(response.body);
+      print(response.statusCode);
+      print(data);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        loading.value = false;
+        Get.snackbar('Login Successful', 'Congratulations');
+
+        var responseData = data['data']['user'];
+        profileId.value = responseData['id'].toString();
+        profileName.value = responseData['name'];
+        profilePhotoUrl.value = responseData['avatar'];
+
+        String userToken = data['data']['token'];
+
+        await sessionManager.clearAuthToken();
+        await sessionManager.setLoggedIn(true);
+        await sessionManager.setUserId(profileId.value);
+        await sessionManager.setUsername(profileName.value);
+        await sessionManager.setAuthToken(userToken);
+        await sessionManager.setUserProfile(profilePhotoUrl.value);
+
+        ActorController _actorController = Get.put(ActorController());
+        await _actorController.fetchUserData();
+
+        Get.to(() => HomeView());
+      } else {
+        loading.value = false;
+        if (data.containsKey('error')) {
+          Get.snackbar('Login Failed', data['error']);
+        } else {
+          Get.snackbar('Login Failed', 'Account not registered.');
+        }
+      }
+    } catch (e) {
+      loading.value = false;
+      Get.snackbar('Exception', e.toString());
+    }
   }
-}
 
-void logout() {
-  final SessionManager sessionManager = SessionManager();
-  sessionManager.clearSession();
+  void logout() {
+    final SessionManager sessionManager = SessionManager();
+    sessionManager.clearAuthToken();
 
-  Get.offAll(() => LoginView());
-}
+    Get.offAll(() => LoginView());
+  }
 
   final count = 0.obs;
   @override
