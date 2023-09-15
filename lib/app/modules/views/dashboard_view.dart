@@ -9,9 +9,9 @@ import 'laporan_view.dart';
 import 'monitoring_view.dart';
 import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
-import '../controllers/login_controller.dart';
 import '../controllers/actor_controller.dart';
 import '../utils/globals.dart';
+import '../utils/sessionmanager.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -21,8 +21,27 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  final LoginController _loginController = Get.find<LoginController>();
   final ActorController _actorController = Get.put(ActorController());
+  final SessionManager sessionManager = SessionManager();
+
+  final SessionManager _sessionManager = SessionManager();
+  String userId = "";
+  String userName = "";
+  String userPhoto = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+
+  }
+
+  Future<void> _fetchUserId() async {
+    userId = await _sessionManager.getUserId() ?? "";
+    userName = await _sessionManager.getUsername() ?? "";
+    userPhoto = await _sessionManager.getUserProfile() ?? "";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +93,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   ),
                                   child: CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        _loginController.profilePhotoUrl.value),
+                                        userPhoto),
                                     radius: 20,
                                   ),
                                 ),
@@ -113,8 +132,8 @@ class _DashboardViewState extends State<DashboardView> {
                     ),
                   ),
                   CardID(
-                    name: _loginController.profileName.value,
-                    id: _loginController.profileId.value,
+                    name: userName,
+                    id: userId,
                   ),
                   SizedBox(height: 20),
                   Padding(
