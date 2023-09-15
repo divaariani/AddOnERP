@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
 import 'kartu_view.dart';
-import 'login_view.dart';
 import '../controllers/actor_controller.dart';
+import '../utils/sessionmanager.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -14,8 +14,27 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final LoginController _loginController = Get.find<LoginController>();
   final ActorController _actorController = Get.put(ActorController());
+  final SessionManager sessionManager = SessionManager();
+
+  final SessionManager _sessionManager = SessionManager();
+  String userLogin = "";
+  String userName = "";
+  String userProfile = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+
+  }
+
+  Future<void> _fetchUserId() async {
+    userLogin = await _sessionManager.getUserId() ?? "";
+    userName = await _sessionManager.getUsername() ?? "";
+    userProfile = await _sessionManager.getUserProfile() ?? "";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +70,6 @@ class _ProfileViewState extends State<ProfileView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Container(
-                                  //   decoration: BoxDecoration(
-                                  //     color: Colors.white,
-                                  //     borderRadius: BorderRadius.circular(25),
-                                  //   ),
-                                  //   child: IconButton(
-                                  //     onPressed: () {
-                                  //       Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(
-                                  //             builder: (context) => HomeView()),
-                                  //       );
-                                  //     },
-                                  //     icon: Icon(Icons.arrow_back, color: Colors.black),
-                                  //   ),
-                                  // ),
-                                  // SizedBox(width: 16),
                                   Expanded(
                                     child: Align(
                                       alignment: Alignment.center,
@@ -97,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                        _loginController.profilePhotoUrl.value),
+                                        userProfile),
                                   ),
                                   borderRadius: BorderRadius.circular(64),
                                   border: Border.all(
@@ -138,7 +140,7 @@ class _ProfileViewState extends State<ProfileView> {
                               children: [
                                 SizedBox(height: 15),
                                 Text(
-                                  'ID: ' + _loginController.profileId.value,
+                                  'ID: ' + userLogin,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -147,7 +149,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  _loginController.profileName.value,
+                                  userName,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontSize: 12,
