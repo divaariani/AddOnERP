@@ -1,9 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-  static final String _keyIsLoggedIn = 'isLoggedIn';
-  static final String _keyUserId = 'userId';
-  static final String _keyUsername = 'username';
+  static const String _keyIsLoggedIn = 'isLoggedIn';
+  static const String _keyUserId = 'userId';
+  static const String _keyUsername = 'username';
+  static const String _keyAuthToken = 'authToken';
+  static const String _keyUserProfile = 'userProfile';
 
   static final SessionManager _instance = SessionManager._internal();
 
@@ -44,7 +46,23 @@ class SessionManager {
     return _prefs.getString(_keyUsername);
   }
 
-  Future<void> clearSession() async {
-    await _prefs.clear();
+  Future<void> setUserProfile(String userProfile) async {
+    await _prefs.setString(_keyUserProfile, userProfile);
+  }
+
+  Future<String?> getUserProfile() async {
+    return _prefs.getString(_keyUserProfile);
+  }
+
+    Future<void> setAuthToken(String token) async {
+    await _prefs.setString(_keyAuthToken, token); 
+  }
+
+  Future<String?> getAuthToken() async {
+    return _prefs.getString(_keyAuthToken); 
+  }
+
+  Future<void> clearAuthToken() async {
+    await _prefs.remove(_keyAuthToken);
   }
 }
