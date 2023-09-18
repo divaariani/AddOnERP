@@ -19,7 +19,15 @@ class MonitoringBarangView extends StatefulWidget {
 class _MonitoringBarangViewState extends State<MonitoringBarangView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+    child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
@@ -192,6 +200,7 @@ class _MonitoringBarangViewState extends State<MonitoringBarangView> {
           ),
         ],
       ),
+    ),
     );
   }
 }
