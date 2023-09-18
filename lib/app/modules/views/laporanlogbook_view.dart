@@ -121,7 +121,15 @@ class _CustomButtonState extends State<CustomButton> {
 class _LaporanLogbookViewState extends State<LaporanLogbookView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+                    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },  
+    child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
@@ -259,6 +267,7 @@ class _LaporanLogbookViewState extends State<LaporanLogbookView> {
           ),
         ],
       ),
+    ),
     );
   }
 }
