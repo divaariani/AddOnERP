@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
 import '../controllers/actor_controller.dart';
+import '../controllers/auditor_controller.dart';
+import '../controllers/response_model.dart';
 import 'audit_view.dart';
 
 void main() {
@@ -24,22 +27,78 @@ class AuditIsiView extends StatefulWidget {
 }
 
 class _AuditIsiViewState extends State<AuditIsiView> {
+  late DateTime currentTime;
   final ActorController _actorController = Get.put(ActorController());
-  final SessionManager sessionManager = SessionManager();
+  final idController = TextEditingController();
+  final nameController = TextEditingController();
 
+  final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   String userName = "";
+  String userIdLogin = "";
 
   @override
   void initState() {
     super.initState();
     _fetchUserId();
-
+    _fetchCurrentTime();
   }
 
   Future<void> _fetchUserId() async {
     userName = await _sessionManager.getUsername() ?? "";
+    userIdLogin = await _sessionManager.getUserId() ?? "";
     setState(() {});
+  }
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _submitAuditor() async {
+    final int id = int.parse(userIdLogin);
+    final String name = 'Auditor_' +
+        userName +
+        "_" +
+        DateFormat('ddMMyyyy').format(DateTime.now());
+    currentNameAuditor = name;
+
+    try {
+      await _fetchCurrentTime();
+
+      ResponseModel response = await AuditorController.postFormData(
+        userid: id,
+        name: name,
+        date: currentTime,
+      );
+
+      if (response.status == 1) {
+        Get.snackbar('AUDITOR PRESENT SUCCESSFUL', 'Congratulations');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
   }
 
   @override
@@ -71,7 +130,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AuditView()),
+                            MaterialPageRoute(
+                                builder: (context) => AuditView()),
                           );
                         },
                         child: Image.asset('assets/icon.back.png',
@@ -120,7 +180,11 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                   ),
                                 ),
                                 Text(
-                                  'Auditor_' + userName + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
+                                  'Auditor_' +
+                                      userName +
+                                      "_" +
+                                      DateFormat('ddMMyyyy')
+                                          .format(DateTime.now()),
                                   style: GoogleFonts.poppins(
                                     color: Colors.blue[900],
                                     fontSize: 14,
@@ -157,27 +221,29 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     )),
-                                Text(_actorController.isOperator.value == 't'
-                                      ? 'Operator'
-                                      : _actorController.isAdmin.value == 't'
-                                          ? 'Administrator'
-                                          : _actorController.isAuditor.value ==
-                                                  't'
-                                              ? 'Auditor'
-                                              : _actorController
-                                                          .isWarehouse.value ==
-                                                      't'
-                                                  ? 'Staff Gudang'
-                                                  : _actorController
-                                                              .isQC.value ==
-                                                          't'
-                                                      ? 'Staff Laporan Produksi'
-                                                      : _actorController
-                                                                  .isCustomer
-                                                                  .value ==
-                                                              't'
-                                                          ? 'Customer'
-                                                          : 'Unknown Staff',
+                                Text(
+                                    _actorController.isOperator.value == 't'
+                                        ? 'Operator'
+                                        : _actorController.isAdmin.value == 't'
+                                            ? 'Administrator'
+                                            : _actorController
+                                                        .isAuditor.value ==
+                                                    't'
+                                                ? 'Auditor'
+                                                : _actorController.isWarehouse
+                                                            .value ==
+                                                        't'
+                                                    ? 'Staff Gudang'
+                                                    : _actorController
+                                                                .isQC.value ==
+                                                            't'
+                                                        ? 'Staff Laporan Produksi'
+                                                        : _actorController
+                                                                    .isCustomer
+                                                                    .value ==
+                                                                't'
+                                                            ? 'Customer'
+                                                            : 'Unknown Staff',
                                     style: TextStyle(
                                       color: Colors.blue[900],
                                       fontWeight: FontWeight.normal,
@@ -198,7 +264,11 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            String textToSave = 'Auditor_' + userName + "_" + DateFormat('ddMMyyyy').format(DateTime.now());
+                            _submitAuditor();
+                            String textToSave = 'Auditor_' +
+                                userName +
+                                "_" +
+                                DateFormat('ddMMyyyy').format(DateTime.now());
                             widget.onSaveText(textToSave);
                             Navigator.push(
                               context,
