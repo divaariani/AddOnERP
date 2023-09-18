@@ -21,7 +21,15 @@ class LaporanStokView extends StatefulWidget {
 class _LaporanStokViewState extends State<LaporanStokView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },   
+    child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
@@ -178,6 +186,7 @@ class _LaporanStokViewState extends State<LaporanStokView> {
           ),
         ],
       ),
+    ),
     );
   }
 }
