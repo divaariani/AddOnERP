@@ -17,110 +17,120 @@ class AuditHasilView extends StatefulWidget {
 class _AuditHasilViewState extends State<AuditHasilView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bgscreen.png"),
-                fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/bgscreen.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
-                          );
-                        },
-                        child: Image.asset('assets/icon.back.png',
-                            width: 60, height: 60),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Audit Stock",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeView()),
+                            );
+                          },
+                          child: Image.asset('assets/icon.back.png',
+                              width: 60, height: 60),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              "Audit Stock",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 23),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Barang Scan",
-                              isActive: false,
-                              targetPage: AuditView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Hasil Scan",
-                              isActive: true,
-                              targetPage: AuditHasilView(),
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 26),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: " Search...",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
+                    SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 23),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Barang Scan",
+                                isActive: false,
+                                targetPage: AuditView(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Hasil Scan",
+                                isActive: true,
+                                targetPage: AuditHasilView(),
+                              ),
+                            ),
+                          ],
                         ),
-                        suffixIcon: Icon(Icons.search),
-                        suffixIconConstraints: BoxConstraints(minWidth: 40),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  CardTable(),
-                  SizedBox(height: 20),
-                ],
+                    SizedBox(height: 20),
+                    Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: " Search...",
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: Icon(Icons.search),
+                          suffixIconConstraints: BoxConstraints(minWidth: 40),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    CardTable(),
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
