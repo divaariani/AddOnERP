@@ -19,7 +19,6 @@ class OperatorPresensiView extends StatefulWidget {
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   late DateTime currentTime;
-  final userIdController = TextEditingController();
   final idwcController = TextEditingController();
   final tapController = TextEditingController();
 
@@ -57,7 +56,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
 
   Future<void> _submitForm() async {
     final int idwc = int.parse(idwcController.text);
-    final int userId = int.parse(userIdController.text);
+    final int userId = int.parse(userIdLogin);
     final String tap = tapController.text;
 
     try {
