@@ -21,166 +21,176 @@ class GudangInView extends StatefulWidget {
 class _GudangInViewState extends State<GudangInView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            width: 360,
-            height: 800,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.99, -0.14),
-                end: Alignment(-0.99, 0.14),
-                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              width: 360,
+              height: 800,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.99, -0.14),
+                  end: Alignment(-0.99, 0.14),
+                  colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
-                          );
-                        },
-                        child: Image.asset('assets/icon.back.png',
-                            width: 60, height: 60),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Warehouse",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data Gudang",
-                            isActive: false,
-                            targetPage: GudangView(),
-                          ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeView()),
+                            );
+                          },
+                          child: Image.asset('assets/icon.back.png',
+                              width: 60, height: 60),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data In",
-                            isActive: true,
-                            targetPage: GudangInView(),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: CustomButton(
-                            text: "Data Out",
-                            isActive: false,
-                            targetPage: GudangOutView(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
+                        SizedBox(width: 16),
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Search",
-                                prefixIcon: Icon(Icons.search),
-                                border: InputBorder.none,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              "Warehouse",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  CardTable(),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScanGudangView()),
-                          );
-                        },
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: Text('Scan QR Code'),
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(8, 77, 136, 136),
-                          onPrimary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Data Gudang",
+                              isActive: false,
+                              targetPage: GudangView(),
+                            ),
                           ),
-                          elevation: 4,
-                          minimumSize: Size(160, 48),
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.LOGIN);
-                        },
-                        icon: Icon(Icons.exit_to_app),
-                        label: Text('Keluar'),
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(8, 77, 136, 136),
-                          onPrimary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Data In",
+                              isActive: true,
+                              targetPage: GudangInView(),
+                            ),
                           ),
-                          elevation: 4,
-                          minimumSize: Size(160, 48),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: CustomButton(
+                              text: "Data Out",
+                              isActive: false,
+                              targetPage: GudangOutView(),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                ],
+                    ),
+                    SizedBox(height: 30),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Search",
+                                  prefixIcon: Icon(Icons.search),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    CardTable(),
+                    SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ScanGudangView()),
+                            );
+                          },
+                          icon: Icon(Icons.qr_code_scanner),
+                          label: Text('Scan QR Code'),
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color.fromRGBO(8, 77, 136, 136),
+                            onPrimary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            elevation: 4,
+                            minimumSize: Size(160, 48),
+                          ),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.LOGIN);
+                          },
+                          icon: Icon(Icons.exit_to_app),
+                          label: Text('Keluar'),
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color.fromRGBO(8, 77, 136, 136),
+                            onPrimary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            elevation: 4,
+                            minimumSize: Size(160, 48),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -205,7 +215,8 @@ class CustomButton extends StatefulWidget {
   final bool isActive;
   final Widget targetPage;
 
-  CustomButton({required this.text, required this.isActive, required this.targetPage});
+  CustomButton(
+      {required this.text, required this.isActive, required this.targetPage});
 
   @override
   _CustomButtonState createState() => _CustomButtonState();
@@ -346,8 +357,8 @@ class CardTable extends StatelessWidget {
                 child: Text(
                   'Data In Gudang',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, 
-                    fontSize: 16, 
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
