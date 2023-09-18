@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../utils/globals.dart';
+import '../controllers/auditstock_controller.dart';
+import '../controllers/audituser_controller.dart';
+import '../controllers/response_model.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
 import 'audit_view.dart';
@@ -18,6 +22,77 @@ class AuditLokasiView extends StatefulWidget {
 
 class _AuditLokasiViewState extends State<AuditLokasiView> {
   String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
+  late DateTime currentTime;
+  final AuditUserController _auditUserController = Get.put(AuditUserController());
+  final idController = TextEditingController();
+  final pbarangController = TextEditingController();
+  final plokasiController = TextEditingController();
+  String idInventory = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCurrentTime();
+    _auditUserController.fetchIdInventory().then((id) {
+      setState(() {
+        idInventory = id.toString();
+        idController.text = idInventory.toString();
+      });
+    });
+    String pbarangList = widget.resultBarang.join('\n');
+    plokasiController.text = barcodeAuditLokasiResult;
+    pbarangController.text = pbarangList;
+  }
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _submitStock() async {
+    final int id = int.parse(idController.text);
+    final String plokasi = plokasiController.text;
+
+    try {
+      await _fetchCurrentTime();
+
+      for (String pbarang in widget.resultBarang) {
+        ResponseModel response = await AuditStockController.postFormData(
+          id: id,
+          pbarang: pbarang,
+          plokasi: plokasi,
+          pdate: currentTime,
+        );
+
+        if (response.status == 1) {
+          Get.snackbar('Draft Stock Berhasil', 'Congratulations');
+        } else if (response.status == 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Request gagal: ${response.message}'),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Terjadi kesalahan: Response tidak valid.'),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +256,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                         SizedBox(width: 10),
                         ElevatedButton.icon(
                           onPressed: () {
+                            _submitStock();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
