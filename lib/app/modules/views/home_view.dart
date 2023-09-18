@@ -5,6 +5,10 @@ import 'scanoperator_view.dart';
 import 'notification_view.dart';
 import 'profile_view.dart';
 import 'dashboard_view.dart';
+import 'package:flutter/services.dart';
+import '../utils/sessionmanager.dart';
+import 'dart:io';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -13,25 +17,52 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
+
   int _currentIndex = 0;
   final List<Widget> _pages = [
     DashboardView(),
-    OperatorPresensiView(barcodeResult: ''), 
+    OperatorPresensiView(barcodeResult: ''),
     ScanOperatorView(),
     NotificationView(),
     ProfileView(),
   ];
 
+  DateTime? currentBackPressTime;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeView()),
-        );
-        return false;
-      },
+        onWillPop: () async {
+          if (_currentIndex != 0) {
+            setState(() {
+              _currentIndex = 0;
+            });
+            return false;
+          } else {
+            bool isLoggedIn = await _sessionManager.isLoggedIn();
+            if (isLoggedIn) {
+              if (currentBackPressTime == null ||
+                  DateTime.now().difference(currentBackPressTime!) >
+                      Duration(seconds: 2)) {
+                currentBackPressTime = DateTime.now();
+
+                Get.snackbar(
+                  "Press twice to exit",
+                  "",
+                  duration: Duration(seconds: 2),
+                );
+
+                return false;
+              } else {
+                exit(0);
+              }
+            } else {
+              return true;
+            }
+          }
+        },
         child: Scaffold(
           backgroundColor: Colors.transparent,
           bottomNavigationBar: CurvedNavigationBar(
