@@ -22,7 +22,15 @@ class LaporanQcView extends StatefulWidget {
 class _LaporanQcViewState extends State<LaporanQcView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },  
+    child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
@@ -160,6 +168,7 @@ class _LaporanQcViewState extends State<LaporanQcView> {
           ),
         ],
       ),
+    ),
     );
   }
 }
