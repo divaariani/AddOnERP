@@ -19,20 +19,6 @@ class AuditView extends StatefulWidget {
 }
 
 class _AuditViewState extends State<AuditView> {
-  String? _textToSave;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final arguments = ModalRoute.of(context)?.settings.arguments;
-    _textToSave = arguments != null ? arguments.toString() : "-";
-  }
-
-  void updateTextToSave(String newText) {
-    setState(() {
-      _textToSave = newText;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +211,7 @@ class _AuditViewState extends State<AuditView> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                              // Navigator.pushNamed(context, Routes.HOME);
+                              // upload to the API logic
                             },
                             icon: Icon(Icons.cloud_upload, size: 15),
                             label:
