@@ -19,163 +19,173 @@ class MonitoringView extends StatefulWidget {
 class _MonitoringViewState extends State<MonitoringView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            width: 360,
-            height: 800,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.99, -0.14),
-                end: Alignment(-0.99, 0.14),
-                colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              width: 360,
+              height: 800,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.99, -0.14),
+                  end: Alignment(-0.99, 0.14),
+                  colors: [Color(0xFF5AB4E1), Color(0xFF2A77AC)],
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
-                          );
-                        },
-                        child: Image.asset('assets/icon.back.png',
-                            width: 60, height: 60),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Monitoring Stock",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeView()),
+                            );
+                          },
+                          child: Image.asset('assets/icon.back.png',
+                              width: 60, height: 60),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              "Monitoring Stock",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Aktifitas Produksi",
+                                isActive: true,
+                                targetPage: MonitoringView(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Persediaan Barang",
+                                isActive: false,
+                                targetPage: MonitoringBarangView(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Riwayat Perubahan",
+                                isActive: false,
+                                targetPage: MonitoringRiwayatView(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                    SizedBox(height: 25),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Aktifitas Produksi",
-                              isActive: true,
-                              targetPage: MonitoringView(),
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [],
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Persediaan Barang",
-                              isActive: false,
-                              targetPage: MonitoringBarangView(),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Riwayat Perubahan",
-                              isActive: false,
-                              targetPage: MonitoringRiwayatView(),
+                          Spacer(),
+                          Container(
+                            width: 200,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  hintText: "search",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  prefixIcon: Icon(Icons.search)),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [],
-                        ),
-                        Spacer(),
-                        Container(
-                          width: 200,
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "search",
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide.none,
-                                ),
-                                prefixIcon: Icon(Icons.search)),
+                    SizedBox(height: 30),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Mesin yang Sedang digunakan",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        "Mesin yang Sedang digunakan",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    SizedBox(height: 10),
+                    CardTable(),
+                    SizedBox(height: 50),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Produksi saat ini",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  CardTable(),
-                  SizedBox(height: 50),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        "Produksi saat ini",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  SecondCardTable(),
-                  SizedBox(height: 30),
-                ],
+                    SizedBox(height: 5),
+                    SecondCardTable(),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -375,7 +385,7 @@ class SecondCardTable extends StatelessWidget {
       barang: 'Kabel A',
       jumlahproduksi: 50,
       status: 'Bagus',
-    ), 
+    ),
   ];
 
   @override
