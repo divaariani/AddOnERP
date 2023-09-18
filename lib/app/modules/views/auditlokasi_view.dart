@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utils/globals.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
+import 'audit_view.dart';
 
 class AuditLokasiView extends StatefulWidget {
   final String result;
@@ -180,7 +181,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                         SizedBox(width: 10),
                         ElevatedButton.icon(
                           onPressed: () {
-                            // onpressed save data logic
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AuditView()),
+                            );
                           },
                           icon: Icon(Icons.save_alt, size: 15),
                           label: Text('Simpan', style: TextStyle(fontSize: 12)),
