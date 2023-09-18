@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:get/get.dart';
+import 'dart:io';
 import 'operatorpresensi_view.dart';
 import 'scanoperator_view.dart';
 import 'notification_view.dart';
 import 'profile_view.dart';
 import 'dashboard_view.dart';
-import 'package:flutter/services.dart';
 import '../utils/sessionmanager.dart';
-import 'dart:io';
-import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
