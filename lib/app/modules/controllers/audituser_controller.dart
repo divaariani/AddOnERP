@@ -1,38 +1,45 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'response_model.dart';
-import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
 
-class AuditUserController{
+class AuditUserController {
   static const String baseUrl = '{API}';
-  final SessionManager sessionManager = SessionManager();
-  final SessionManager _sessionManager = SessionManager();
-  String userName = "";
-  
-  Future<void> _fetchUserId() async {
-    userName = await _sessionManager.getUsername() ?? "";
+  late DateTime currentTime;
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      currentTime = DateTime.now();
+    } catch (error) {
+      print(error);
+    }
   }
 
- Future<ResponseModel> postFormData({
-    required int id,
-    required String name,
-  }) async {
-    await _fetchUserId(); 
+  Future<int> fetchIdInventory() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl?function=get_inventory_id&nama_auditor=$currentNameAuditor'),
+      );
 
-    final response = await http.post(
-      Uri.parse('$baseUrl?function=get_inventory_id&nama_auditor=Audit_$userName'),
-      body: {
-        'id': id.toString(),
-        'name': name,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      
-      final Map<String, dynamic> responseData = json.decode(response.body); 
-      return ResponseModel.fromJson(responseData);
-    } else {
-      throw Exception('Failed to post form data');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body)['data'];
+        if (data.isNotEmpty) {
+          int highestId = 0;
+          for (var item in data) {
+            final int id = int.tryParse(item['id'].toString()) ?? 0;
+            if (id > highestId) {
+              highestId = id;
+            }
+          }
+          return highestId;
+        } else {
+          throw Exception('No data in the API response');
+        }
+      } else {
+        throw Exception('Failed to fetch idinventory from API');
+      }
+    } catch (error) {
+      print(error);
+      throw Exception('Failed to fetch idinventory from API');
     }
   }
 }
