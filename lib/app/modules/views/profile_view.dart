@@ -91,11 +91,10 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                             ),
                             SizedBox(height: 20),
-                            Padding(
-                              padding: EdgeInsets.only(left: 16),
+                            Center(
                               child: Container(
-                                height: 64,
-                                width: 64,
+                                height: 130,
+                                width: 130,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage(
