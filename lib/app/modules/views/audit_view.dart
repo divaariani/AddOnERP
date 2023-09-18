@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/globals.dart';
 import 'scanaudit_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
@@ -27,211 +28,228 @@ class _AuditViewState extends State<AuditView> {
     _textToSave = arguments != null ? arguments.toString() : "-";
   }
 
+  void updateTextToSave(String newText) {
+    setState(() {
+      _textToSave = newText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bgscreen.png"),
-                fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/bgscreen.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
-                          );
-                        },
-                        child: Image.asset('assets/icon.back.png',
-                            width: 60, height: 60),
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeView()),
+                            );
+                          },
+                          child: Image.asset('assets/icon.back.png',
+                              width: 60, height: 60),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              "Audit Stock",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 23),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Barang Scan",
+                                isActive: true,
+                                targetPage: AuditView(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Hasil Scan",
+                                isActive: false,
+                                targetPage: AuditHasilView(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Audit Stock",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 26),
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'User: ',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.blue[900],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  currentNameAuditor ?? '-',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.blue[900],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 23),
+                    ),
+                    SizedBox(height: 10),
+                    CardTable(),
+                    SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Barang Scan",
-                              isActive: true,
-                              targetPage: AuditView(),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AuditIsiView(
+                                            onSaveText: (String textToSave) {
+                                          print('Saved: $textToSave');
+                                        })),
+                              );
+                            },
+                            icon: Icon(Icons.person_outline, size: 15),
+                            label: Text('Isi Auditor',
+                                style: TextStyle(fontSize: 12)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: Size(130, 48),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: CustomButton(
-                              text: "Hasil Scan",
-                              isActive: false,
-                              targetPage: AuditHasilView(),
+                          SizedBox(width: 10),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScanAuditView()),
+                              );
+                            },
+                            icon: Icon(Icons.qr_code_scanner, size: 15),
+                            label: Text('Scan Lokasi',
+                                style: TextStyle(fontSize: 12)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: Size(130, 48),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                'User: ',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              // Navigator.pushNamed(context, Routes.HOME);
+                            },
+                            icon: Icon(Icons.cloud_upload, size: 15),
+                            label:
+                                Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
-                              Text(
-                                _textToSave ?? '-',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
+                              elevation: 4,
+                              minimumSize: Size(100, 48),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  CardTable(),
-                  SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AuditIsiView(
-                                          onSaveText: (String textToSave) {
-                                        print('Saved: $textToSave');
-                                      })),
-                            );
-                          },
-                          icon: Icon(Icons.person_outline, size: 15),
-                          label: Text('Isi Auditor',
-                              style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(130, 48),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ScanAuditView()),
-                            );
-                          },
-                          icon: Icon(Icons.qr_code_scanner, size: 15),
-                          label: Text('Scan Lokasi',
-                              style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(130, 48),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            // Navigator.pushNamed(context, Routes.HOME);
-                          },
-                          icon: Icon(Icons.save_alt, size: 15),
-                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: Size(100, 48),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
