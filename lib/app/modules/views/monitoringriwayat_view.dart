@@ -19,7 +19,15 @@ class MonitoringRiwayatView extends StatefulWidget {
 class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+    child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
@@ -244,6 +252,7 @@ class _MonitoringRiwayatViewState extends State<MonitoringRiwayatView> {
           ),
         ],
       ),
+    ),
     );
   }
 }
