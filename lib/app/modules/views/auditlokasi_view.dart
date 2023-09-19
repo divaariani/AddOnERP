@@ -7,7 +7,7 @@ import '../controllers/audituser_controller.dart';
 import '../controllers/response_model.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
-import 'audit_view.dart';
+import 'audithasil_view.dart';
 
 class AuditLokasiView extends StatefulWidget {
   final String result;
@@ -260,11 +260,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AuditView()),
+                                  builder: (context) => AuditHasilView()),
                             );
                           },
-                          icon: Icon(Icons.save_alt, size: 15),
-                          label: Text('Simpan', style: TextStyle(fontSize: 12)),
+                          icon: Icon(Icons.cloud_upload, size: 15),
+                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
