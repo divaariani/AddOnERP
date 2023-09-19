@@ -96,7 +96,7 @@ class LoginController extends GetxController {
   void logout() {
     final SessionManager sessionManager = SessionManager();
     sessionManager.clearAuthToken();
-
+    sessionManager.setLoggedIn(false);
     Get.offAll(() => LoginView());
   }
 
