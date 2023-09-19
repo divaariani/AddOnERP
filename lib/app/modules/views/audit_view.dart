@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../utils/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../controllers/audituser_controller.dart';
 import 'scanaudit_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
@@ -19,7 +21,43 @@ class AuditView extends StatefulWidget {
 }
 
 class _AuditViewState extends State<AuditView> {
+  final AuditUserController _auditUserController = Get.put(AuditUserController());
+  final nameController = TextEditingController();
+  String nameInventory = '';
 
+  @override
+  void initState() {
+    super.initState();
+    loadNameInventory().then((value) {
+      setState(() {
+        nameInventory = value ?? ''; 
+        nameController.text = nameInventory;
+      });
+    }).catchError((error) {
+      print(error);
+    });
+
+    _auditUserController.fetchNameInventory().then((name) {
+      setState(() {
+        nameInventory = name;
+        nameController.text = nameInventory.toString();
+        saveNameInventory(nameInventory);
+      });
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future<String?> loadNameInventory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('nameInventory');
+  }
+
+  Future<void> saveNameInventory(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('nameInventory', name);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -92,7 +130,7 @@ class _AuditViewState extends State<AuditView> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
-                                text: "Barang Scan",
+                                text: "Auditor",
                                 isActive: true,
                                 targetPage: AuditView(),
                               ),
@@ -100,7 +138,7 @@ class _AuditViewState extends State<AuditView> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
-                                text: "Hasil Scan",
+                                text: "Stock",
                                 isActive: false,
                                 targetPage: AuditHasilView(),
                               ),
@@ -133,7 +171,7 @@ class _AuditViewState extends State<AuditView> {
                                   ),
                                 ),
                                 Text(
-                                  currentNameAuditor ?? '-',
+                                  nameController.text,
                                   style: GoogleFonts.poppins(
                                     color: Colors.blue[900],
                                     fontSize: 14,
@@ -147,7 +185,7 @@ class _AuditViewState extends State<AuditView> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    CardTable(),
+                    // CardTable(),
                     SizedBox(height: 20),
                     Align(
                       alignment: Alignment.center,
@@ -180,13 +218,16 @@ class _AuditViewState extends State<AuditView> {
                           ),
                           SizedBox(width: 10),
                           ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ScanAuditView()),
-                              );
-                            },
+                            onPressed: nameInventory.isNotEmpty
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScanAuditView()),
+                                    );
+                                  }
+                                : null,
                             icon: Icon(Icons.qr_code_scanner, size: 15),
                             label: Text('Scan Lokasi',
                                 style: TextStyle(fontSize: 12)),
@@ -204,31 +245,31 @@ class _AuditViewState extends State<AuditView> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // upload to the API logic
-                            },
-                            icon: Icon(Icons.cloud_upload, size: 15),
-                            label:
-                                Text('UPLOAD', style: TextStyle(fontSize: 12)),
-                            style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              elevation: 4,
-                              minimumSize: Size(100, 48),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.center,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       ElevatedButton.icon(
+                    //         onPressed: () {
+                    //           // upload to the API logic
+                    //         },
+                    //         icon: Icon(Icons.cloud_upload, size: 15),
+                    //         label:
+                    //             Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                    //         style: ElevatedButton.styleFrom(
+                    //           primary: const Color.fromRGBO(8, 77, 136, 136),
+                    //           onPrimary: Colors.white,
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(12.0),
+                    //           ),
+                    //           elevation: 4,
+                    //           minimumSize: Size(100, 48),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 20),
                   ],
                 ),
@@ -444,7 +485,7 @@ class CardTable extends StatelessWidget {
                       ),
                       DataColumn(
                         label: Text(
-                          'Kuantitas',
+                          'Jumlah',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
