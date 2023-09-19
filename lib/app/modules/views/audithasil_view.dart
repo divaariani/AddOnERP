@@ -19,6 +19,7 @@ class AuditHasilView extends StatefulWidget {
 class _AuditHasilViewState extends State<AuditHasilView> {
   int page = 1;
   int pageSize = 10;
+  String searchText = "";
 
   @override
   void initState() {
@@ -97,7 +98,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
-                                text: "Barang Scan",
+                                text: "Auditor",
                                 isActive: false,
                                 targetPage: AuditView(),
                               ),
@@ -105,7 +106,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
-                                text: "Hasil Scan",
+                                text: "Stock",
                                 isActive: true,
                                 targetPage: AuditHasilView(),
                               ),
@@ -116,11 +117,11 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      height: 50,
+                      height: 70,
                       padding: const EdgeInsets.symmetric(horizontal: 26),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: " Search...",
+                          hintText: " Cari Kode Barang...",
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -130,10 +131,15 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                           suffixIcon: Icon(Icons.search),
                           suffixIconConstraints: BoxConstraints(minWidth: 40),
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            searchText = value;
+                          });
+                        },
                       ),
                     ),
                     SizedBox(height: 10),
-                    CardTable(),
+                    CardTable(searchText),
                     SizedBox(height: 20),
                   ],
                 ),
@@ -322,12 +328,18 @@ class MyDataTableSource extends DataTableSource {
 }
 
 class CardTable extends StatefulWidget {
+  final String searchText;
+  CardTable(this.searchText);
+
   @override
-  _CardTableState createState() => _CardTableState();
+  _CardTableState createState() => _CardTableState(searchText);
 }
 
 class _CardTableState extends State<CardTable> {
   List<MyData> _data = [];
+
+  final String searchText;
+  _CardTableState(this.searchText);
 
   @override
   void initState() {
@@ -347,8 +359,8 @@ class _CardTableState extends State<CardTable> {
       print('API Response: $nameDataList');
 
       final List<MyData> myDataList = nameDataList.map((data) {
-        int id = int.tryParse(data['id'].toString()) ??0; 
-        String lokasi = data['lokasi'].toString(); 
+        int id = int.tryParse(data['id'].toString()) ?? 0;
+        String lokasi = data['lokasi'].toString();
         String lotbarang = data['lot_barang'].toString();
 
         return MyData(
@@ -361,7 +373,11 @@ class _CardTableState extends State<CardTable> {
       }).toList();
 
       setState(() {
-        _data = myDataList;
+        _data = myDataList.where((data) {
+          return data.lotbarang
+              .toLowerCase()
+              .contains(searchText.toLowerCase());
+        }).toList();
       });
     } catch (e) {
       print('Error fetching data: $e');
