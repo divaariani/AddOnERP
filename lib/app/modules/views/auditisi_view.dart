@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import '../utils/sessionmanager.dart';
-import '../utils/globals.dart';
 import '../controllers/actor_controller.dart';
 import '../controllers/auditor_controller.dart';
 import '../controllers/response_model.dart';
@@ -62,11 +61,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
 
   Future<void> _submitAuditor() async {
     final int id = int.parse(userIdLogin);
-    final String name = 'Auditor_' +
-        userName +
-        "_" +
-        DateFormat('ddMMyyyy').format(DateTime.now());
-    currentNameAuditor = name;
+    final String name = 'Auditor_' + userName +"_" + DateFormat('ddMMyyyy').format(DateTime.now());
 
     try {
       await _fetchCurrentTime();
