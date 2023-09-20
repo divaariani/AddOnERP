@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'scanauditbarang_view.dart';
+import 'home_view.dart';
+import 'audithasil_view.dart';
 import '../utils/globals.dart';
 import '../controllers/auditstock_controller.dart';
 import '../controllers/audituser_controller.dart';
 import '../controllers/response_model.dart';
-import 'scanauditbarang_view.dart';
-import 'home_view.dart';
-import 'audithasil_view.dart';
 
 class AuditLokasiView extends StatefulWidget {
-  final String result;
-  final List<String> resultBarang;
+  String result;
+  List<String> resultBarang;
 
   AuditLokasiView({required this.result, required this.resultBarang, Key? key})
       : super(key: key);
@@ -57,6 +57,8 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
   Future<void> _submitStock() async {
     final int id = int.parse(idController.text);
     final String plokasi = plokasiController.text;
+    String successMessage = 'Congartulations';
+    List<String> errorMessages = [];
 
     try {
       await _fetchCurrentTime();
@@ -69,22 +71,27 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
           pdate: currentTime,
         );
 
-        if (response.status == 1) {
-          Get.snackbar('Draft Stock Berhasil', 'Congratulations');
-        } else if (response.status == 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Request gagal: ${response.message}'),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Terjadi kesalahan: Response tidak valid.'),
-            ),
-          );
+        if (response.status == 0) {
+          errorMessages.add('Request gagal: ${response.message}');
+        } else if (response.status != 1) {
+          errorMessages.add('Terjadi kesalahan: Response tidak valid.');
         }
       }
+
+      if (errorMessages.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessages.join('\n')),
+          ),
+        );
+      } else {
+        Get.snackbar('Stock Berhasil Diupload', successMessage);
+      }
+
+      widget.resultBarang.clear(); 
+      setState(() {
+        widget.resultBarang = []; 
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -257,8 +264,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                         ElevatedButton.icon(
                           onPressed: () {
                             _submitStock();
-                            Navigator.push(
-                              context,
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => AuditHasilView()),
                             );
