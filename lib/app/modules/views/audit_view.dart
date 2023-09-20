@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../controllers/audituser_controller.dart';
+import 'dart:async';
 import 'scanaudit_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
 import 'auditisi_view.dart';
+import '../controllers/audituser_controller.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -21,26 +22,27 @@ class AuditView extends StatefulWidget {
 }
 
 class _AuditViewState extends State<AuditView> {
-  final AuditUserController _auditUserController = Get.put(AuditUserController());
   final nameController = TextEditingController();
   String nameInventory = '';
 
   @override
   void initState() {
     super.initState();
+    final AuditUserController auditUserController = Get.put(AuditUserController());
+
     loadNameInventory().then((value) {
       setState(() {
-        nameInventory = value ?? ''; 
+        nameInventory = value ?? '';
         nameController.text = nameInventory;
       });
     }).catchError((error) {
       print(error);
     });
 
-    _auditUserController.fetchNameInventory().then((name) {
+    auditUserController.fetchNameInventory().then((name) {
       setState(() {
         nameInventory = name;
-        nameController.text = nameInventory.toString();
+        nameController.text = nameInventory;
         saveNameInventory(nameInventory);
       });
     }).catchError((error) {
@@ -57,7 +59,7 @@ class _AuditViewState extends State<AuditView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('nameInventory', name);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -184,8 +186,6 @@ class _AuditViewState extends State<AuditView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    // CardTable(),
                     SizedBox(height: 20),
                     Align(
                       alignment: Alignment.center,
@@ -193,16 +193,15 @@ class _AuditViewState extends State<AuditView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AuditIsiView(
-                                            onSaveText: (String textToSave) {
-                                          print('Saved: $textToSave');
-                                        })),
-                              );
-                            },
+                            onPressed: nameController.text.isEmpty
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AuditIsiView()),
+                                    );
+                                  }
+                                : null,
                             icon: Icon(Icons.person_outline, size: 15),
                             label: Text('Isi Auditor',
                                 style: TextStyle(fontSize: 12)),
@@ -218,7 +217,7 @@ class _AuditViewState extends State<AuditView> {
                           ),
                           SizedBox(width: 10),
                           ElevatedButton.icon(
-                            onPressed: nameInventory.isNotEmpty
+                            onPressed: nameController.text.isNotEmpty
                                 ? () {
                                     Navigator.push(
                                       context,
@@ -243,33 +242,7 @@ class _AuditViewState extends State<AuditView> {
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    // Align(
-                    //   alignment: Alignment.center,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       ElevatedButton.icon(
-                    //         onPressed: () {
-                    //           // upload to the API logic
-                    //         },
-                    //         icon: Icon(Icons.cloud_upload, size: 15),
-                    //         label:
-                    //             Text('UPLOAD', style: TextStyle(fontSize: 12)),
-                    //         style: ElevatedButton.styleFrom(
-                    //           primary: const Color.fromRGBO(8, 77, 136, 136),
-                    //           onPrimary: Colors.white,
-                    //           shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(12.0),
-                    //           ),
-                    //           elevation: 4,
-                    //           minimumSize: Size(100, 48),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    ),               
                     SizedBox(height: 20),
                   ],
                 ),
