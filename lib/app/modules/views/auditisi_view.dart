@@ -10,16 +10,12 @@ import 'audit_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: AuditIsiView(onSaveText: (String textToSave) {
-      print('Saved: $textToSave');
-    }),
+    home: AuditIsiView(),
   ));
 }
 
 class AuditIsiView extends StatefulWidget {
-  final ValueChanged<String> onSaveText;
-
-  const AuditIsiView({Key? key, required this.onSaveText}) : super(key: key);
+  const AuditIsiView({Key? key}) : super(key: key);
 
   @override
   State<AuditIsiView> createState() => _AuditIsiViewState();
@@ -61,7 +57,10 @@ class _AuditIsiViewState extends State<AuditIsiView> {
 
   Future<void> _submitAuditor() async {
     final int id = int.parse(userIdLogin);
-    final String name = 'Auditor_' + userName +"_" + DateFormat('ddMMyyyy').format(DateTime.now());
+    final String name = 'Auditor_' +
+        userName +
+        "_" +
+        DateFormat('ddMMyyyy').format(DateTime.now());
 
     try {
       await _fetchCurrentTime();
@@ -73,7 +72,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
       );
 
       if (response.status == 1) {
-        Get.snackbar('AUDITOR PRESENT SUCCESSFUL', 'Congratulations');
+        Get.snackbar('Auditor Berhasil Presensi', 'Congratulations');
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -260,16 +259,10 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                         ElevatedButton.icon(
                           onPressed: () {
                             _submitAuditor();
-                            String textToSave = 'Auditor_' +
-                                userName +
-                                "_" +
-                                DateFormat('ddMMyyyy').format(DateTime.now());
-                            widget.onSaveText(textToSave);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AuditView(),
-                                settings: RouteSettings(arguments: textToSave),
                               ),
                             );
                           },
