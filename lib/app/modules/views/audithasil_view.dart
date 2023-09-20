@@ -347,6 +347,12 @@ class _CardTableState extends State<CardTable> {
     fetchDataFromAPI();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchDataFromAPI();
+  }
+
   Future<void> fetchDataFromAPI() async {
     try {
       final response = await AuditViewController.postFormData(
