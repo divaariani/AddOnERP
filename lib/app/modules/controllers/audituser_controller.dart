@@ -16,17 +16,17 @@ class AuditUserController {
     _initialize();
   }
 
-  Future<void> _initialize() async {
-  try {
-    userId = await _sessionManager.getUserId() ?? "";
-    userName = await _sessionManager.getUsername() ?? "";
-    currentTime = DateTime.now(); 
-    formattedDate = DateFormat('ddMMyyyy').format(currentTime);
-    print(formattedDate); 
-  } catch (error) {
-    print(error);
+  void _initialize() async {
+    try {
+      userId = await _sessionManager.getUserId() ?? "";
+      userName = await _sessionManager.getUsername() ?? "";
+      currentTime = DateTime.now();
+      formattedDate = DateFormat('ddMMyyyy').format(currentTime);
+      print(formattedDate);
+    } catch (error) {
+      print(error);
+    }
   }
-}
 
   Future<int> fetchIdInventory() async {
     try {
