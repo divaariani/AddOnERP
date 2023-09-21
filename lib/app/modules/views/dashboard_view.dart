@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 import 'scanoperator_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
@@ -10,6 +12,7 @@ import 'monitoring_view.dart';
 import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
 import '../controllers/actor_controller.dart';
+import '../controllers/audituser_controller.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 
@@ -21,19 +24,27 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  late DateTime currentTime;
+  late String formattedDate;
   final ActorController _actorController = Get.put(ActorController());
   final SessionManager sessionManager = SessionManager();
-
   final SessionManager _sessionManager = SessionManager();
+  final nameController = TextEditingController();
+  
   String userId = "";
   String userName = "";
   String userPhoto = "";
+  String nameInventory = '';
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchUserId();
-
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+        formattedDate = DateFormat('ddMMyyyy').format(currentTime);
+      });
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> _fetchUserId() async {
@@ -41,6 +52,37 @@ class _DashboardViewState extends State<DashboardView> {
     userName = await _sessionManager.getUsername() ?? "";
     userPhoto = await _sessionManager.getUserProfile() ?? "";
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+    _fetchCurrentTime();
+    AuditUserController auditUserController = Get.put(AuditUserController());
+
+    loadNameInventory().then((value) {
+      setState(() {
+        nameInventory = value ?? '';
+        nameController.text = nameInventory;
+      });
+    }).catchError((error) {
+      print(error);
+    });
+
+    auditUserController.fetchNameInventory().then((name) {
+      setState(() {
+        nameInventory = name;
+        nameController.text = nameInventory;
+      });
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future<String?> loadNameInventory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('nameInventory');
   }
 
   @override
@@ -92,8 +134,7 @@ class _DashboardViewState extends State<DashboardView> {
                                     ),
                                   ),
                                   child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        userPhoto),
+                                    backgroundImage: NetworkImage(userPhoto),
                                     radius: 20,
                                   ),
                                 ),
@@ -243,8 +284,8 @@ class _DashboardViewState extends State<DashboardView> {
                                                       Text(
                                                         'Isi Presensi',
                                                         style: TextStyle(
-                                                          color: Colors.white
-                                                        ),
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     ],
                                                   ),
