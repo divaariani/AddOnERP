@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'operatorpresensi_view.dart';
@@ -30,6 +31,19 @@ class _HomeViewState extends State<HomeView> {
 
   DateTime? currentBackPressTime;
 
+  void checkInternetConnection(BuildContext context) async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      Get.snackbar('No Internet Connection', 'Please check your internet connection.', duration: Duration(seconds: 5));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkInternetConnection(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -47,11 +61,7 @@ class _HomeViewState extends State<HomeView> {
                       Duration(seconds: 2)) {
                 currentBackPressTime = DateTime.now();
 
-                Get.snackbar(
-                  "Press twice to exit",
-                  "",
-                  duration: Duration(seconds: 2),
-                );
+                Get.snackbar("Press twice to exit","Klik dua kali untuk keluar aplikasi", duration: Duration(seconds: 2));
 
                 return false;
               } else {
