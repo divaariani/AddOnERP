@@ -96,10 +96,15 @@ class _AuditViewState extends State<AuditView> {
           fit: StackFit.expand,
           children: [
             Container(
+              width: 360,
+              height: 800,
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/bgscreen.png"),
-                  fit: BoxFit.cover,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  stops: [0.6, 1.0],
                 ),
               ),
             ),
@@ -108,40 +113,7 @@ class _AuditViewState extends State<AuditView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeView()),
-                            );
-                          },
-                          child: Image.asset('assets/icon.back.png',
-                              width: 60, height: 60),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Text(
-                              "Audit Stock",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
@@ -265,8 +237,38 @@ class _AuditViewState extends State<AuditView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
                   ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                backgroundColor: Color(0xFF2A77AC),
+                elevation: 0.0,
+                leading: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeView()),
+                    );
+                  },
+                  child: Image.asset(
+                    'assets/icon.back.png',
+                    width: 40,
+                    height: 40,
+                  ),
+                ),
+                title: Text(
+                  "Audit Stock",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
