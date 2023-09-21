@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -8,6 +9,7 @@ import 'home_view.dart';
 import 'audithasil_view.dart';
 import 'auditisi_view.dart';
 import '../controllers/audituser_controller.dart';
+import '../utils/sessionmanager.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -23,12 +25,36 @@ class AuditView extends StatefulWidget {
 
 class _AuditViewState extends State<AuditView> {
   final nameController = TextEditingController();
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
+  late DateTime currentTime;
+  late String formattedDate;
+  
+  String userName = "";
   String nameInventory = '';
+
+  Future<void> _fetchUserId() async {
+    userName = await _sessionManager.getUsername() ?? "";
+    setState(() {});
+  }
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+        formattedDate = DateFormat('ddMMyyyy').format(currentTime);
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    final AuditUserController auditUserController = Get.put(AuditUserController());
+    _fetchUserId();
+    _fetchCurrentTime();
+    AuditUserController auditUserController = Get.put(AuditUserController());
 
     loadNameInventory().then((value) {
       setState(() {
@@ -43,7 +69,6 @@ class _AuditViewState extends State<AuditView> {
       setState(() {
         nameInventory = name;
         nameController.text = nameInventory;
-        saveNameInventory(nameInventory);
       });
     }).catchError((error) {
       print(error);
@@ -53,11 +78,6 @@ class _AuditViewState extends State<AuditView> {
   Future<String?> loadNameInventory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('nameInventory');
-  }
-
-  Future<void> saveNameInventory(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('nameInventory', name);
   }
 
   @override
@@ -173,13 +193,15 @@ class _AuditViewState extends State<AuditView> {
                                   ),
                                 ),
                                 Text(
-                                  nameController.text,
+                                  nameController.text.isNotEmpty
+                                      ? "Auditor_$userName" + "_" + formattedDate
+                                      : "-",
                                   style: GoogleFonts.poppins(
                                     color: Colors.blue[900],
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
@@ -242,7 +264,7 @@ class _AuditViewState extends State<AuditView> {
                           ),
                         ],
                       ),
-                    ),               
+                    ),
                     SizedBox(height: 20),
                   ],
                 ),
