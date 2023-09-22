@@ -11,6 +11,7 @@ class AuditViewController{
     required String lotBarang,
     required String namabarang,
     required int qty,
+    required String state,
   }) async {
     final response = await http.post(
       Uri.parse('$baseUrl?function=get_audit_views'),
@@ -20,6 +21,7 @@ class AuditViewController{
         'lot_barang': lotBarang,
         'namabarang': namabarang,
         'qty': qty.toString(),
+        'state': state
       },
     );
 
