@@ -12,7 +12,7 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^5.1.0
   image: ^4.0.17
-  curved_navigation_bar: ^1.0.3
+  salomon_bottom_bar: ^3.3.2
   flutter_barcode_scanner: ^2.0.0
   http: ^1.1.0
   pdf: ^3.10.4
@@ -32,4 +32,3 @@ flutter:
   uses-material-design: true
   assets:
   - assets/
-  - assets/bgscreen.png
