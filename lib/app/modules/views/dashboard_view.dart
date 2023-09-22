@@ -30,7 +30,7 @@ class _DashboardViewState extends State<DashboardView> {
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   final nameController = TextEditingController();
-  
+
   String userId = "";
   String userName = "";
   String userPhoto = "";
@@ -175,51 +175,12 @@ class _DashboardViewState extends State<DashboardView> {
                   CardID(
                     name: userName,
                     id: userId,
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 1),
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 8),
-                          Text(
-                            'Mesin : $barcodeResult',
-                            style: GoogleFonts.poppins(
-                              color: Colors.blue[900],
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            'Lokasi : K10',
-                            style: GoogleFonts.poppins(
-                              color: Colors.blue[900],
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                        ],
-                      ),
-                    ),
+                    mesin: (_actorController.isOperator.value == 't' ||
+                            _actorController.isAdmin == 't')
+                        ? (barcodeResult.isNotEmpty
+                            ? '[$barcodeResult]'
+                            : '[Kode Mesin]')
+                        : '',
                   ),
                   SizedBox(height: 20),
                   Center(
@@ -619,82 +580,59 @@ class _DashboardViewState extends State<DashboardView> {
 }
 
 class CardID extends StatelessWidget {
-  final String name;
   final String id;
-  const CardID({required this.name, required this.id});
+  final String name;
+  final String mesin;
+  const CardID({required this.id, required this.name, required this.mesin});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Color.fromARGB(255, 255, 255, 255),
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      elevation: 4,
-      shadowColor: Colors.black.withOpacity(0.8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        child: Card(
+          color: Color.fromARGB(255, 255, 255, 255),
+          elevation: 4,
+          shadowColor: Colors.black.withOpacity(0.8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'ID: $id',
+                  "ID: $id",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                     color: Color(0xFF226EA4),
                   ),
                 ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => OperatorPresensiView()),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     primary: Color(0xFF226EA4),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.only(
-                //         topRight: Radius.circular(15),
-                //         bottomLeft: Radius.circular(15),
-                //         bottomRight: Radius.circular(15),
-                //       ),
-                //       side: BorderSide.none,
-                //     ),
-                //     shadowColor: Color(0x3F000000),
-                //     elevation: 4,
-                //   ),
-                //   child: Container(
-                //     width: 88,
-                //     height: 35,
-                //     alignment: Alignment.center,
-                //     child: Text(
-                //       "Isi Presensi",
-                //       style: TextStyle(
-                //         fontSize: 14,
-                //         color: Color.fromARGB(255, 255, 255, 255),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Color(0xFF226EA4),
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      mesin,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
-            SizedBox(height: 10),
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF226EA4),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
