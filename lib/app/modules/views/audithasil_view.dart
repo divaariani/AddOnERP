@@ -320,11 +320,11 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Confirm',
+              entry.state,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.green,
                 fontWeight: FontWeight.bold,
+                color: entry.state == 'confirm' ? Colors.green : Colors.orange,
               ),
             ),
           ),
@@ -376,7 +376,8 @@ class _CardTableState extends State<CardTable> {
         lokasi: '',
         lotBarang: '',
         namabarang: '',
-        qty: 1
+        qty: 1,
+        state: ''
       );
 
       final List<dynamic> nameDataList = response.data;
@@ -388,6 +389,7 @@ class _CardTableState extends State<CardTable> {
         String lotbarang = data['lot_barang'];
         String namabarang = data['namabarang'];
         int qty = int.tryParse(data['qty'].toString()) ?? 0;
+        String state = data['state'];
 
         return MyData(
           id: id,
@@ -395,7 +397,7 @@ class _CardTableState extends State<CardTable> {
           lotbarang: lotbarang,
           namabarang: namabarang,
           qty: qty,
-          state: 'Confirm',
+          state: state,
         );
       }).toList();
 
