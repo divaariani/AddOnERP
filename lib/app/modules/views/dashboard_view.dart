@@ -109,7 +109,7 @@ class _DashboardViewState extends State<DashboardView> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: 32, left: 16, right: 16, bottom: 32),
+                        top: 32, left: 16, right: 20, bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -143,7 +143,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   flex: 3,
                                   child: Center(
                                     child: Text(
-                                      "Selamat Bekerja !",
+                                      "Selamat Bekerja, $userName !",
                                       style: GoogleFonts.poppins(
                                         color: Colors.black,
                                       ),
@@ -152,20 +152,6 @@ class _DashboardViewState extends State<DashboardView> {
                                 ),
                                 Spacer(),
                               ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        InkWell(
-                          onTap: () {
-                            // Get.to(() => NotificationsView());
-                          },
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            child: Icon(
-                              Icons.notifications_none,
-                              color: Colors.white,
-                              size: 40,
                             ),
                           ),
                         ),
@@ -187,10 +173,10 @@ class _DashboardViewState extends State<DashboardView> {
                     child: GridView.count(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      padding: EdgeInsets.symmetric(horizontal: 40),
                       children: [
                         ElevatedButton(
                           onPressed: _actorController.isOperator.value == 't' ||
@@ -355,15 +341,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.operator.png',
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Monitoring Produksi',
+                                'Produksi',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isOperator.value ==
                                               't' ||
@@ -393,15 +379,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.audit.png',
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Audit',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color:
                                       _actorController.isAuditor.value == 't' ||
@@ -432,15 +418,15 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.gudang.png',
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Gudang',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isWarehouse.value ==
                                               't' ||
@@ -470,55 +456,17 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.qc.png',
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Laporan Produksi',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isQC.value == 't' ||
-                                          _actorController.isAdmin == 't'
-                                      ? Color(0xFF226EA4)
-                                      : Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: _actorController.isCustomer.value == 't' ||
-                                  _actorController.isAdmin == 't'
-                              ? () {
-                                  Get.to(() => CustomerView());
-                                }
-                              : null,
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/icon.tracker.png',
-                                width: 30,
-                                height: 30,
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Customer Tracker',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: _actorController.isCustomer.value ==
-                                              't' ||
                                           _actorController.isAdmin == 't'
                                       ? Color(0xFF226EA4)
                                       : Colors.grey,
@@ -545,21 +493,59 @@ class _DashboardViewState extends State<DashboardView> {
                             children: [
                               Image.asset(
                                 'assets/icon.monitor.png',
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 'Monitoring',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color:
                                       _actorController.isMonitor.value == 't' ||
                                               _actorController.isAdmin == 't'
                                           ? Color(0xFF226EA4)
                                           : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: _actorController.isCustomer.value == 't' ||
+                                  _actorController.isAdmin == 't'
+                              ? () {
+                                  Get.to(() => CustomerView());
+                                }
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 255, 255, 255),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icon.tracker.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Customer',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: _actorController.isCustomer.value ==
+                                              't' ||
+                                          _actorController.isAdmin == 't'
+                                      ? Color(0xFF226EA4)
+                                      : Colors.grey,
                                 ),
                               ),
                             ],
