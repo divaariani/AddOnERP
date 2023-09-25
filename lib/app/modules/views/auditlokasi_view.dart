@@ -57,7 +57,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
   Future<void> _submitStock() async {
     final int id = int.parse(idController.text);
     final String plokasi = plokasiController.text;
-    String successMessage = 'Congartulations';
     List<String> errorMessages = [];
 
     try {
@@ -85,7 +84,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
           ),
         );
       } else {
-        Get.snackbar('Stock Berhasil Diupload', successMessage);
+        Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
       }
 
       widget.resultBarang.clear(); 
