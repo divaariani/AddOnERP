@@ -7,6 +7,7 @@ import 'notification_view.dart';
 import 'profile_view.dart';
 import 'dashboard_view.dart';
 import '../utils/sessionmanager.dart';
+import '../controllers/actor_controller.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  ActorController controller = Get.put(ActorController());
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
 
@@ -105,9 +107,14 @@ class _HomeViewState extends State<HomeView> {
             fit: StackFit.expand,
             children: [
               _pages[_currentIndex],
+              Visibility(
+                visible: controller.loading.value,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ],
           ),
-        )
-      );
+        ));
   }
 }
