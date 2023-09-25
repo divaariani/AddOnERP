@@ -138,19 +138,21 @@ class _DashboardViewState extends State<DashboardView> {
                                     radius: 20,
                                   ),
                                 ),
-                                Spacer(),
                                 Expanded(
                                   flex: 3,
-                                  child: Center(
-                                    child: Text(
-                                      "Selamat Bekerja, $userName !",
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Center(
+                                      child: Text(
+                                        "Selamat Bekerja, $userName !",
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Spacer(),
                               ],
                             ),
                           ),
@@ -600,7 +602,6 @@ class CardID extends StatelessWidget {
                     Text(
                       name,
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Color(0xFF226EA4),
                       ),
@@ -611,7 +612,7 @@ class CardID extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.red,
+                        color: Color(0xFF226EA4),
                       ),
                     ),
                   ],
@@ -619,6 +620,7 @@ class CardID extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        )
+      );
   }
 }
