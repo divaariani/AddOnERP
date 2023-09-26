@@ -20,8 +20,6 @@ class OperatorStatusView extends StatefulWidget {
 
 class _OperatorStatusViewState extends State<OperatorStatusView> {
   List<MyData> _data = [];
-  int page = 1;
-  int pageSize = 10;
 
   late DateTime currentTime;
 
@@ -227,17 +225,118 @@ class MyDataTableSource extends DataTableSource {
 }
 }
 
-class CardTable extends StatelessWidget {
+class CardTable extends StatefulWidget {
   final List<MyData> data;
 
   CardTable({required this.data});
+
+  @override
+  _CardTableState createState() => _CardTableState();
+}
+
+class _CardTableState extends State<CardTable> {
+  TextEditingController controller = TextEditingController();
+  String _searchResult = '';
+  bool _isLoading = false;
+  List<MyData> _data = [];
+
+  Future<void> fetchDataFromAPI() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final response = await MachineController.postFormData(
+        id: 1,
+        name: '',
+        userId: 1,
+        namaoperator: '',
+        statusmesin: '',
+      );
+
+      final List<dynamic> nameDataList = response.data;
+      print('API Response: $nameDataList');
+
+      final List<MyData> myDataList = nameDataList.map((data) {
+        return MyData(
+          id: data['id'] ?? '',
+          mesin: data['name'] ?? '',
+          operator: data['namaoperator'] ?? '',
+          aksi: '',
+          status: data['statusmesin'] ?? '',
+        );
+      }).toList();
+
+      setState(() {
+        _data = myDataList.where((data) {
+          return data.mesin.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.operator.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.status.toLowerCase().contains(_searchResult.toLowerCase()) ;
+        }).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromAPI();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchDataFromAPI();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.search),
+              title: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: 'Cari...',
+                  border: InputBorder.none, 
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchResult = value;
+                    fetchDataFromAPI();
+                  });
+                },
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.cancel),
+                onPressed: () {
+                  setState(() {
+                    controller.clear();
+                    _searchResult = '';
+                    fetchDataFromAPI();
+                  });
+                },
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 20),
           elevation: 4,
@@ -294,7 +393,7 @@ class CardTable extends StatelessWidget {
                   ),
                 ),
               ],
-              source: MyDataTableSource(data, context),
+              source: MyDataTableSource(_data, context),
               rowsPerPage: 10,
             ),
           ),
@@ -307,7 +406,6 @@ class CardTable extends StatelessWidget {
 class AksiCellWidget extends StatefulWidget {
   final BuildContext parentContext;
   final MyData entry;
-
   AksiCellWidget({required this.parentContext, required this.entry});
 
   @override
@@ -381,9 +479,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
           Get.snackbar('Mesin $machineName', 'ended');
         }
 
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OperatorStatusView()));
-        // setState(() {});
-        
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OperatorStatusView()));        
 
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
