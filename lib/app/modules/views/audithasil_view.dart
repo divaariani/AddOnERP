@@ -17,10 +17,6 @@ class AuditHasilView extends StatefulWidget {
 }
 
 class _AuditHasilViewState extends State<AuditHasilView> {
-  int page = 1;
-  int pageSize = 10;
-  String searchText = "";
-
   @override
   void initState() {
     super.initState();
@@ -88,30 +84,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      height: 70,
-                      padding: const EdgeInsets.symmetric(horizontal: 26),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: " Cari Kode Barang...",
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: Icon(Icons.search),
-                          suffixIconConstraints: BoxConstraints(minWidth: 40),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            searchText = value;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    CardTable(searchText),
+                    CardTable(),
                     SizedBox(height: 30),
                   ],
                 ),
@@ -344,18 +317,15 @@ class MyDataTableSource extends DataTableSource {
 }
 
 class CardTable extends StatefulWidget {
-  final String searchText;
-  CardTable(this.searchText);
-
   @override
-  _CardTableState createState() => _CardTableState(searchText);
+  _CardTableState createState() => _CardTableState();
 }
 
 class _CardTableState extends State<CardTable> {
+  TextEditingController controller = TextEditingController();
+  String _searchResult = '';
   List<MyData> _data = [];
-
-  final String searchText;
-  _CardTableState(this.searchText);
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -371,14 +341,12 @@ class _CardTableState extends State<CardTable> {
 
   Future<void> fetchDataFromAPI() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
+
       final response = await AuditViewController.postFormData(
-        id: 1,
-        lokasi: '',
-        lotBarang: '',
-        namabarang: '',
-        qty: 1,
-        state: ''
-      );
+          id: 1, lokasi: '', lotBarang: '', namabarang: '', qty: 1, state: '');
 
       final List<dynamic> nameDataList = response.data;
       print('API Response: $nameDataList');
@@ -403,13 +371,24 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.lotbarang
-              .toLowerCase()
-              .contains(searchText.toLowerCase());
+          return data.lokasi
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.namabarang
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.lotbarang
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.state.toLowerCase().contains(_searchResult.toLowerCase());
         }).toList();
+        _isLoading = false;
       });
     } catch (e) {
       print('Error fetching data: $e');
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -418,6 +397,42 @@ class _CardTableState extends State<CardTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 26),
+          child: Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.search),
+              title: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: 'Cari...',
+                  border: InputBorder.none, 
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchResult = value;
+                    fetchDataFromAPI();
+                  });
+                },
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.cancel),
+                onPressed: () {
+                  setState(() {
+                    controller.clear();
+                    _searchResult = '';
+                    fetchDataFromAPI();
+                  });
+                },
+              ),
+            ),
+          ),
+        ),
         SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 26),
@@ -428,59 +443,65 @@ class _CardTableState extends State<CardTable> {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: _data.isEmpty
-                ? EmptyData()
-                : PaginatedDataTable(
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          'Lokasi',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+            child: Column(
+              children: [
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : _data.isEmpty
+                        ? EmptyData()
+                        : PaginatedDataTable(
+                            columns: [
+                              DataColumn(
+                                label: Text(
+                                  'Lokasi',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Nama Barang',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Lot Barang',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Kuantitas',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Status',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            source: MyDataTableSource(_data),
+                            rowsPerPage: 10,
                           ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Nama Barang',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Lot Barang',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Kuantitas',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Status',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ],
-                    source: MyDataTableSource(_data),
-                    rowsPerPage: 10,
-                  ),
+              ],
+            ),
           ),
         ),
       ],
@@ -500,25 +521,30 @@ class EmptyData extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Image.asset(
-              'assets/icon.nodata.png',
-              width: 30,
-              height: 30,
-              color: Colors.blue[900],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                'Tidak ada hasil scan barang',
-                style: GoogleFonts.poppins(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/icon.nodata.png',
+                  width: 30,
+                  height: 30,
                   color: Colors.blue[900],
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    'Tidak ada barang',
+                    style: GoogleFonts.poppins(
+                      color: Colors.blue[900],
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
