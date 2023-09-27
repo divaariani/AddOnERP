@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
-import 'kartu_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controllers/actor_controller.dart';
+import '../controllers/login_controller.dart';
 import '../utils/sessionmanager.dart';
 
 class ProfileView extends StatefulWidget {
@@ -16,8 +15,8 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final ActorController _actorController = Get.put(ActorController());
   final SessionManager sessionManager = SessionManager();
-
   final SessionManager _sessionManager = SessionManager();
+
   String userLogin = "";
   String userName = "";
   String userProfile = "";
@@ -26,7 +25,6 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     super.initState();
     _fetchUserId();
-
   }
 
   Future<void> _fetchUserId() async {
@@ -44,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/bgscreen.png"),
                 fit: BoxFit.cover,
@@ -57,14 +55,14 @@ class _ProfileViewState extends State<ProfileView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(16),
                               child: Row(
                                 mainAxisAlignment:
@@ -73,16 +71,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   Expanded(
                                     child: Align(
                                       alignment: Alignment.center,
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 16),
-                                        child: Text(
-                                          "Profile",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
+                                      child: Text(
+                                        "Profile",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFFAFAFA),
                                         ),
                                       ),
                                     ),
@@ -90,19 +84,18 @@ class _ProfileViewState extends State<ProfileView> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Center(
                               child: Container(
                                 height: 130,
                                 width: 130,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: NetworkImage(
-                                        userProfile),
+                                    image: NetworkImage(userProfile),
                                   ),
                                   borderRadius: BorderRadius.circular(64),
                                   border: Border.all(
-                                    color: Colors.blue[900]!,
+                                    color: const Color(0xFF084D88),
                                     style: BorderStyle.solid,
                                     width: 4,
                                   ),
@@ -111,60 +104,52 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 30),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Container(
-                            height: 144,
                             width: double.infinity,
-                            margin: EdgeInsets.only(top: 1),
-                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(150, 49, 105, 189)!,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(16),
-                                bottomRight: Radius.circular(16),
-                              ),
+                              color: const Color(0xFFFAFAFA),
+                              borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.1),
                                   spreadRadius: 2,
                                   blurRadius: 4,
-                                  offset: Offset(0, 3),
+                                  offset: const Offset(0, 3),
                                 ),
                               ],
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 15),
                                 Text(
-                                  'ID: ' + userLogin,
+                                  'ID: $userLogin',
                                   style: GoogleFonts.poppins(
-                                    color: Colors.white,
+                                    color: const Color(0xFF084D88),
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 8),
                                 Text(
                                   userName,
                                   style: GoogleFonts.poppins(
-                                    color: Colors.white,
+                                    color: const Color(0xFF084D88),
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 Text(
                                   'Departemen',
                                   style: GoogleFonts.poppins(
-                                    color: Colors.white,
+                                    color: const Color(0xFF084D88),
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 8),
                                 Text(
                                   _actorController.isOperator.value == 't'
                                       ? 'Operator'
@@ -188,7 +173,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                           ? 'Customer'
                                                           : 'Unknown Staff',
                                   style: GoogleFonts.poppins(
-                                    color: Colors.white,
+                                    color: const Color(0xFF084D88),
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -197,262 +182,219 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 40),
-                        Center(
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Container(
-                            width: 325,
-                            padding: EdgeInsets.all(16),
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: const Color.fromRGBO(255, 255, 255, 0.2),
-                              borderRadius: BorderRadius.circular(16),
+                              color: const Color(0xFF084D88),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(
-                                      Icons.event_note,
-                                      color: Colors.white,
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          child: Image.asset(
+                                              'assets/icon.calendar.png'),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text("Kehadiran",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Color(0xFFFAFAFA))),
+                                      ],
                                     ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Kehadiran',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    const Text(
+                                      "90%",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFFAFAFA)),
+                                    )
                                   ],
                                 ),
-                                SizedBox(height: 10),
-                                Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Table(
-                                    defaultColumnWidth: IntrinsicColumnWidth(),
-                                    children: [
-                                      TableRow(
-                                        children: [
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Text(
-                                                'H : Hadir',
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.blue.shade900,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Text(
-                                                'TH : Tidak Hadir',
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.blue.shade900,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Text(
-                                                'I : Izin',
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.blue.shade900,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      TableRow(
-                                        children: [
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '2',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '1',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Container(
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '3',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 18),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '90%',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                const SizedBox(height: 40),
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Column(
+                                      children: [
+                                        Text("Hadir",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                        SizedBox(height: 10),
+                                        Text("9",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                      ],
                                     ),
-                                  ),
+                                    Column(
+                                      children: [
+                                        Text("Tidak Hadir",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                        SizedBox(height: 10),
+                                        Text("-",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text("Izin",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                        SizedBox(height: 10),
+                                        Text("1",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFFAFAFA))),
+                                      ],
+                                    ),
+                                    SizedBox(width: 8),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => KartuView()),
-                                );
-                              },
-                              icon: Icon(Icons.credit_card),
-                              label: Text('Kartu Pekerja'),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                onPrimary: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                elevation: 4,
-                              ),
-                            ),
                             ElevatedButton.icon(
                               onPressed: () {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text('Yakin ingin Keluar?'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      content: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 20,
+                                            bottom: 10,
+                                            left: 16,
+                                            right: 16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Get.find<LoginController>().logout();
-                                              },
-                                              child: Text('Ya'),
+                                            Text(
+                                              'Apakah Anda ingin keluar akun ?',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                color: const Color(0xff084D88),
+                                              ),
                                             ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context, 'Tidak');
-                                              },
-                                              child: Text('Tidak'),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color(0xffD1D3D9),
+                                                    elevation: 0,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    'Batalkan',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF084D88),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Get.find<LoginController>()
+                                                        .logout();
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color(0xFF084D88),
+                                                    elevation: 0,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    'Ya',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFFAFAFA),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
                                       ),
                                     );
                                   },
-                                ).then((value) {
-                                  if (value != null) {
-                                    print(value);
-                                  }
-                                });
+                                );
                               },
-                              icon: Icon(Icons.exit_to_app),
-                              label: Text('Keluar'),
+                              icon: Container(
+                                height: 25,
+                                width: 25,
+                                child: Image.asset('assets/icon.out.png'),
+                              ),
+                              label: const Text('Keluar'),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                onPrimary: Colors.blue,
+                                foregroundColor: Color(0xFF084D88),
+                                backgroundColor: Color(0xFFFAFAFA),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                                 elevation: 4,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
