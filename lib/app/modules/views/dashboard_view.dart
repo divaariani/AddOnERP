@@ -95,7 +95,7 @@ class _DashboardViewState extends State<DashboardView> {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/bgscreen.png"),
                 fit: BoxFit.cover,
@@ -108,15 +108,14 @@ class _DashboardViewState extends State<DashboardView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: 32, left: 16, right: 20, bottom: 20),
+                    padding: const EdgeInsets.only(top: 32, left: 16, right: 20, bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFFAFAFA),
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Row(
@@ -128,7 +127,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     border: Border.all(
-                                      color: Colors.blue[900]!,
+                                      color: const Color(0xFF084D88),
                                       style: BorderStyle.solid,
                                       width: 4,
                                     ),
@@ -141,13 +140,13 @@ class _DashboardViewState extends State<DashboardView> {
                                 Expanded(
                                   flex: 3,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10),
                                     child: Center(
                                       child: Text(
                                         "Selamat Bekerja, $userName !",
                                         style: GoogleFonts.poppins(
-                                          color: Colors.black,
+                                          fontSize: 16,
+                                          color: const Color(0xFF084D88),
                                         ),
                                       ),
                                     ),
@@ -173,12 +172,12 @@ class _DashboardViewState extends State<DashboardView> {
                   SizedBox(height: 20),
                   Center(
                     child: GridView.count(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: 2,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       children: [
                         ElevatedButton(
                           onPressed: _actorController.isOperator.value == 't' ||
@@ -192,7 +191,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               color: Color(0xFF084D88),
                                               width: 2),
                                         ),
@@ -205,9 +204,8 @@ class _DashboardViewState extends State<DashboardView> {
                                                 height: 50,
                                                 width: 250,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  color: Color(0xFF084D88),
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: const Color(0xFF084D88),
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
@@ -215,7 +213,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            ScanOperatorView(),
+                                                            const ScanOperatorView(),
                                                       ),
                                                     );
                                                   },
@@ -230,17 +228,16 @@ class _DashboardViewState extends State<DashboardView> {
                                                         height: 24,
                                                       ),
                                                       SizedBox(width: 10),
-                                                      Text(
+                                                      const Text(
                                                         'Isi Presensi',
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                            color:Color(0xFFFAFAFA)),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Container(
                                                 height: 50,
                                                 width: 250,
@@ -255,39 +252,36 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OperatorStatusView(),
+                                                            const OperatorStatusView(),
                                                       ),
                                                     );
                                                   },
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Image.asset(
                                                         'assets/icon.mesin.png',
                                                         width: 24,
                                                         height: 24,
                                                       ),
-                                                      SizedBox(width: 10),
-                                                      Text(
+                                                      const SizedBox(width: 10),
+                                                      const Text(
                                                         'Status Mesin',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Color(0xFFFAFAFA),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Container(
                                                 height: 50,
                                                 width: 250,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  color: Color(0xFF084D88),
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: const Color(0xFF084D88),
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
@@ -300,20 +294,18 @@ class _DashboardViewState extends State<DashboardView> {
                                                     );
                                                   },
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Image.asset(
                                                         'assets/icon.monitoring.png',
                                                         width: 24,
                                                         height: 24,
                                                       ),
-                                                      SizedBox(width: 10),
-                                                      Text(
+                                                      const SizedBox(width: 10),
+                                                      const Text(
                                                         'Production Monitoring',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Color(0xFFFAFAFA),
                                                         ),
                                                       ),
                                                     ],
@@ -333,9 +325,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -346,7 +338,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Produksi',
                                 textAlign: TextAlign.center,
@@ -371,9 +363,9 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -384,7 +376,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Audit',
                                 textAlign: TextAlign.center,
@@ -406,13 +398,13 @@ class _DashboardViewState extends State<DashboardView> {
                               _actorController.isWarehouse.value == 't' ||
                                       _actorController.isAdmin == 't'
                                   ? () {
-                                      Get.to(() => GudangView());
+                                      Get.to(() => const GudangView());
                                     }
                                   : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -423,7 +415,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Gudang',
                                 textAlign: TextAlign.center,
@@ -444,13 +436,13 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isQC.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => LaporanView());
+                                  Get.to(() => const LaporanView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -461,7 +453,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Laporan Produksi',
                                 textAlign: TextAlign.center,
@@ -470,7 +462,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isQC.value == 't' ||
                                           _actorController.isAdmin == 't'
-                                      ? Color(0xFF226EA4)
+                                      ? const Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
                               ),
@@ -481,13 +473,13 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isMonitor.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => MonitoringView());
+                                  Get.to(() => const MonitoringView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -498,7 +490,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Monitoring',
                                 textAlign: TextAlign.center,
@@ -508,7 +500,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   color:
                                       _actorController.isMonitor.value == 't' ||
                                               _actorController.isAdmin == 't'
-                                          ? Color(0xFF226EA4)
+                                          ? const Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
                               ),
@@ -519,13 +511,13 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isCustomer.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => CustomerView());
+                                  Get.to(() => const CustomerView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 255, 255),
+                            primary: const Color(0xFFFAFAFA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Column(
@@ -536,7 +528,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 width: 50,
                                 height: 50,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Customer',
                                 textAlign: TextAlign.center,
@@ -546,7 +538,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   color: _actorController.isCustomer.value ==
                                               't' ||
                                           _actorController.isAdmin == 't'
-                                      ? Color(0xFF226EA4)
+                                      ? const Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
                               ),
@@ -556,7 +548,7 @@ class _DashboardViewState extends State<DashboardView> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -576,32 +568,31 @@ class CardID extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Card(
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: const Color(0xFFFAFAFA),
           elevation: 4,
           shadowColor: Colors.black.withOpacity(0.8),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "ID: $id",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Color(0xFF226EA4),
                   ),
                 ),
-                SizedBox(height: 10),
                 Row(
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Color(0xFF226EA4),
                       ),
@@ -609,7 +600,7 @@ class CardID extends StatelessWidget {
                     Spacer(),
                     Text(
                       mesin,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                         color: Color(0xFF226EA4),
