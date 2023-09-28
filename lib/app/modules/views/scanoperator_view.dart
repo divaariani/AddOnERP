@@ -5,7 +5,7 @@ import 'operatorpresensi_view.dart';
 import '../utils/globals.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ScanOperatorView(),
   ));
 }
@@ -19,20 +19,20 @@ class ScanOperatorView extends StatefulWidget {
 
 class _ScanOperatorViewState extends State<ScanOperatorView> {
   Future<void> _scanBarcode() async {
-    String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+    String barcodeMachineResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
       true,
       ScanMode.BARCODE,
     );
 
-    setGlobalBarcodeResult(barcodeResult);
+    setGlobalBarcodeResult(barcodeMachineResult);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            OperatorPresensiView(barcodeResult: barcodeResult),
+            OperatorPresensiView(barcodeMachineResult: barcodeMachineResult),
       ),
     );
   }
@@ -56,7 +56,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -70,7 +70,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     Center(
                       child: Padding(
                         padding: EdgeInsets.all(40),
@@ -83,36 +83,36 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 80),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage("assets/icon.barcode.png"),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 ElevatedButton(
                                   onPressed: _scanBarcode,
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFF226EA4),
+                                    primary: const Color(0xFF226EA4),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  child: Row(
+                                  child: const Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
                                         Icons.qr_code,
-                                        color: Colors.white,
+                                        color: Color(0xFFFAFAFA),
                                       ),
                                       SizedBox(width: 8),
                                       Text(
                                         "Scan QR Code",
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white,
+                                          color: Color(0xFFFAFAFA),
                                         ),
                                       ),
                                     ],
@@ -124,7 +124,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         "Scan barcode pada mesin yang Anda gunakan!",
                         style: TextStyle(
@@ -133,7 +133,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -143,7 +143,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -158,12 +158,12 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Scan Mesin",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Color(0xFFFAFAFA),
                   ),
                 ),
               ),
