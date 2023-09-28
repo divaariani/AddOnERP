@@ -9,9 +9,9 @@ import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 
 class OperatorPresensiView extends StatefulWidget {
-  final String barcodeResult;
+  final String barcodeMachineResult;
 
-  const OperatorPresensiView({Key? key, required this.barcodeResult})
+  const OperatorPresensiView({Key? key, required this.barcodeMachineResult})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   String userIdLogin = "";
   String userName = "";
   String userPhoto = "";
-  String barcodeMachineResult = globalBarcodeResult;
+  String barcodeMachineResult = globalBarcodeMesinResult;
 
   Future<void> _fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
@@ -72,7 +72,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
 
       if (response.status == 1) {
         if (tap == "I") {
-          Get.snackbar('IN Mesin', 'Operator ' + userName);
+          Get.snackbar('IN Mesin', 'Operator $userName');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -82,7 +82,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
             ),
           );
         } else if (tap == "O") {
-          Get.snackbar('OUT Mesin', 'Operator ' + userName);
+          Get.snackbar('OUT Mesin', 'Operator $userName');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -150,13 +150,13 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                     const SizedBox(height: 70),
                     Center(
                       child: Container(
-                        height: 300,
-                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        height: 250,
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          color: Colors.white,
+                          color: const Color(0xFFFAFAFA),
                           child: Align(
                             alignment: Alignment.center,
                             child: Column(
@@ -164,8 +164,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                               children: [
                                 Image.asset(
                                   "assets/logo.png",
-                                  width: 50,
-                                  height: 50,
+                                  width: 70,
+                                  height: 70,
                                 ),
                                 const SizedBox(height: 30),
                                 Row(
@@ -181,7 +181,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         ),
                                         borderRadius: BorderRadius.circular(40),
                                         border: Border.all(
-                                          color: Colors.blue[900]!,
+                                          color: const Color(0xFF084D88),
                                           style: BorderStyle.solid,
                                           width: 2,
                                         ),
@@ -196,7 +196,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                           userName,
                                           style: const TextStyle(
                                             fontSize: 18,
-                                            color: Color(0xFF226EA4),
+                                            color: Color(0xFF084D88),
                                           ),
                                         ),
                                         const SizedBox(height: 5),
@@ -204,7 +204,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                           "Id: $userIdLogin",
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Colors.black,
+                                            color: Color(0xFF084D88),
                                           ),
                                         ),
                                         const SizedBox(height: 5),
@@ -213,7 +213,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.black,
+                                            color: Color(0xFF084D88),
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
@@ -247,21 +247,25 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
                               ),
-                              child: const Align(
+                              child: Align(
                                 alignment: Alignment.center,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.meeting_room,
-                                        color: Color(0xFF226EA4)),
-                                    SizedBox(width: 10),
-                                    Text(
+                                    Image.asset(
+                                      'assets/icon.in.png',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Text(
                                       "IN",
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: Color(0xFF226EA4),
+                                        color: Color(0xFF084D88),
                                       ),
                                     ),
                                   ],
@@ -282,12 +286,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 10),
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
                                               child: Image.asset(
                                                 'assets/icon.warning.png',
                                                 width: 70,
@@ -300,7 +306,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 12,
-                                                color: const Color(0xff084D88),
+                                                color: const Color(0xFF084D88),
                                               ),
                                             ),
                                             const SizedBox(height: 10),
@@ -315,12 +321,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xffD1D3D9),
+                                                    backgroundColor:
+                                                        const Color(0xffD1D3D9),
                                                     elevation: 0,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                     ),
                                                   ),
                                                   child: const Text(
@@ -338,12 +346,14 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xFF084D88),
+                                                    backgroundColor:
+                                                        const Color(0xFF084D88),
                                                     elevation: 0,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                     ),
                                                   ),
                                                   child: const Text(
@@ -367,21 +377,25 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
                               ),
-                              child: const Align(
+                              child: Align(
                                 alignment: Alignment.center,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.meeting_room_outlined,
-                                        color: Color(0xFF226EA4)),
-                                    SizedBox(width: 10),
-                                    Text(
+                                    Image.asset(
+                                      'assets/icon.out.png',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Text(
                                       "OUT",
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: Color(0xFF226EA4),
+                                        color: Color(0xFF084D88),
                                       ),
                                     ),
                                   ],
@@ -422,7 +436,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Color(0xFFFAFAFA),
                   ),
                 ),
               ),
