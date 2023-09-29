@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
 import '../controllers/gudangview_controller.dart';
-import '../controllers/gudangdelete_controller.dart';
 
 void main() {
   runApp(MaterialApp(
