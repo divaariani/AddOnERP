@@ -102,58 +102,39 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bgscreen.png"),
-                fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              width: 360,
+              height: 800,
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  stops: [0.6, 1.0],
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
-                          );
-                        },
-                        child: Image.asset('assets/icon.back.png',
-                            width: 60, height: 60),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Audit Stock",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Container(
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 70),
+                    Container(
                     margin: const EdgeInsets.symmetric(horizontal: 26),
                     child: Container(
                       height: 50,
@@ -189,7 +170,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Visibility(
                     visible: widget.resultBarang.isNotEmpty,
                     child: Padding(
@@ -232,7 +213,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                     visible: widget.resultBarang.isEmpty,
                     child: EmptyData(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,
                     child: Row(
@@ -243,11 +224,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ScanAuditBarangView()),
+                                  builder: (context) => const ScanAuditBarangView()),
                             );
                           },
-                          icon: Icon(Icons.qr_code_scanner, size: 15),
-                          label: Text('Scan Barang',
+                          icon: const Icon(Icons.qr_code_scanner, size: 15),
+                          label: const Text('Scan Barang',
                               style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
@@ -256,20 +237,20 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             elevation: 4,
-                            minimumSize: Size(130, 48),
+                            minimumSize: const Size(130, 48),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         ElevatedButton.icon(
                           onPressed: () {
                             _submitStock();
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => AuditHasilView()),
+                                  builder: (context) => const AuditHasilView()),
                             );
                           },
-                          icon: Icon(Icons.cloud_upload, size: 15),
-                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                          icon: const Icon(Icons.cloud_upload, size: 15),
+                          label: const Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -277,18 +258,49 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             elevation: 4,
-                            minimumSize: Size(100, 48),
+                            minimumSize: const Size(100, 48),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                backgroundColor: const Color(0xFF2A77AC),
+                elevation: 0.0,
+                leading: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomeView()),
+                    );
+                  },
+                  child: Image.asset(
+                    'assets/icon.back.png',
+                    width: 40,
+                    height: 40,
+                  ),
+                ),
+                title: const Text(
+                  "Audit Stock",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
