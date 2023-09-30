@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
-import 'operatorstatus_view.dart';
+import 'scanoperator_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 
 class OperatorPresensiView extends StatefulWidget {
-  final String barcodeMachineResult;
-
-  const OperatorPresensiView({Key? key, required this.barcodeMachineResult})
-      : super(key: key);
+  const OperatorPresensiView({Key? key}) : super(key: key);
 
   @override
   State<OperatorPresensiView> createState() => _OperatorPresensiViewState();
@@ -71,17 +68,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       );
 
       if (response.status == 1) {
-        if (tap == "I") {
-          Get.snackbar('IN Mesin', 'Operator $userName');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return OperatorStatusView();
-              },
-            ),
-          );
-        } else if (tap == "O") {
+        if (tap == "O") {
           Get.snackbar('OUT Mesin', 'Operator $userName');
           Navigator.pushReplacement(
             context,
@@ -91,6 +78,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
               },
             ),
           );
+          idwcController.clear();
+          globalBarcodeMesinResult = "";
         }
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -239,8 +228,13 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                             margin: const EdgeInsets.only(right: 20),
                             child: ElevatedButton(
                               onPressed: () {
-                                tapController.text = "I";
-                                _submitForm();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ScanOperatorView(),
+                                  ),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
