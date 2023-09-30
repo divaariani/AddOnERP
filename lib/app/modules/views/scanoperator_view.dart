@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:get/get.dart';
 import 'home_view.dart';
-import 'operatorpresensi_view.dart';
+import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
+import '../utils/sessionmanager.dart';
+import '../controllers/absensi_controller.dart';
+import '../controllers/response_model.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -18,6 +22,89 @@ class ScanOperatorView extends StatefulWidget {
 }
 
 class _ScanOperatorViewState extends State<ScanOperatorView> {
+  late DateTime currentTime;
+  final idwcController = TextEditingController();
+  final tapController = TextEditingController();
+
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
+  String userIdLogin = "";
+  String userName = "";
+  String barcodeMachineResult = globalBarcodeMesinResult;
+
+  Future<void> _fetchUserId() async {
+    userIdLogin = await _sessionManager.getUserId() ?? "";
+    userName = await _sessionManager.getUsername() ?? "";
+    setState(() {});
+  }
+
+  Future<void> fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserId();
+    currentTime = DateTime.now();
+    idwcController.text = barcodeMachineResult;
+  }
+
+  Future<void> _submitForm() async {
+    final int idwc = int.tryParse(idwcController.text) ?? 0;
+    final int userId = int.tryParse(userIdLogin) ?? 0;
+    final String tap = tapController.text;
+
+    try {
+      await fetchCurrentTime();
+
+      ResponseModel response = await AbsensiController.postFormData(
+        idwc: idwc,
+        userId: userId,
+        oprTap: currentTime.toString(),
+        tap: tap,
+      );
+
+      if (response.status == 1) {
+        if (tap == "I") {
+          Get.snackbar('IN Mesin', 'Operator $userName');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return OperatorStatusView();
+              },
+            ),
+          );
+        }
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
+
   Future<void> _scanBarcode() async {
     String barcodeMachineResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -26,13 +113,18 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
       ScanMode.BARCODE,
     );
 
+    idwcController.text = barcodeMachineResult;
+    tapController.text = "I";
+
+    await _submitForm();
+
     setGlobalBarcodeResult(barcodeMachineResult);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            OperatorPresensiView(barcodeMachineResult: barcodeMachineResult),
+            OperatorStatusView(),
       ),
     );
   }
