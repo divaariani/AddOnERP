@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'scanoperator_view.dart';
+import 'operatorpresensi_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
-import 'gudang_view.dart';
+import 'gudanghasil_view.dart';
 import 'laporan_view.dart';
-import 'monitoring_view.dart';
+import 'monitoringhasil_view.dart';
 import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
 import '../controllers/actor_controller.dart';
@@ -87,7 +87,7 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    String barcodeResult = globalBarcodeResult;
+    String barcodeResult = globalBarcodeMesinResult;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -187,7 +187,7 @@ class _DashboardViewState extends State<DashboardView> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return Dialog(
-                                        backgroundColor: Color(0xFFFAFAFA),
+                                        backgroundColor: const Color(0xFFFAFAFA),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
@@ -213,7 +213,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const ScanOperatorView(),
+                                                          const OperatorPresensiView(),
                                                       ),
                                                     );
                                                   },
@@ -227,7 +227,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                         width: 24,
                                                         height: 24,
                                                       ),
-                                                      SizedBox(width: 10),
+                                                      const SizedBox(width: 10),
                                                       const Text(
                                                         'Isi Presensi',
                                                         style: TextStyle(
@@ -348,7 +348,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   color: _actorController.isOperator.value ==
                                               't' ||
                                           _actorController.isAdmin == 't'
-                                      ? Color(0xFF226EA4)
+                                      ? const Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
                               ),
@@ -359,7 +359,7 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isAuditor.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => AuditView());
+                                  Get.to(() => const AuditView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
@@ -386,7 +386,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   color:
                                       _actorController.isAuditor.value == 't' ||
                                               _actorController.isAdmin == 't'
-                                          ? Color(0xFF226EA4)
+                                          ? const Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
                               ),
@@ -425,7 +425,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   color: _actorController.isWarehouse.value ==
                                               't' ||
                                           _actorController.isAdmin == 't'
-                                      ? Color(0xFF226EA4)
+                                      ? const Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
                               ),
@@ -473,7 +473,7 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isMonitor.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => const MonitoringView());
+                                  Get.to(() => const MonitoringHasilView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
