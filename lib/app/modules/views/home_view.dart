@@ -110,11 +110,14 @@ class _HomeViewState extends State<HomeView> {
               Visibility(
                 visible: controller.loading.value,
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
-        ));
+        )
+      );
   }
 }
