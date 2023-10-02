@@ -23,7 +23,8 @@ class AuditLokasiView extends StatefulWidget {
 class _AuditLokasiViewState extends State<AuditLokasiView> {
   String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
   late DateTime currentTime;
-  final AuditUserController _auditUserController = Get.put(AuditUserController());
+  final AuditUserController _auditUserController =
+      Get.put(AuditUserController());
   final idController = TextEditingController();
   final pbarangController = TextEditingController();
   final plokasiController = TextEditingController();
@@ -87,9 +88,9 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
       }
 
-      widget.resultBarang.clear(); 
+      widget.resultBarang.clear();
       setState(() {
-        widget.resultBarang = []; 
+        widget.resultBarang = [];
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -135,135 +136,158 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                   children: [
                     const SizedBox(height: 70),
                     Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                'LOKASI: ',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                barcodeAuditLokasiResult,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Visibility(
-                    visible: widget.resultBarang.isNotEmpty,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      margin: const EdgeInsets.symmetric(horizontal: 26),
                       child: Container(
-                        width: 1 * MediaQuery.of(context).size.width,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Daftar Barang',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'LOKASI: ',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.blue[900],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                widget.resultBarang.join('\n'),
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.blue[900],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
+                                Text(
+                                  barcodeAuditLokasiResult,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.blue[900],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Visibility(
-                    visible: widget.resultBarang.isEmpty,
-                    child: EmptyData(),
-                  ),
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ScanAuditBarangView()),
-                            );
-                          },
-                          icon: const Icon(Icons.qr_code_scanner, size: 15),
-                          label: const Text('Scan Barang',
-                              style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: widget.resultBarang.isNotEmpty,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 26),
+                        child: Container(
+                          width: 1 * MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Daftar Barang',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.blue[900],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: widget.resultBarang.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final item = widget.resultBarang[index];
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          item,
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.blue[900],
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            setState(() {
+                                              widget.resultBarang.removeAt(index);
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            elevation: 4,
-                            minimumSize: const Size(130, 48),
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            _submitStock();
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => const AuditHasilView()),
-                            );
-                          },
-                          icon: const Icon(Icons.cloud_upload, size: 15),
-                          label: const Text('UPLOAD', style: TextStyle(fontSize: 12)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: const Size(100, 48),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Visibility(
+                      visible: widget.resultBarang.isEmpty,
+                      child: EmptyData(),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ScanAuditBarangView()),
+                              );
+                            },
+                            icon: const Icon(Icons.qr_code_scanner, size: 15),
+                            label: const Text('Scan Barang',
+                                style: TextStyle(fontSize: 12)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: const Size(130, 48),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              _submitStock();
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AuditHasilView()),
+                              );
+                            },
+                            icon: const Icon(Icons.cloud_upload, size: 15),
+                            label: const Text('UPLOAD',
+                                style: TextStyle(fontSize: 12)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: const Size(100, 48),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 30),
                   ],
                 ),
