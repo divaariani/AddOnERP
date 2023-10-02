@@ -17,14 +17,15 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   ActorController controller = Get.put(ActorController());
-  final SessionManager sessionManager = SessionManager();
-  final SessionManager _sessionManager = SessionManager();
 
   var _currentIndex = 0;
+  
+  final SessionManager sessionManager = SessionManager();
+  final SessionManager _sessionManager = SessionManager();
   final List<Widget> _pages = [
-    DashboardView(),
-    NotificationView(),
-    ProfileView(),
+    const DashboardView(),
+    const NotificationView(),
+    const ProfileView(),
   ];
 
   DateTime? currentBackPressTime;
@@ -34,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
     if (connectivityResult == ConnectivityResult.none) {
       Get.snackbar(
           'No Internet Connection', 'Please check your internet connection.',
-          duration: Duration(seconds: 5));
+          duration: const Duration(seconds: 5));
     }
   }
 
@@ -58,12 +59,12 @@ class _HomeViewState extends State<HomeView> {
             if (isLoggedIn) {
               if (currentBackPressTime == null ||
                   DateTime.now().difference(currentBackPressTime!) >
-                      Duration(seconds: 2)) {
+                      const Duration(seconds: 2)) {
                 currentBackPressTime = DateTime.now();
 
                 Get.snackbar("Press twice to exit",
                     "Klik dua kali untuk keluar aplikasi",
-                    duration: Duration(seconds: 2));
+                    duration: const Duration(seconds: 2));
 
                 return false;
               } else {
@@ -77,7 +78,7 @@ class _HomeViewState extends State<HomeView> {
         child: Scaffold(
           backgroundColor: Colors.white,
           bottomNavigationBar: Padding(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SalomonBottomBar(
               currentIndex: _currentIndex,
               onTap: (i) => setState(() => _currentIndex = i),
@@ -85,20 +86,20 @@ class _HomeViewState extends State<HomeView> {
                 SalomonBottomBarItem(
                   icon: Image.asset("assets/icon.home.png",
                       width: 24, height: 24),
-                  title: Text("Beranda"),
-                  selectedColor: Color(0xFF2A77AC),
+                  title: const Text("Beranda"),
+                  selectedColor: const Color(0xFF2A77AC),
                 ),
                 SalomonBottomBarItem(
                   icon: Image.asset("assets/icon.bell.png",
                       width: 24, height: 24),
-                  title: Text("Notifikasi"),
-                  selectedColor: Color(0xFF2A77AC),
+                  title: const Text("Notifikasi"),
+                  selectedColor: const Color(0xFF2A77AC),
                 ),
                 SalomonBottomBarItem(
                   icon: Image.asset("assets/icon.person.png",
                       width: 24, height: 24),
-                  title: Text("Profile"),
-                  selectedColor: Color(0xFF2A77AC),
+                  title: const Text("Profile"),
+                  selectedColor: const Color(0xFF2A77AC),
                 ),
               ],
             ),
@@ -109,7 +110,7 @@ class _HomeViewState extends State<HomeView> {
               _pages[_currentIndex],
               Visibility(
                 visible: controller.loading.value,
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
