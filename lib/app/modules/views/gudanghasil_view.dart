@@ -7,7 +7,7 @@ import 'home_view.dart';
 import '../controllers/gudangview_controller.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: GudangHasilView(),
   ));
 }
@@ -623,34 +623,35 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
   }
 
   Future<void> _submitState() async {
-  try {
-    widget.onDelete(widget.entry.id);
+    try {
+      widget.onDelete(widget.entry.id);
 
-    setState(() {
-      widget.data.removeWhere((element) => element.id == widget.entry.id);
-    });
+      setState(() {
+        widget.data.removeWhere((element) => element.id == widget.entry.id);
+      });
 
-    final cardTableState = context.findAncestorStateOfType<_CardTableState>();
-    cardTableState?.setState(() {});
+      final cardTableState = context.findAncestorStateOfType<_CardTableState>();
+      cardTableState?.setState(() {});
 
-    Get.snackbar(
-      'Sukses',
-      'Kode Barang ${widget.entry.lotnumber} berhasil dihapus.',
-      snackPosition: SnackPosition.TOP, 
-      duration: Duration(seconds: 3), 
-    );
+      Get.snackbar(
+        'Sukses',
+        'Kode Barang ${widget.entry.lotnumber} berhasil dihapus.',
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(seconds: 3),
+      );
 
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => GudangHasilView()));
-  } catch (e) {
-    Get.snackbar(
-      'Kesalahan',
-      'Terjadi kesalahan saat menghapus data: $e',
-      snackPosition: SnackPosition.TOP, 
-      duration: Duration(seconds: 3), 
-    );
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => GudangHasilView()));
+    } catch (e) {
+      Get.snackbar(
+        'Kesalahan',
+        'Terjadi kesalahan saat menghapus data: $e',
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(seconds: 3),
+      );
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -663,11 +664,89 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
         ),
         child: InkWell(
           onTap: () {
-            _submitState();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  content: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.asset(
+                            'assets/icon.warning.png',
+                            width: 70,
+                            height: 70,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Apakah yakin akan dihapus?',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: const Color(0xFF084D88),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffD1D3D9),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Batal',
+                                style: TextStyle(
+                                  color: Color(0xFF084D88),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: () {
+                                _submitState();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Hapus',
+                                style: TextStyle(
+                                  color: Color(0xFFFAFAFA),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
           },
           child: Center(
             child: Image.asset(
-              'assets/trush.png',
+              'assets/icon.delete.png',
               width: 20,
               height: 20,
             ),
