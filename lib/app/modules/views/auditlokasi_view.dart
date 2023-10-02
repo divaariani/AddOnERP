@@ -13,8 +13,7 @@ class AuditLokasiView extends StatefulWidget {
   String result;
   List<String> resultBarang;
 
-  AuditLokasiView({required this.result, required this.resultBarang, Key? key})
-      : super(key: key);
+  AuditLokasiView({required this.result, required this.resultBarang, Key? key}) : super(key: key);
 
   @override
   State<AuditLokasiView> createState() => _AuditLokasiViewState();
@@ -198,10 +197,12 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: widget.resultBarang.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     final item = widget.resultBarang[index];
                                     return Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           item,
@@ -212,13 +213,20 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        IconButton(
-                                          icon: const Icon(Icons.delete),
-                                          onPressed: () {
-                                            setState(() {
-                                              widget.resultBarang.removeAt(index);
-                                            });
-                                          },
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                widget.resultBarang.removeAt(index);
+                                              });
+                                            },
+                                            child: Image.asset(
+                                              'assets/icon.delete.png',
+                                              width: 25,
+                                              height: 25,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     );
@@ -331,6 +339,8 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
 }
 
 class EmptyData extends StatelessWidget {
+  const EmptyData({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
