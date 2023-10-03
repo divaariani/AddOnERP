@@ -13,7 +13,8 @@ class AuditLokasiView extends StatefulWidget {
   String result;
   List<String> resultBarang;
 
-  AuditLokasiView({required this.result, required this.resultBarang, Key? key}) : super(key: key);
+  AuditLokasiView({required this.result, required this.resultBarang, Key? key})
+      : super(key: key);
 
   @override
   State<AuditLokasiView> createState() => _AuditLokasiViewState();
@@ -22,8 +23,7 @@ class AuditLokasiView extends StatefulWidget {
 class _AuditLokasiViewState extends State<AuditLokasiView> {
   String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
   late DateTime currentTime;
-  final AuditUserController _auditUserController =
-      Get.put(AuditUserController());
+  final AuditUserController _auditUserController = Get.put(AuditUserController());
   final idController = TextEditingController();
   final pbarangController = TextEditingController();
   final plokasiController = TextEditingController();
@@ -106,7 +106,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -194,16 +194,110 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                const SizedBox(height: 10),
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: widget.resultBarang.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
+                                  itemBuilder: (BuildContext context, int index) {
                                     final item = widget.resultBarang[index];
                                     return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: InkWell(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    content: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 10),
+                                                            child: Image.asset(
+                                                              'assets/icon.warning.png',
+                                                              width: 70,
+                                                              height: 70,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(height: 10),
+                                                          Text(
+                                                            'Apakah yakin akan dihapus?',
+                                                            textAlign: TextAlign.center,
+                                                            style: GoogleFonts.poppins(
+                                                              fontSize: 12,
+                                                              color: const Color(0xFF084D88),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(height: 10),
+                                                          Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: const Color(0xffD1D3D9),
+                                                                  elevation: 0,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                ),
+                                                                child: const Text(
+                                                                  'Batal',
+                                                                  style: TextStyle(
+                                                                    color: Color(0xFF084D88),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(width: 10),
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    widget.resultBarang.removeAt(index);
+                                                                  });
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.red,
+                                                                  elevation: 0,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                ),
+                                                                child: const Text(
+                                                                  'Hapus',
+                                                                  style: TextStyle(
+                                                                    color: Color(0xFFFAFAFA),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Image.asset(
+                                              'assets/icon.delete.png',
+                                              width: 25,
+                                              height: 25,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
                                         Text(
                                           item,
                                           textAlign: TextAlign.center,
@@ -211,21 +305,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                             color: Colors.blue[900],
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                widget.resultBarang.removeAt(index);
-                                              });
-                                            },
-                                            child: Image.asset(
-                                              'assets/icon.delete.png',
-                                              width: 25,
-                                              height: 25,
-                                            ),
                                           ),
                                         ),
                                       ],
@@ -240,7 +319,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                     ),
                     Visibility(
                       visible: widget.resultBarang.isEmpty,
-                      child: EmptyData(),
+                      child: const EmptyData(),
                     ),
                     const SizedBox(height: 20),
                     Align(
@@ -257,7 +336,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                         const ScanAuditBarangView()),
                               );
                             },
-                            icon: const Icon(Icons.qr_code_scanner, size: 15),
+                            icon: Image.asset(
+                              'assets/icon.scan.png', 
+                              width: 15, 
+                              height: 15, 
+                            ),
                             label: const Text('Scan Barang',
                                 style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
@@ -280,8 +363,12 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                         const AuditHasilView()),
                               );
                             },
-                            icon: const Icon(Icons.cloud_upload, size: 15),
-                            label: const Text('UPLOAD',
+                            icon: Image.asset(
+                              'assets/icon.upload.png', 
+                              width: 15, 
+                              height: 15, 
+                            ),
+                            label: const Text('Upload',
                                 style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
