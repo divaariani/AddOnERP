@@ -5,15 +5,9 @@ import '../controllers/machinestate_controller.dart';
 import '../controllers/response_model.dart';
 import 'home_view.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: OperatorStatusView(),
-  ));
-}
-
 class OperatorStatusView extends StatefulWidget {
-  
   const OperatorStatusView({Key? key}) : super(key: key);
+  
   @override
   State<OperatorStatusView> createState() => _OperatorStatusViewState();
 }
@@ -90,7 +84,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -104,9 +98,9 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     CardTable(data: _data),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -116,13 +110,13 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -131,7 +125,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Status Mesin",
                   style: TextStyle(
                     fontSize: 20,
@@ -185,7 +179,7 @@ class MyDataTableSource extends DataTableSource {
         DataCell(Text(
           entry.mesin,
           textAlign: TextAlign.left,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
@@ -193,7 +187,7 @@ class MyDataTableSource extends DataTableSource {
         DataCell(Text(
           entry.operator,
           textAlign: TextAlign.left,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
@@ -201,7 +195,7 @@ class MyDataTableSource extends DataTableSource {
         DataCell(Text(
           entry.status,
           textAlign: TextAlign.left,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
@@ -228,7 +222,7 @@ class MyDataTableSource extends DataTableSource {
 class CardTable extends StatefulWidget {
   final List<MyData> data;
 
-  CardTable({required this.data});
+  const CardTable({Key? key, required this.data}) : super(key: key);
 
   @override
   _CardTableState createState() => _CardTableState();
@@ -301,7 +295,7 @@ class _CardTableState extends State<CardTable> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
             height: 60,
             decoration: BoxDecoration(
@@ -309,10 +303,10 @@ class _CardTableState extends State<CardTable> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: ListTile(
-              leading: Icon(Icons.search),
+              leading: const Icon(Icons.search),
               title: TextField(
                 controller: controller,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Cari...',
                   border: InputBorder.none, 
                 ),
@@ -324,7 +318,7 @@ class _CardTableState extends State<CardTable> {
                 },
               ),
               trailing: IconButton(
-                icon: Icon(Icons.cancel),
+                icon: const Icon(Icons.cancel),
                 onPressed: () {
                   setState(() {
                     controller.clear();
@@ -336,9 +330,9 @@ class _CardTableState extends State<CardTable> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -406,7 +400,7 @@ class _CardTableState extends State<CardTable> {
 class AksiCellWidget extends StatefulWidget {
   final BuildContext parentContext;
   final MyData entry;
-  AksiCellWidget({required this.parentContext, required this.entry});
+  const AksiCellWidget({Key? key, required this.parentContext, required this.entry}) : super(key: key);
 
   @override
   State<AksiCellWidget> createState() => _AksiCellWidgetState();
@@ -479,7 +473,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
           Get.snackbar('Mesin $machineName', 'ended');
         }
 
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OperatorStatusView()));        
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OperatorStatusView()));        
 
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -522,14 +516,14 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               width: 25,
             ),
           ),
-          SizedBox(width: 10, height: 10),
+          const SizedBox(width: 10, height: 10),
           InkWell(
             onTap: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return Dialog(
-                    backgroundColor: Color(0xFF084D88),
+                    backgroundColor: const Color(0xFF084D88),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -539,7 +533,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
+                            const Text(
                               'Pause',
                               style: TextStyle(
                                 color: Color(0xFFD9D9D9),
@@ -547,12 +541,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -569,12 +563,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -591,12 +585,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -613,7 +607,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
@@ -636,7 +630,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
@@ -676,14 +670,14 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               width: 25,
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InkWell(
             onTap: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return Dialog(
-                    backgroundColor: Color(0xFF084D88),
+                    backgroundColor: const Color(0xFF084D88),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -693,7 +687,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
+                            const Text(
                               'Blocked',
                               style: TextStyle(
                                 color: Color(0xFFD9D9D9),
@@ -701,7 +695,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
@@ -724,12 +718,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -747,12 +741,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -770,12 +764,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -793,12 +787,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -816,12 +810,12 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: const Color(0xFFD9D9D9),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -839,7 +833,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 200,
                               decoration: BoxDecoration(
@@ -880,7 +874,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               width: 25,
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InkWell(
             onTap: () {
               final id = widget.entry.id;
