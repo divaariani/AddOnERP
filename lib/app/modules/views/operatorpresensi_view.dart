@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
-import 'scanoperator_view.dart';
+import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 
 class OperatorPresensiView extends StatefulWidget {
-  const OperatorPresensiView({Key? key}) : super(key: key);
+  final String barcodeMachineResult;
+
+  const OperatorPresensiView({Key? key, required this.barcodeMachineResult}) : super(key: key);
 
   @override
   State<OperatorPresensiView> createState() => _OperatorPresensiViewState();
@@ -17,11 +19,10 @@ class OperatorPresensiView extends StatefulWidget {
 
 class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   late DateTime currentTime;
-  final idwcController = TextEditingController();
-  final tapController = TextEditingController();
-
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
+  final idwcController = TextEditingController();
+  final tapController = TextEditingController();
   String userIdLogin = "";
   String userName = "";
   String userPhoto = "";
@@ -68,7 +69,17 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       );
 
       if (response.status == 1) {
-        if (tap == "O") {
+        if (tap == "I") {
+          Get.snackbar('IN Mesin', 'Operator $userName');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return OperatorStatusView();
+              },
+            ),
+          );
+        } else if (tap == "O") {
           Get.snackbar('OUT Mesin', 'Operator $userName');
           Navigator.pushReplacement(
             context,
@@ -78,8 +89,6 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
               },
             ),
           );
-          idwcController.clear();
-          globalBarcodeMesinResult = "";
         }
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -109,7 +118,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -178,8 +187,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                     ),
                                     const SizedBox(width: 40),
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           userName,
@@ -190,15 +198,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          "Id: $userIdLogin",
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF084D88),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          idwcController.text,
+                                          'Kode Mesin: '+ idwcController.text,
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -228,13 +228,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                             margin: const EdgeInsets.only(right: 20),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ScanOperatorView(),
-                                  ),
-                                );
+                                tapController.text = "I";
+                                _submitForm();
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
@@ -416,7 +411,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
