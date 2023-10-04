@@ -13,20 +13,19 @@ class AuditLokasiView extends StatefulWidget {
   String result;
   List<String> resultBarang;
 
-  AuditLokasiView({required this.result, required this.resultBarang, Key? key})
-      : super(key: key);
+  AuditLokasiView({required this.result, required this.resultBarang, Key? key}) : super(key: key);
 
   @override
   State<AuditLokasiView> createState() => _AuditLokasiViewState();
 }
 
 class _AuditLokasiViewState extends State<AuditLokasiView> {
-  String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
   late DateTime currentTime;
   final AuditUserController _auditUserController = Get.put(AuditUserController());
   final idController = TextEditingController();
   final pbarangController = TextEditingController();
   final plokasiController = TextEditingController();
+  String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
   String idInventory = '';
 
   @override
