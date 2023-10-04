@@ -8,12 +8,6 @@ import '../controllers/auditor_controller.dart';
 import '../controllers/response_model.dart';
 import 'audit_view.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: AuditIsiView(),
-  ));
-}
-
 class AuditIsiView extends StatefulWidget {
   const AuditIsiView({Key? key}) : super(key: key);
 
@@ -24,11 +18,10 @@ class AuditIsiView extends StatefulWidget {
 class _AuditIsiViewState extends State<AuditIsiView> {
   late DateTime currentTime;
   final ActorController _actorController = Get.put(ActorController());
-  final idController = TextEditingController();
-  final nameController = TextEditingController();
-
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
+  final idController = TextEditingController();
+  final nameController = TextEditingController();
   String userName = "";
   String userIdLogin = "";
 
@@ -57,10 +50,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
 
   Future<void> _submitAuditor() async {
     final int id = int.parse(userIdLogin);
-    final String name = 'Auditor_' +
-        userName +
-        "_" +
-        DateFormat('ddMMyyyy').format(DateTime.now());
+    final String name = 'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now());
 
     try {
       await _fetchCurrentTime();
@@ -101,7 +91,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AuditView()),
+          MaterialPageRoute(builder: (context) => const AuditView()),
         );
         return false;
       },
@@ -114,7 +104,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -128,7 +118,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                  const SizedBox(height: 70),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 26),
                     child: Container(
@@ -154,11 +144,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                   ),
                                 ),
                                 Text(
-                                  'Auditor_' +
-                                      userName +
-                                      "_" +
-                                      DateFormat('ddMMyyyy')
-                                          .format(DateTime.now()),
+                                  'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
                                   style: GoogleFonts.poppins(
                                     color: Colors.blue[900],
                                     fontSize: 14,
@@ -167,7 +153,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Row(
                               children: [
                                 Text("Date: ",
@@ -177,8 +163,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                       fontSize: 14,
                                     )),
                                 Text(
-                                    DateFormat('dd-MM-yyyy')
-                                        .format(DateTime.now()),
+                                    DateFormat('dd-MM-yyyy').format(DateTime.now()),
                                     style: TextStyle(
                                       color: Colors.blue[900],
                                       fontWeight: FontWeight.normal,
@@ -186,7 +171,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                     )),
                               ],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Row(
                               children: [
                                 Text("Department: ",
@@ -230,7 +215,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,
                     child: Row(
@@ -242,12 +227,12 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AuditView(),
+                                builder: (context) => const AuditView(),
                               ),
                             );
                           },
-                          icon: Icon(Icons.save_alt, size: 20),
-                          label: Text('Simpan', style: TextStyle(fontSize: 14)),
+                          icon: const Icon(Icons.save_alt, size: 20),
+                          label: const Text('Simpan', style: TextStyle(fontSize: 14)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -255,13 +240,13 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             elevation: 4,
-                            minimumSize: Size(120, 60),
+                            minimumSize: const Size(120, 60),
                           ),
                         ),
                       ],
                     ),
                   ),
-                    SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -271,13 +256,13 @@ class _AuditIsiViewState extends State<AuditIsiView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AuditView()),
+                      MaterialPageRoute(builder: (context) => const AuditView()),
                     );
                   },
                   child: Image.asset(
@@ -286,7 +271,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Audit Stock",
                   style: TextStyle(
                     fontSize: 20,
