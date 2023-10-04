@@ -11,14 +11,9 @@ import 'auditisi_view.dart';
 import '../controllers/audituser_controller.dart';
 import '../utils/sessionmanager.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: AuditView(),
-  ));
-}
-
 class AuditView extends StatefulWidget {
   const AuditView({Key? key}) : super(key: key);
+  
   @override
   State<AuditView> createState() => _AuditViewState();
 }
@@ -87,7 +82,7 @@ class _AuditViewState extends State<AuditView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -118,7 +113,7 @@ class _AuditViewState extends State<AuditView> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23),
+                        padding: const EdgeInsets.symmetric(horizontal: 23),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -244,13 +239,13 @@ class _AuditViewState extends State<AuditView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
