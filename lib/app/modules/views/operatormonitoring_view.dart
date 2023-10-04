@@ -3,12 +3,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OperatorMonitorView extends StatelessWidget {
+  const OperatorMonitorView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment(0.99, -0.14),
               end: Alignment(-0.99, 0.14),
@@ -33,7 +35,7 @@ class OperatorMonitorView extends StatelessWidget {
           ),
         ),
       ),
-      body: WebView(
+      body: const WebView(
         initialUrl: 'https://bierp.sutrakabel.com/#/monitoring-machine',
         javascriptMode: JavascriptMode.unrestricted,
       ),
