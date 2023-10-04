@@ -4,19 +4,21 @@ import 'home_view.dart';
 import 'audit_view.dart';
 import '../controllers/auditview_controller.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: AuditHasilView(),
-  ));
-}
-
 class AuditHasilView extends StatefulWidget {
   const AuditHasilView({Key? key}) : super(key: key);
+  
   @override
   State<AuditHasilView> createState() => _AuditHasilViewState();
 }
 
 class _AuditHasilViewState extends State<AuditHasilView> {
+  void handleRefresh(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const AuditHasilView()),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +43,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -55,37 +57,37 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 23),
+                        padding: const EdgeInsets.only(left: 23),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Auditor",
                                 isActive: false,
-                                targetPage: AuditView(),
+                                targetPage: const AuditView(),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Stock",
                                 isActive: true,
-                                targetPage: AuditHasilView(),
+                                targetPage: const AuditHasilView(),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     CardTable(),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -95,13 +97,13 @@ class _AuditHasilViewState extends State<AuditHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -110,7 +112,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Audit Stock",
                   style: TextStyle(
                     fontSize: 20,
@@ -132,8 +134,7 @@ class CustomButton extends StatefulWidget {
   final bool isActive;
   final Widget targetPage;
 
-  CustomButton(
-      {required this.text, required this.isActive, required this.targetPage});
+  const CustomButton({Key? key, required this.text, required this.isActive, required this.targetPage}) : super(key: key);
 
   @override
   _CustomButtonState createState() => _CustomButtonState();
@@ -153,9 +154,8 @@ class _CustomButtonState extends State<CustomButton> {
       Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              widget.targetPage,
-          transitionDuration: Duration(milliseconds: 150),
+          pageBuilder: (context, animation, secondaryAnimation) => widget.targetPage,
+          transitionDuration: const Duration(milliseconds: 150),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -174,10 +174,10 @@ class _CustomButtonState extends State<CustomButton> {
             colors: widget.isActive
                 ? [
                     const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
+                    const Color.fromARGB(56, 0, 151, 251)
                   ]
                 : [
-                    Color.fromARGB(255, 255, 255, 255),
+                    const Color.fromARGB(255, 255, 255, 255),
                     const Color.fromRGBO(96, 187, 231, 1)
                   ],
             begin: Alignment.topCenter,
@@ -190,12 +190,12 @@ class _CustomButtonState extends State<CustomButton> {
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   )
                 ]
               : [],
         ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
         child: Text(
           widget.text,
           style: TextStyle(
@@ -246,7 +246,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.lokasi,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -258,7 +258,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.namabarang,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -270,7 +270,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.lotbarang,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -282,7 +282,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.qty.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -317,6 +317,8 @@ class MyDataTableSource extends DataTableSource {
 }
 
 class CardTable extends StatefulWidget {
+  const CardTable({Key? key}) : super(key: key);
+
   @override
   _CardTableState createState() => _CardTableState();
 }
@@ -326,6 +328,13 @@ class _CardTableState extends State<CardTable> {
   String _searchResult = '';
   List<MyData> _data = [];
   bool _isLoading = false;
+
+  void handleRefresh(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const AuditHasilView()),
+    );
+  }
 
   @override
   void initState() {
@@ -371,15 +380,9 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.lokasi
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
-              data.namabarang
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
-              data.lotbarang
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
+          return data.lokasi.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.namabarang.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.lotbarang.toLowerCase().contains(_searchResult.toLowerCase()) ||
               data.state.toLowerCase().contains(_searchResult.toLowerCase());
         }).toList();
         _isLoading = false;
@@ -397,45 +400,55 @@ class _CardTableState extends State<CardTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 26),
-          child: Container(
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: ListTile(
-              leading: Icon(Icons.search),
-              title: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: 'Cari...',
-                  border: InputBorder.none, 
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ListTile(
+                    leading: const Icon(Icons.search),
+                    title: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        hintText: 'Cari...',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchResult = value;
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          controller.clear();
+                          _searchResult = '';
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                  ),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _searchResult = value;
-                    fetchDataFromAPI();
-                  });
-                },
               ),
-              trailing: IconButton(
-                icon: Icon(Icons.cancel),
-                onPressed: () {
-                  setState(() {
-                    controller.clear();
-                    _searchResult = '';
-                    fetchDataFromAPI();
-                  });
-                },
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () => handleRefresh(context),
               ),
-            ),
+            ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -446,9 +459,9 @@ class _CardTableState extends State<CardTable> {
             child: Column(
               children: [
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : _data.isEmpty
-                        ? EmptyData()
+                        ? const EmptyData()
                         : PaginatedDataTable(
                             columns: [
                               DataColumn(
@@ -510,6 +523,8 @@ class _CardTableState extends State<CardTable> {
 }
 
 class EmptyData extends StatelessWidget {
+  const EmptyData({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
