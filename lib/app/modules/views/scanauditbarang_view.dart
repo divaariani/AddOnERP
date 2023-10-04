@@ -3,12 +3,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'auditlokasi_view.dart';
 import '../utils/globals.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: ScanAuditBarangView(),
-  ));
-}
-
 class ScanAuditBarangView extends StatefulWidget {
   const ScanAuditBarangView({Key? key}) : super(key: key);
 
@@ -48,7 +42,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  AuditLokasiView(result: '', resultBarang: [''])),
+                  AuditLokasiView(result: '', resultBarang: const [''])),
         );
         return false;
       },
@@ -61,7 +55,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -75,52 +69,48 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     Center(
                       child: Padding(
                         padding: EdgeInsets.all(40),
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Color(0xFF084D88),
+                              color: const Color(0xFF084D88),
                               width: 4,
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 80),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage("assets/icon.barcode.png"),
                                 ),
-                                SizedBox(height: 20),
-                                ElevatedButton(
+                                const SizedBox(height: 20),
+                                ElevatedButton.icon(
                                   onPressed: _scanBarcode,
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFF226EA4),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Image.asset(
+                                      'assets/icon.scan.png',
+                                      width: 15,
+                                      height: 15,
                                     ),
                                   ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.qr_code,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        "Scan QR Code",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                  label: const Text('Scan QR Code',
+                                      style: TextStyle(fontSize: 12)),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: const Color(0xFF084D88),
+                                    onPrimary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    elevation: 4,
+                                    minimumSize: const Size(130, 48),
                                   ),
                                 ),
                               ],
@@ -129,7 +119,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         "Scan barcode pada Barang!",
                         style: TextStyle(
@@ -138,7 +128,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -148,7 +138,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -156,7 +146,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              AuditLokasiView(result: '', resultBarang: [''])),
+                              AuditLokasiView(result: '', resultBarang: const [''])),
                     );
                   },
                   child: Image.asset(
@@ -165,7 +155,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Scan Barang",
                   style: TextStyle(
                     fontSize: 20,
