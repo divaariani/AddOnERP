@@ -436,7 +436,7 @@ class _DashboardViewState extends State<DashboardView> {
                           onPressed: _actorController.isQC.value == 't' ||
                                   _actorController.isAdmin == 't'
                               ? () {
-                                  Get.to(() => const LaporanView());
+                                  Get.to(() => const LaporanHasilView());
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
