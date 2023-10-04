@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'operatorpresensi_view.dart';
+import 'scanoperator_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
 import 'gudanghasil_view.dart';
-import 'laporan_view.dart';
+import 'laporanhasil_view.dart';
 import 'monitoringhasil_view.dart';
 import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
@@ -169,7 +169,7 @@ class _DashboardViewState extends State<DashboardView> {
                             : '[Kode Mesin]')
                         : '',
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Center(
                     child: GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
@@ -213,7 +213,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                          const OperatorPresensiView(),
+                                                          const ScanOperatorView(),
                                                       ),
                                                     );
                                                   },
@@ -422,9 +422,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: _actorController.isWarehouse.value ==
-                                              't' ||
-                                          _actorController.isAdmin == 't'
+                                  color: _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
                                       ? const Color(0xFF226EA4)
                                       : Colors.grey,
                                 ),
@@ -433,8 +431,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _actorController.isQC.value == 't' ||
-                                  _actorController.isAdmin == 't'
+                          onPressed: _actorController.isQC.value == 't' || _actorController.isAdmin == 't'
                               ? () {
                                   Get.to(() => const LaporanHasilView());
                                 }
@@ -497,9 +494,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      _actorController.isMonitor.value == 't' ||
-                                              _actorController.isAdmin == 't'
+                                  color: _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
                                           ? const Color(0xFF226EA4)
                                           : Colors.grey,
                                 ),
@@ -563,7 +558,7 @@ class CardID extends StatelessWidget {
   final String id;
   final String name;
   final String mesin;
-  const CardID({required this.id, required this.name, required this.mesin});
+  const CardID({Key? key, required this.id, required this.name, required this.mesin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
