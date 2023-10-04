@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:get/get.dart';
 import 'home_view.dart';
-import 'operatorstatus_view.dart';
+import 'operatorpresensi_view.dart';
 import '../utils/globals.dart';
-import '../utils/sessionmanager.dart';
-import '../controllers/absensi_controller.dart';
-import '../controllers/response_model.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: ScanOperatorView(),
-  ));
-}
 
 class ScanOperatorView extends StatefulWidget {
   const ScanOperatorView({Key? key}) : super(key: key);
@@ -22,89 +12,6 @@ class ScanOperatorView extends StatefulWidget {
 }
 
 class _ScanOperatorViewState extends State<ScanOperatorView> {
-  late DateTime currentTime;
-  final idwcController = TextEditingController();
-  final tapController = TextEditingController();
-
-  final SessionManager sessionManager = SessionManager();
-  final SessionManager _sessionManager = SessionManager();
-  String userIdLogin = "";
-  String userName = "";
-  String barcodeMachineResult = globalBarcodeMesinResult;
-
-  Future<void> _fetchUserId() async {
-    userIdLogin = await _sessionManager.getUserId() ?? "";
-    userName = await _sessionManager.getUsername() ?? "";
-    setState(() {});
-  }
-
-  Future<void> fetchCurrentTime() async {
-    try {
-      setState(() {
-        currentTime = DateTime.now();
-      });
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchUserId();
-    currentTime = DateTime.now();
-    idwcController.text = barcodeMachineResult;
-  }
-
-  Future<void> _submitForm() async {
-    final int idwc = int.tryParse(idwcController.text) ?? 0;
-    final int userId = int.tryParse(userIdLogin) ?? 0;
-    final String tap = tapController.text;
-
-    try {
-      await fetchCurrentTime();
-
-      ResponseModel response = await AbsensiController.postFormData(
-        idwc: idwc,
-        userId: userId,
-        oprTap: currentTime.toString(),
-        tap: tap,
-      );
-
-      if (response.status == 1) {
-        if (tap == "I") {
-          Get.snackbar('IN Mesin', 'Operator $userName');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return OperatorStatusView();
-              },
-            ),
-          );
-        }
-      } else if (response.status == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Request gagal: ${response.message}'),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Terjadi kesalahan: Response tidak valid.'),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Terjadi kesalahan: $e'),
-        ),
-      );
-    }
-  }
-
   Future<void> _scanBarcode() async {
     String barcodeMachineResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -113,18 +20,13 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
       ScanMode.BARCODE,
     );
 
-    idwcController.text = barcodeMachineResult;
-    tapController.text = "I";
-
-    await _submitForm();
-
     setGlobalBarcodeResult(barcodeMachineResult);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            OperatorStatusView(),
+            OperatorPresensiView(barcodeMachineResult: barcodeMachineResult),
       ),
     );
   }
@@ -135,7 +37,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -184,30 +86,26 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                                   image: AssetImage("assets/icon.barcode.png"),
                                 ),
                                 const SizedBox(height: 20),
-                                ElevatedButton(
+                                ElevatedButton.icon(
                                   onPressed: _scanBarcode,
-                                  style: ElevatedButton.styleFrom(
-                                    primary: const Color(0xFF226EA4),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Image.asset(
+                                      'assets/icon.scan.png',
+                                      width: 15,
+                                      height: 15,
                                     ),
                                   ),
-                                  child: const Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.qr_code,
-                                        color: Color(0xFFFAFAFA),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        "Scan QR Code",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFFFAFAFA),
-                                        ),
-                                      ),
-                                    ],
+                                  label: const Text('Scan QR Code',
+                                      style: TextStyle(fontSize: 12)),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: const Color(0xFF084D88),
+                                    onPrimary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    elevation: 4,
+                                    minimumSize: const Size(130, 48),
                                   ),
                                 ),
                               ],
@@ -241,7 +139,7 @@ class _ScanOperatorViewState extends State<ScanOperatorView> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
