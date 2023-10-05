@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'home_view.dart';
 import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
 
 class OperatorPresensiView extends StatefulWidget {
   final String barcodeMachineResult;
@@ -27,6 +29,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   String userName = "";
   String userPhoto = "";
   String barcodeMachineResult = globalBarcodeMesinResult;
+  String selectedMesin = '';
 
   Future<void> _fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
@@ -53,6 +56,46 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
     idwcController.text = barcodeMachineResult;
   }
 
+  Future<void> _submitNotif() async {
+    final int id = int.parse(userIdLogin);
+    final String title = 'Presensi';
+    final String description = 'Anda berhasil melakukan presensi mesin';
+
+    try {
+      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+      await fetchCurrentTime();
+
+      ResponseModel response = await NotificationController.postNotification(
+        userid: id,
+        title: title,
+        description: description,
+        date: date,
+      );
+
+      if (response.status == 1) {
+        print('notification insert success');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
+
   Future<void> _submitForm() async {
     final int idwc = int.parse(idwcController.text);
     final int userId = int.parse(userIdLogin);
@@ -71,6 +114,21 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
       if (response.status == 1) {
         if (tap == "I") {
           Get.snackbar('IN Mesin', 'Operator $userName');
+          try {
+            await NotificationController.postNotification(
+              userid: userId,
+              title: 'Presensi',
+              description: 'Anda berhasil melakukan IN mesin',
+              date: currentTime.toString(),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Terjadi kesalahan saat mengirim notifikasi: $e'),
+              ),
+            );
+          }
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -81,6 +139,21 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
           );
         } else if (tap == "O") {
           Get.snackbar('OUT Mesin', 'Operator $userName');
+          try {
+            await NotificationController.postNotification(
+              userid: userId,
+              title: 'Presensi',
+              description: 'Anda berhasil melakukan OUT mesin',
+              date: currentTime.toString(),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Terjadi kesalahan saat mengirim notifikasi: $e'),
+              ),
+            );
+          }
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -198,7 +271,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          'Kode Mesin: '+ idwcController.text,
+                                          'Kode Mesin: ' + idwcController.text,
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
