@@ -25,9 +25,17 @@ class _ScanGudangBarangViewState extends State<ScanGudangBarangView> {
       ScanMode.BARCODE,
     );
 
+    String finalGudangBarangResult = '';
+
+    if (barcodeGudangBarangResult.length >= 12) {
+      finalGudangBarangResult = barcodeGudangBarangResult.substring(
+        barcodeGudangBarangResult.length - 7 - 5, barcodeGudangBarangResult.length - 5
+      );
+    }
+
     if (barcodeGudangBarangResult.isNotEmpty) {
       setState(() {
-        globalBarcodeBarangResults.add(barcodeGudangBarangResult);
+        globalBarcodeBarangResults.add(finalGudangBarangResult);
       });
     }
 
