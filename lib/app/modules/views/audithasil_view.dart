@@ -332,7 +332,11 @@ class _CardTableState extends State<CardTable> {
   void handleRefresh(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const AuditHasilView()),
+      PageRouteBuilder(
+        opaque: true,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const AuditHasilView(),
+      ),
     );
   }
 
@@ -440,9 +444,12 @@ class _CardTableState extends State<CardTable> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                ),
                 onPressed: () => handleRefresh(context),
-              ),
+              )
             ],
           ),
         ),
