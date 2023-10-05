@@ -401,7 +401,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                           : globalBarcodeBarangQcResults.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
+                      itemBuilder: (context, index) {                        
                         if (globalBarcodeBarangQcResults.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -410,7 +410,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Expanded(
                                   flex: 2,
                                   child: Container(
-                                    width: 60,
+                                    width: MediaQuery.of(context).size.width * 0.2,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -430,7 +430,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 130,
+                                    width: MediaQuery.of(context).size.width * 0.3,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -458,7 +458,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Expanded(
                                   flex: 2,
                                   child: Container(
-                                    width: 60,
+                                    width: MediaQuery.of(context).size.width * 0.2,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -478,7 +478,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 130,
+                                    width: MediaQuery.of(context).size.width * 0.3,
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintText:
