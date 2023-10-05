@@ -6,6 +6,7 @@ import '../utils/sessionmanager.dart';
 import '../controllers/actor_controller.dart';
 import '../controllers/auditor_controller.dart';
 import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
 import 'audit_view.dart';
 
 class AuditIsiView extends StatefulWidget {
@@ -19,7 +20,6 @@ class _AuditIsiViewState extends State<AuditIsiView> {
   late DateTime currentTime;
   final ActorController _actorController = Get.put(ActorController());
   final SessionManager sessionManager = SessionManager();
-  final SessionManager _sessionManager = SessionManager();
   final idController = TextEditingController();
   final nameController = TextEditingController();
   String userName = "";
@@ -33,8 +33,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
   }
 
   Future<void> _fetchUserId() async {
-    userName = await _sessionManager.getUsername() ?? "";
-    userIdLogin = await _sessionManager.getUserId() ?? "";
+    userName = await sessionManager.getUsername() ?? "";
+    userIdLogin = await sessionManager.getUserId() ?? "";
     setState(() {});
   }
 
@@ -45,6 +45,46 @@ class _AuditIsiViewState extends State<AuditIsiView> {
       });
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<void> _submitNotif() async {
+    final int id = int.parse(userIdLogin);
+    final String title = 'Presensi';
+    final String description = 'Auditor berhasil melakukan presensi';
+
+    try {
+      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+      await _fetchCurrentTime();
+
+      ResponseModel response = await NotificationController.postNotification(
+        userid: id,
+        title: title,
+        description: description,
+        date: date,
+      );
+
+      if (response.status == 1) {
+        print('notification insert success');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
     }
   }
 
@@ -63,6 +103,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
 
       if (response.status == 1) {
         Get.snackbar('Auditor Berhasil Presensi', 'Congratulations');
+        _submitNotif();
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -118,135 +159,123 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  const SizedBox(height: 70),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    child: Container(
-                      width: 1 * MediaQuery.of(context).size.width,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Nama: ',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text("Date: ",
-                                    style: TextStyle(
-                                      color: Colors.blue[900],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    )),
-                                Text(
-                                    DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                    style: TextStyle(
-                                      color: Colors.blue[900],
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                    )),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text("Department: ",
-                                    style: TextStyle(
-                                      color: Colors.blue[900],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    )),
-                                Text(
-                                    _actorController.isOperator.value == 't'
-                                        ? 'Operator'
-                                        : _actorController.isAdmin.value == 't'
-                                            ? 'Administrator'
-                                            : _actorController
-                                                        .isAuditor.value ==
-                                                    't'
-                                                ? 'Auditor'
-                                                : _actorController.isWarehouse
-                                                            .value ==
-                                                        't'
-                                                    ? 'Staff Gudang'
-                                                    : _actorController
-                                                                .isQC.value ==
-                                                            't'
-                                                        ? 'Staff Laporan Produksi'
-                                                        : _actorController
-                                                                    .isCustomer
-                                                                    .value ==
-                                                                't'
-                                                            ? 'Customer'
-                                                            : 'Unknown Staff',
-                                    style: TextStyle(
-                                      color: Colors.blue[900],
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                    )),
-                              ],
-                            ),
-                          ],
+                    const SizedBox(height: 70),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 26),
+                      child: Container(
+                        width: 1 * MediaQuery.of(context).size.width,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            _submitAuditor();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const AuditView(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Nama: ',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.blue[900],
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Auditor_$userName' +
+                                        "_" +
+                                        DateFormat('ddMMyyyy')
+                                            .format(DateTime.now()),
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.blue[900],
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.save_alt, size: 20),
-                          label: const Text('Simpan', style: TextStyle(fontSize: 14)),
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(8, 77, 136, 136),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            elevation: 4,
-                            minimumSize: const Size(120, 60),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text("Date: ",
+                                      style: TextStyle(
+                                        color: Colors.blue[900],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      )),
+                                  Text(
+                                      DateFormat('dd-MM-yyyy')
+                                          .format(DateTime.now()),
+                                      style: TextStyle(
+                                        color: Colors.blue[900],
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text("Department: ",
+                                      style: TextStyle(
+                                        color: Colors.blue[900],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      )),
+                                  Text(
+                                      _actorController.isAdmin.value == 't'
+                                          ? 'Administrator'
+                                          : _actorController.isAuditor.value == 't'
+                                              ? 'Auditor'
+                                              : 'Unknown Staff',
+                                      style: TextStyle(
+                                        color: Colors.blue[900],
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                      )),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              _submitAuditor();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const AuditView(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.save_alt, size: 20),
+                            label: const Text('Simpan',
+                                style: TextStyle(fontSize: 14)),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: const Size(120, 60),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -262,7 +291,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AuditView()),
+                      MaterialPageRoute(
+                          builder: (context) => const AuditView()),
                     );
                   },
                   child: Image.asset(
