@@ -491,7 +491,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                SizedBox(width: 30),
                                 Expanded(
                                   flex: 3,
                                   child: Container(
