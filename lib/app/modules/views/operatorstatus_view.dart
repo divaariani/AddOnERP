@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import '../controllers/machine_controller.dart';
 import '../controllers/machinestate_controller.dart';
 import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
+import '../utils/sessionmanager.dart';
 import 'home_view.dart';
 
 class OperatorStatusView extends StatefulWidget {
   const OperatorStatusView({Key? key}) : super(key: key);
-  
+
   @override
   State<OperatorStatusView> createState() => _OperatorStatusViewState();
 }
@@ -28,7 +30,6 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
   }
 
   Future<void> fetchDataFromAPI() async {
-    
     try {
       final response = await MachineController.postFormData(
         id: 1,
@@ -214,9 +215,9 @@ class MyDataTableSource extends DataTableSource {
   int get selectedRowCount => 0;
 
   void updateData(List<MyData> newData) {
-  data.clear(); 
-  data.addAll(newData); 
-}
+    data.clear();
+    data.addAll(newData);
+  }
 }
 
 class CardTable extends StatefulWidget {
@@ -263,9 +264,13 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.mesin.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.operator.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.status.toLowerCase().contains(_searchResult.toLowerCase()) ;
+          return data.mesin
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.operator
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.status.toLowerCase().contains(_searchResult.toLowerCase());
         }).toList();
         _isLoading = false;
       });
@@ -308,7 +313,7 @@ class _CardTableState extends State<CardTable> {
                 controller: controller,
                 decoration: const InputDecoration(
                   hintText: 'Cari...',
-                  border: InputBorder.none, 
+                  border: InputBorder.none,
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -408,8 +413,15 @@ class AksiCellWidget extends StatefulWidget {
 
 class _AksiCellWidgetState extends State<AksiCellWidget> {
   late DateTime currentTime;
+  final SessionManager sessionManager = SessionManager();
   final stateController = TextEditingController();
   final idController = TextEditingController();
+  String userIdLogin = "";
+
+  Future<void> _fetchUserId() async {
+    userIdLogin = await sessionManager.getUserId() ?? "";
+    setState(() {});
+  }
 
   Future<void> fetchCurrentTime() async {
     try {
@@ -425,11 +437,13 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
   void initState() {
     super.initState();
     currentTime = DateTime.now();
+    _fetchUserId();
   }
 
   Future<void> _submitState() async {
     final int id = int.parse(idController.text);
     final String state = stateController.text;
+    final int userId = int.parse(userIdLogin);
 
     try {
       await fetchCurrentTime();
@@ -445,6 +459,20 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
 
         if (state == "Start") {
           Get.snackbar('Mesin $machineName', 'started');
+          try {
+            await NotificationController.postNotification(
+              userid: userId,
+              title: 'Mesin',
+              description: 'Anda melakukan start mesin $machineName',
+              date: currentTime.toString(),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Terjadi kesalahan saat mengirim notifikasi: $e'),
+              ),
+            );
+          }
         } else if (state == "Pause (Naik WIP)") {
           Get.snackbar('Mesin $machineName', 'paused');
         } else if (state == "Pause (Naik Bobin)") {
@@ -471,10 +499,24 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
           Get.snackbar('Mesin $machineName', 'blocked');
         } else if (state == "End") {
           Get.snackbar('Mesin $machineName', 'ended');
+          try {
+            await NotificationController.postNotification(
+              userid: userId,
+              title: 'Mesin',
+              description: 'Anda melakukan end mesin $machineName',
+              date: currentTime.toString(),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Terjadi kesalahan saat mengirim notifikasi: $e'),
+              ),
+            );
+          }
         }
 
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OperatorStatusView()));        
-
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const OperatorStatusView()));
       } else if (response.status == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
