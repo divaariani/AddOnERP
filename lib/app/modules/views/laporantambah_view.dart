@@ -303,41 +303,24 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               ],
                             ),
                             padding: EdgeInsets.all(4.0),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.scanner,
-                                color: const Color.fromARGB(255, 7, 93, 163),
-                              ),
-                              onPressed: () {
+                            child: GestureDetector(
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ScanQcBarangView()),
+                                    builder: (context) => ScanQcBarangView(),
+                                  ),
                                 );
                               },
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            padding: EdgeInsets.all(4.0),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.add,
-                                color: const Color.fromARGB(255, 7, 93, 163),
+                              child: Image.asset(
+                                'assets/barcode.png', 
+                                width:
+                                    30, 
+                                height:
+                                    30, 
+                                color: const Color.fromARGB(255, 7, 93,
+                                    163),
                               ),
-                              onPressed: () {},
                             ),
                           ),
                         ],
@@ -403,15 +386,15 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.89, 
-                            height: 3, 
+                            width: MediaQuery.of(context).size.width * 0.89,
+                            height: 3,
                             color: Colors.white,
-                            margin: EdgeInsets.symmetric(vertical: 10), 
+                            margin: EdgeInsets.symmetric(vertical: 10),
                           ),
                         ),
                       ],
                     ),
-                    (SizedBox(height: 10)),
+                    SizedBox(height: 10),
                     ListView.builder(
                       itemCount: globalBarcodeBarangQcResults.isEmpty
                           ? 1
@@ -427,7 +410,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Expanded(
                                   flex: 2,
                                   child: Container(
-                                    width: 120,
+                                    width: 60,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -443,11 +426,11 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                SizedBox(width: 5),
                                 Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 200,
+                                    width: 130,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -469,13 +452,13 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         } else {
                           int id = index + 1;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Row(
                               children: [
                                 Expanded(
                                   flex: 2,
                                   child: Container(
-                                    width: 120,
+                                    width: 60,
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
@@ -491,11 +474,11 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 30),
+                                SizedBox(width: 5),
                                 Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 200,
+                                    width: 130,
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintText:
