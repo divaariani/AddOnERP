@@ -19,9 +19,17 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
       ScanMode.BARCODE,
     );
 
+    String finalAuditBarangResult = '';
+
+    if (barcodeAuditBarangResult.length >= 12) {
+      finalAuditBarangResult = barcodeAuditBarangResult.substring(
+        barcodeAuditBarangResult.length - 7 - 5, barcodeAuditBarangResult.length - 5
+      );
+    }
+
     if (barcodeAuditBarangResult.isNotEmpty) {
       setState(() {
-        globalBarcodeBarangResults.add(barcodeAuditBarangResult);
+        globalBarcodeBarangResults.add(finalAuditBarangResult);
       });
     }
 
