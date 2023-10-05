@@ -25,9 +25,17 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
       ScanMode.BARCODE,
     );
 
+    String finalQcBarangResult = '';
+
+    if (barcodeQcBarangResult.length >= 12) {
+      finalQcBarangResult = barcodeQcBarangResult.substring(
+        barcodeQcBarangResult.length - 7 - 5, barcodeQcBarangResult.length - 5
+      );
+    }
+
     if (barcodeQcBarangResult.isNotEmpty) {
       setState(() {
-        globalBarcodeBarangQcResults.add(barcodeQcBarangResult);
+        globalBarcodeBarangQcResults.add(finalQcBarangResult);
       });
     }
 
