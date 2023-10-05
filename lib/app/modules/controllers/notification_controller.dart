@@ -6,20 +6,18 @@ class NotificationController{
   static const String baseUrl = '{API}';
 
   static Future<ResponseModel> postNotification({
-    required int id,
     required int userid,
     required String title,
     required String description,
-    required String date
+    required String date,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_notification_activity'),
+      Uri.parse('$baseUrl?function=insert_notification_activity'),
       body: {
-        'id': id.toString(),
         'userid': userid.toString(),
         'title': title,
         'description': description,
-        'date': date
+        'date': date.toString(),
       },
     );
 
