@@ -51,7 +51,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
   Future<void> _submitNotif() async {
     final int id = int.parse(userIdLogin);
     final String title = 'Presensi';
-    final String description = 'Auditor berhasil melakukan presensi';
+    final String description = 'Anda berhasil melakukan presensi audit';
 
     try {
       final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
