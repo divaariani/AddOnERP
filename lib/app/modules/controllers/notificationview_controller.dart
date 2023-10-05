@@ -5,8 +5,6 @@ import '../utils/sessionmanager.dart';
 
 class NotificationViewController{
   static const String baseUrl = '{API}';
-
-  final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   String userId = "";
 
@@ -29,6 +27,8 @@ class NotificationViewController{
     required String description,
     required String date
   }) async {
+    final userId = await _sessionManager.getUserId() ?? "";
+
     final response = await http.post(
       Uri.parse('$baseUrl?function=get_notification_activity&userid=$userId'),
       body: {
