@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../controllers/notificationview_controller.dart';
 
 class NotificationView extends StatefulWidget {
@@ -63,6 +64,22 @@ class _NotificationViewState extends State<NotificationView> {
   }
 }
 
+class MyData {
+  final int id;
+  final int userid;
+  final String title;
+  final String description;
+  final String date;
+
+  MyData({
+    required this.id,
+    required this.userid,
+    required this.title,
+    required this.description,
+    required this.date,
+  });
+}
+
 class CardNotification extends StatefulWidget {
   const CardNotification({Key? key}) : super(key: key);
 
@@ -72,7 +89,16 @@ class CardNotification extends StatefulWidget {
 
 class _CardNotificationState extends State<CardNotification> {
   List<MyData> _data = [];
-  bool _isLoading = false;
+
+  String formatDate(String inputDate) {
+    DateTime date = DateTime.parse(inputDate);
+    String year = DateFormat('yy').format(date);
+    String month = DateFormat('MMM').format(date);
+    String day = DateFormat('dd').format(date);
+    String hour = DateFormat('HH').format(date);
+    String minute = DateFormat('mm').format(date);
+    return '$day $month $year [$hour:$minute]';
+  }
 
   @override
   void initState() {
@@ -82,10 +108,6 @@ class _CardNotificationState extends State<CardNotification> {
 
   Future<void> fetchDataFromAPI() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
-
       final notificationController = NotificationViewController();
 
       final response = await notificationController.viewData(
@@ -117,13 +139,9 @@ class _CardNotificationState extends State<CardNotification> {
 
       setState(() {
         _data = myDataList;
-        _isLoading = false;
       });
     } catch (e) {
       print('Error fetching data: $e');
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
@@ -174,7 +192,7 @@ class _CardNotificationState extends State<CardNotification> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      data.date.substring(0, 16) + '',
+                      formatDate(data.date),
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF084D88),
                         fontSize: 10,
@@ -190,95 +208,4 @@ class _CardNotificationState extends State<CardNotification> {
       ),
     );
   }
-}
-
-class MyData {
-  final int id;
-  final int userid;
-  final String title;
-  final String description;
-  final String date;
-
-  MyData({
-    required this.id,
-    required this.userid,
-    required this.title,
-    required this.description,
-    required this.date,
-  });
-}
-
-class MyDataTableSource extends DataTableSource {
-  final List<MyData> data;
-  MyDataTableSource(this.data);
-
-  @override
-  DataRow? getRow(int index) {
-    if (index >= data.length) {
-      return null;
-    }
-    final entry = data[index];
-    return DataRow.byIndex(
-      index: index,
-      cells: [
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.userid.toString(),
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.title,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.description,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.date,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => data.length;
-
-  @override
-  int get selectedRowCount => 0;
 }
