@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'response_model.dart';
 
 class MachineController{
-  static const String baseUrl = '{YOUR_API}';
+  static const String baseUrl = '{API}';
 
   static Future<ResponseModel> postFormData({
     required int id,
@@ -28,6 +28,19 @@ class MachineController{
       return ResponseModel.fromJson(responseData);
     } else {
       throw Exception('Failed to post form data');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getWorkcenterList() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl?function=get_workcenter_list'),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      return responseData;
+    } else {
+      throw Exception('Failed to fetch data from API');
     }
   }
 }
