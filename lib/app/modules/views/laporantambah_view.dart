@@ -46,7 +46,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
   void _updateCreateTgl() {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(now);
     _createTglController.text = formattedDate;
   }
 
@@ -56,24 +56,18 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   }
 
   Future<void> _submitStock() async {
-    //final int userid = int.parse(idController.text);
-    //final String pbarcode_mobil = pbarcode_mobilController.text;
 
     String successMessage = 'Congratulations';
     List<String> errorMessages = [];
 
     try {
-      //await _fetchCurrentTime();
       final int userId = int.parse(userIdLogin);
       final int id = int.tryParse(['id'].toString()) ?? 0;
       for (String plotnumber in widget.resultBarangQc) {
         ResponseModel response = await LaporanTambahController.postFormData(
           id: id,
           puserid: userId,
-          //pbarcode_mobil: pbarcode_mobil,
           plotnumber: plotnumber,
-
-          ///state: state,
         );
 
         if (response.status == 0) {
@@ -108,12 +102,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
-
-    // if (screenWidth > 600) {
-    //   fontSize = 24.0;
-    // }
-
     return WillPopScope(
       onWillPop: () async {
         Navigator.push(
@@ -154,52 +142,64 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Tgl Kp',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Tgl Kp',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fontSize,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fontSize,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                           Spacer(),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
-                            child: TextField(
-                              readOnly: true,
-                              controller: _dateController,
-                              decoration: InputDecoration(
-                                hintText: "Pilih tgl",
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () async {
-                                    DateTime? selectedDate =
-                                        await showDatePicker(
-                                            context: context,
-                                            initialDate:
-                                                _selectedDay ?? DateTime.now(),
-                                            firstDate: DateTime(2000),
-                                            lastDate: DateTime(2101));
-                                    if (selectedDate != null &&
-                                        selectedDate != _selectedDay) {
-                                      setState(() {
-                                        _selectedDay = selectedDate;
-                                        _dateController.text =
-                                            DateFormat('yyy-MM-dd')
-                                                .format(selectedDate);
-                                        _fetchUserId();
-                                        _updateCreateTgl();
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(Icons.calendar_today),
+                            child: GestureDetector(
+                              onTap: () async {
+                                DateTime? selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: _selectedDay ?? DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101),
+                                );
+                                if (selectedDate != null &&
+                                    selectedDate != _selectedDay) {
+                                  setState(() {
+                                    _selectedDay = selectedDate;
+                                    _dateController.text =
+                                        DateFormat('yyy-MM-dd')
+                                            .format(selectedDate);
+                                    _fetchUserId();
+                                    _updateCreateTgl();
+                                  });
+                                }
+                              },
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  readOnly: true,
+                                  controller: _dateController,
+                                  decoration: InputDecoration(
+                                    hintText: "Pilih tgl",
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -207,7 +207,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25),
+                    SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -215,13 +215,25 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'User ID',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'User ID',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fontSize,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fontSize,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -245,7 +257,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25),
+                    SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -276,14 +288,13 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide.none,
                                 ),
-                                suffixIcon: Icon(Icons.timer),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 25),
+                    SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -313,13 +324,10 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 );
                               },
                               child: Image.asset(
-                                'assets/barcode.png', 
-                                width:
-                                    30, 
-                                height:
-                                    30, 
-                                color: const Color.fromARGB(255, 7, 93,
-                                    163),
+                                'assets/barcode.png',
+                                width: 30,
+                                height: 30,
+                                color: const Color.fromARGB(255, 7, 93, 163),
                               ),
                             ),
                           ),
@@ -370,7 +378,8 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                       'Lot Number',
                                       style: TextStyle(
                                         fontSize: fontSize,
-                                        color: Colors.white,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     ),
                                   ],
@@ -401,103 +410,68 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                           : globalBarcodeBarangQcResults.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {                        
-                        if (globalBarcodeBarangQcResults.isEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    child: TextField(
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        hintText: "Id Kp",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide: BorderSide.none,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      child: TextField(
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          hintText: globalBarcodeBarangQcResults
+                                                  .isEmpty
+                                              ? "Id Kp"
+                                              : (index + 1).toString(),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide.none,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    child: TextField(
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        hintText: "Lot Barang",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide: BorderSide.none,
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      child: TextField(
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          hintText: globalBarcodeBarangQcResults
+                                                  .isEmpty
+                                              ? "Lot Number"
+                                              : globalBarcodeBarangQcResults[
+                                                  index],
+                                          filled: true,
+                                          fillColor: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide.none,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          int id = index + 1;
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    child: TextField(
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        hintText: "$id",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText:
-                                            globalBarcodeBarangQcResults[index],
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                                ],
+                              ),
+                              SizedBox(height: 13), 
+                            ],
+                          ),
+                        );
                       },
                     ),
                     SizedBox(height: 30),
@@ -516,7 +490,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                             },
                             icon: Icon(Icons.cloud_upload, size: 15),
                             label:
-                                Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                                Text('Submit', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
                               onPrimary: Colors.white,
