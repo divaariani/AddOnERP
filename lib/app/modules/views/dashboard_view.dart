@@ -13,6 +13,7 @@ import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
 import '../controllers/actor_controller.dart';
 import '../controllers/audituser_controller.dart';
+import '../controllers/machine_controller.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 
@@ -30,11 +31,11 @@ class _DashboardViewState extends State<DashboardView> {
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   final nameController = TextEditingController();
-
   String userId = "";
   String userName = "";
   String userPhoto = "";
   String nameInventory = '';
+  String machineName = '';
 
   Future<void> _fetchCurrentTime() async {
     try {
@@ -54,11 +55,32 @@ class _DashboardViewState extends State<DashboardView> {
     setState(() {});
   }
 
+  Future<void> _fetchMachineData() async {
+    try {
+      final Map<String, dynamic> apiData = await MachineController.getWorkcenterList();
+      final List<dynamic> dataList = apiData['data'];
+
+      for (var item in dataList) {
+        if (item['id'] == globalBarcodeMesinResult.toString()) {
+          machineName = item['name'];
+          break;
+        }
+      }
+
+      setState(() {
+        machineName;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchUserId();
     _fetchCurrentTime();
+    _fetchMachineData();
     AuditUserController auditUserController = Get.put(AuditUserController());
 
     loadNameInventory().then((value) {
@@ -87,8 +109,6 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    String barcodeResult = globalBarcodeMesinResult;
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -162,11 +182,10 @@ class _DashboardViewState extends State<DashboardView> {
                   CardID(
                     name: userName,
                     id: userId,
-                    mesin: (_actorController.isOperator.value == 't' ||
-                            _actorController.isAdmin == 't')
-                        ? (barcodeResult.isNotEmpty
-                            ? '[$barcodeResult]'
-                            : '[Kode Mesin]')
+                    mesin: (_actorController.isOperator.value == 't' || _actorController.isAdmin == 't')
+                        ? (machineName.isNotEmpty
+                            ? '[$machineName]'
+                            : '[Mesin]')
                         : '',
                   ),
                   const SizedBox(height: 20),
