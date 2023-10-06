@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
 import '../utils/globals.dart';
+import '../utils/sessionmanager.dart';
 import '../controllers/auditstock_controller.dart';
 import '../controllers/audituser_controller.dart';
 import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
 
 class AuditLokasiView extends StatefulWidget {
   String result;
@@ -22,15 +25,18 @@ class AuditLokasiView extends StatefulWidget {
 class _AuditLokasiViewState extends State<AuditLokasiView> {
   late DateTime currentTime;
   final AuditUserController _auditUserController = Get.put(AuditUserController());
+  final SessionManager sessionManager = SessionManager();
   final idController = TextEditingController();
   final pbarangController = TextEditingController();
   final plokasiController = TextEditingController();
   String barcodeAuditLokasiResult = globalBarcodeLokasiResult;
   String idInventory = '';
+  String userIdLogin = "";
 
   @override
   void initState() {
     super.initState();
+    _fetchUserId();
     _fetchCurrentTime();
     _auditUserController.fetchIdInventory().then((id) {
       setState(() {
@@ -43,6 +49,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
     pbarangController.text = pbarangList;
   }
 
+  Future<void> _fetchUserId() async {
+    userIdLogin = await sessionManager.getUserId() ?? "";
+    setState(() {});
+  }
+
   Future<void> _fetchCurrentTime() async {
     try {
       setState(() {
@@ -50,6 +61,46 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
       });
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<void> _submitNotif() async {
+    final int id = int.parse(userIdLogin);
+    final String title = 'Stock';
+    final String description = 'Anda berhasil upload stok barang';
+
+    try {
+      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+      await _fetchCurrentTime();
+
+      ResponseModel response = await NotificationController.postNotification(
+        userid: id,
+        title: title,
+        description: description,
+        date: date,
+      );
+
+      if (response.status == 1) {
+        print('notification insert success');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
     }
   }
 
@@ -69,7 +120,10 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
           pdate: currentTime,
         );
 
-        if (response.status == 0) {
+        if (response.status == 1) {
+          Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
+          _submitNotif();
+        } else if (response.status == 0) {
           errorMessages.add('Request gagal: ${response.message}');
         } else if (response.status != 1) {
           errorMessages.add('Terjadi kesalahan: Response tidak valid.');
@@ -82,8 +136,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
             content: Text(errorMessages.join('\n')),
           ),
         );
-      } else {
-        Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
       }
 
       widget.resultBarang.clear();
