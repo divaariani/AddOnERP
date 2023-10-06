@@ -68,14 +68,6 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(horizontal: 3),
-                            //   child: CustomButton(
-                            //     text: "Gudang In",
-                            //     isActive: false,
-                            //     targetPage: GudangInView(),
-                            //   ),
-                            // ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
@@ -340,6 +332,7 @@ class CardTable extends StatefulWidget {
 
 class _CardTableState extends State<CardTable> {
   List<MyData> _data = [];
+  bool _isLoading = false;
 
   final String searchText;
   _CardTableState(this.searchText);
@@ -358,6 +351,10 @@ class _CardTableState extends State<CardTable> {
 
   Future<void> fetchDataFromAPI() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
+
       final response = await MonitoringViewController.postFormData(
         id: 1,
         idmas: 1,
@@ -367,7 +364,6 @@ class _CardTableState extends State<CardTable> {
       );
 
       final List<dynamic> nameDataList = response.data;
-      //print('API Response: $nameDataList');
 
       final List<MyData> myDataList = nameDataList.map((data) {
         int id = int.tryParse(data['id'].toString()) ?? 0;
@@ -383,7 +379,6 @@ class _CardTableState extends State<CardTable> {
           qty: qty,
           uom: uom,
         );
-        //print('$MyData');
       }).toList();
 
       setState(() {
@@ -392,9 +387,13 @@ class _CardTableState extends State<CardTable> {
               .toLowerCase()
               .contains(searchText.toLowerCase());
         }).toList();
+        _isLoading = false;
       });
     } catch (e) {
       print('Error fetching data: $e');
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -413,7 +412,11 @@ class _CardTableState extends State<CardTable> {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: _data.isEmpty
+            child: Column(
+              children: [
+                _isLoading
+                ? CircularProgressIndicator()
+              :_data.isEmpty
                 ? EmptyData()
                 : PaginatedDataTable(
                     columns: [
@@ -457,6 +460,8 @@ class _CardTableState extends State<CardTable> {
                     source: MyDataTableSource(_data),
                     rowsPerPage: 10,
                   ),
+              ],
+            ),
           ),
         ),
       ],
