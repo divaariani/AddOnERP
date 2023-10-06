@@ -65,7 +65,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                   children: [
                     SizedBox(height: 70),
                     Align(
-                      alignment: Alignment(0.9, -1.0),
+                      alignment: Alignment(0.85, -1.0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
