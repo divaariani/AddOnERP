@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import '../controllers/laporanview_controller.dart';
 import '../utils/globals.dart';
-
+// import 'audit_view.dart';
+//import '../controllers/auditview_controller.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -20,7 +21,6 @@ class LaporanHasilView extends StatefulWidget {
 }
 
 class _LaporanHasilViewState extends State<LaporanHasilView> {
-
   int page = 1;
   int pageSize = 10;
   String searchText = "";
@@ -72,10 +72,12 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                           borderRadius: BorderRadius.circular(8.0),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black
+                                  .withOpacity(0.2), 
                               spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
+                              blurRadius: 5, 
+                              offset:
+                                  Offset(0, 3), 
                             ),
                           ],
                         ),
@@ -87,15 +89,14 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                           ),
                           onPressed: () {
                             Get.to(() => LaporanTambahView(
-                                result: '',
-                                resultBarangQc: globalBarcodeBarangResults));
+                               result: '', resultBarangQc: globalBarcodeBarangResults
+                            ));
                           },
                         ),
                       ),
                     ),
                     SizedBox(height: 10),
                     CardTable(searchText),
-                    
                     SizedBox(height: 30),
                   ],
                 ),
@@ -281,6 +282,7 @@ class CardTable extends StatefulWidget {
 
 class _CardTableState extends State<CardTable> {
   List<MyData> _data = [];
+  bool _isLoading = false;
 
   final String searchText;
   _CardTableState(this.searchText);
@@ -299,6 +301,10 @@ class _CardTableState extends State<CardTable> {
 
   Future<void> fetchDataFromAPI() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
+
       final response = await LaporanViewController.postFormData(
         product_id: 1,
         lotnumber: '',
@@ -313,7 +319,7 @@ class _CardTableState extends State<CardTable> {
       final List<MyData> myDataList = nameDataList.map((data) {
         int product_id = int.tryParse(data['product_id'].toString()) ?? 0;
         String lotnumber = data['lotnumber'];
-        String namabarang = data['namabarang'];
+        String namabarang= data['namabarang'];
         int qty = int.tryParse(data['qty'].toString()) ?? 0;
         String uom = data['uom'];
 
@@ -334,9 +340,13 @@ class _CardTableState extends State<CardTable> {
               .toLowerCase()
               .contains(searchText.toLowerCase());
         }).toList();
+        _isLoading = false;
       });
     } catch (e) {
       print('Error fetching data: $e');
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -355,59 +365,65 @@ class _CardTableState extends State<CardTable> {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: _data.isEmpty
-                ? EmptyData()
-                : PaginatedDataTable(
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          'Product ID',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+            child: Column(
+              children: [
+                _isLoading
+                ? CircularProgressIndicator()
+                    : _data.isEmpty
+                    ? EmptyData()
+                    : PaginatedDataTable(
+                        columns: [
+                          DataColumn(
+                            label: Text(
+                              'Product ID',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Kode Barang',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+                          DataColumn(
+                            label: Text(
+                              'Kode Barang',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Nama Barang',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+                          DataColumn(
+                            label: Text(
+                              'Nama Barang',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Kuantitas',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+                          DataColumn(
+                            label: Text(
+                              'Kuantitas',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Uom',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
+                          DataColumn(
+                            label: Text(
+                              'Uom',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
+                        source: MyDataTableSource(_data),
+                        rowsPerPage: 10,
                       ),
-                    ],
-                    source: MyDataTableSource(_data),
-                    rowsPerPage: 10,
-                  ),
+                ],
+            ),
           ),
         ),
       ],
