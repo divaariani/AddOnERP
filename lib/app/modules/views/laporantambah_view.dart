@@ -56,7 +56,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   }
 
   Future<void> _submitStock() async {
-
     String successMessage = 'Congratulations';
     List<String> errorMessages = [];
 
@@ -192,7 +191,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   readOnly: true,
                                   controller: _dateController,
                                   decoration: InputDecoration(
-                                    hintText: "Pilih tgl",
+                                    //hintText: "Pilih tgl",
                                     filled: true,
                                     fillColor: Colors.white,
                                     border: OutlineInputBorder(
@@ -468,7 +467,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 13), 
+                              SizedBox(height: 13),
                             ],
                           ),
                         );
@@ -480,17 +479,15 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton.icon(
+                          ElevatedButton(
                             onPressed: () {
                               _submitStock();
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => LaporanHasilView()),
+                                  builder: (context) => LaporanHasilView(),
+                                ),
                               );
                             },
-                            icon: Icon(Icons.cloud_upload, size: 15),
-                            label:
-                                Text('Submit', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
                               onPrimary: Colors.white,
@@ -499,6 +496,21 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               ),
                               elevation: 4,
                               minimumSize: Size(100, 48),
+                            ),
+                            child: Row(
+                              children: [
+                                Text('Submit', style: TextStyle(fontSize: 14)),
+                                SizedBox(
+                                    width:
+                                        8), 
+                                Image.asset(
+                                  'assets/send.png', 
+                                  width:
+                                      15, 
+                                  height:
+                                      15, 
+                                ),
+                              ],
                             ),
                           ),
                         ],
