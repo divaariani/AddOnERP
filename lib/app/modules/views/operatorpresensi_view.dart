@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'home_view.dart';
 import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
@@ -9,6 +8,7 @@ import '../utils/sessionmanager.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
+import '../controllers/machine_controller.dart';
 
 class OperatorPresensiView extends StatefulWidget {
   final String barcodeMachineResult;
@@ -29,9 +29,9 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
   String userName = "";
   String userPhoto = "";
   String barcodeMachineResult = globalBarcodeMesinResult;
-  String selectedMesin = '';
+  String _machineName = '';
 
-  Future<void> _fetchUserId() async {
+  Future<void> fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
     userName = await _sessionManager.getUsername() ?? "";
     userPhoto = await _sessionManager.getUserProfile() ?? "";
@@ -48,52 +48,34 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
     }
   }
 
+  Future<void> fetchMachineData() async {
+    try {
+      final Map<String, dynamic> apiData = await MachineController.getWorkcenterList();
+      final List<dynamic> dataList = apiData['data'];
+
+      for (var item in dataList) {
+        if (item['id'] == barcodeMachineResult.toString()) {
+          _machineName = item['name'];
+          break;
+        }
+      }
+
+      setState(() {
+        _machineName;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _fetchUserId();
+    fetchUserId();
+    fetchMachineData();
+    fetchCurrentTime();
     currentTime = DateTime.now();
     idwcController.text = barcodeMachineResult;
-  }
-
-  Future<void> _submitNotif() async {
-    final int id = int.parse(userIdLogin);
-    final String title = 'Presensi';
-    final String description = 'Anda berhasil melakukan presensi mesin';
-
-    try {
-      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
-      await fetchCurrentTime();
-
-      ResponseModel response = await NotificationController.postNotification(
-        userid: id,
-        title: title,
-        description: description,
-        date: date,
-      );
-
-      if (response.status == 1) {
-        print('notification insert success');
-      } else if (response.status == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Request gagal: ${response.message}'),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Terjadi kesalahan: Response tidak valid.'),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Terjadi kesalahan: $e'),
-        ),
-      );
-    }
   }
 
   Future<void> _submitForm() async {
@@ -118,7 +100,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
             await NotificationController.postNotification(
               userid: userId,
               title: 'Presensi',
-              description: 'Anda berhasil melakukan IN mesin',
+              description: 'Anda telah IN mesin $_machineName',
               date: currentTime.toString(),
             );
           } catch (e) {
@@ -143,7 +125,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
             await NotificationController.postNotification(
               userid: userId,
               title: 'Presensi',
-              description: 'Anda berhasil melakukan OUT mesin',
+              description: 'Anda telah OUT mesin $_machineName',
               date: currentTime.toString(),
             );
           } catch (e) {
@@ -271,7 +253,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          'Kode Mesin: ' + idwcController.text,
+                                          'Mesin: $_machineName',
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
