@@ -8,6 +8,9 @@ import '../utils/globals.dart';
 import '../controllers/gudangmobil_controller.dart';
 import '../controllers/response_model.dart';
 import '../utils/sessionmanager.dart';
+import '../controllers/notification_controller.dart';
+import 'package:intl/intl.dart';
+
 
 class GudangMobilView extends StatefulWidget {
   String result;
@@ -23,7 +26,7 @@ class GudangMobilView extends StatefulWidget {
 class _GudangMobilViewState extends State<GudangMobilView> {
   String barcodeGudangMobilResult = globalBarcodeMobilResult;
   String userIdLogin = "";
-
+  late DateTime currentTime;
   final plotnumberController = TextEditingController();
   final pbarcode_mobilController = TextEditingController();
   final stateController = TextEditingController();
@@ -33,8 +36,8 @@ class _GudangMobilViewState extends State<GudangMobilView> {
   @override
   void initState() {
     super.initState();
-    _fetchCurrentTime();
     _fetchUserId();
+    _fetchCurrentTime();
     String plotnumberList= widget.resultBarangGudang.join('\n');
     pbarcode_mobilController.text = barcodeGudangMobilResult;
     plotnumberController.text = plotnumberList;
@@ -46,19 +49,58 @@ class _GudangMobilViewState extends State<GudangMobilView> {
   }
 
   Future<void> _fetchCurrentTime() async {
-    // try {
-    //   setState(() {
-    //     currentTime = DateTime.now();
-    //   });
-    // } catch (error) {
-    //   print(error);
-    // }
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
   }
+
+  Future<void> _submitNotif() async {
+    final int id = int.parse(userIdLogin);
+    final String title = 'Stock';
+    final String description = 'Anda berhasil upload stok barang';
+
+    try {
+      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+      await _fetchCurrentTime();
+
+      ResponseModel response = await NotificationController.postNotification(
+        userid: id,
+        title: title,
+        description: description,
+        date: date,
+      );
+
+      if (response.status == 1) {
+        print('notification insert success');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
+
 
   Future<void> _submitStock() async {
     final String pbarcode_mobil = pbarcode_mobilController.text;
-
-    
     String successMessage = 'Congratulations';
     List<String> errorMessages = [];
     
@@ -66,15 +108,16 @@ class _GudangMobilViewState extends State<GudangMobilView> {
       await _fetchCurrentTime();
       final int userId = int.parse(userIdLogin);
       for (String plotnumber in widget.resultBarangGudang) {
-        
         ResponseModel response = await GudangMobilController.postFormData(
           puserid: userId,
           pbarcode_mobil: pbarcode_mobil,
           plotnumber: plotnumber,
-          
         );
 
-        if (response.status == 0) {
+        if (response.status == 1) {
+          Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
+          _submitNotif();
+        } else if (response.status == 0) {
           errorMessages.add('Request gagal: ${response.message}');
         } else if (response.status != 1) {
           errorMessages.add('Terjadi kesalahan: Response tidak valid.');
@@ -87,13 +130,11 @@ class _GudangMobilViewState extends State<GudangMobilView> {
             content: Text(errorMessages.join('\n')),
           ),
         );
-      } else {
-        Get.snackbar('Stock Berhasil Diupload', successMessage);
       }
 
-      widget.resultBarangGudang.clear(); 
+      widget.resultBarangGudang.clear();
       setState(() {
-        widget.resultBarangGudang = []; 
+        widget.resultBarangGudang = [];
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
