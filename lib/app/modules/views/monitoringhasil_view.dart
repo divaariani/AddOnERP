@@ -1,5 +1,3 @@
-import 'package:addon/app/modules/views/gudangin_view.dart';
-import 'package:addon/app/modules/views/scangudang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
@@ -78,30 +76,6 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      height: 70,
-                      padding: const EdgeInsets.symmetric(horizontal: 26),
-                      
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: " Cari Kode Barang...",
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: Icon(Icons.search),
-                          suffixIconConstraints: BoxConstraints(minWidth: 40),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            searchText = value;
-                          });
-                        },
                       ),
                     ),
                     SizedBox(height: 10),
@@ -323,6 +297,7 @@ class MyDataTableSource extends DataTableSource {
 }
 
 class CardTable extends StatefulWidget {
+  TextEditingController controller = TextEditingController();
   final String searchText;
   CardTable(this.searchText);
 
@@ -331,9 +306,10 @@ class CardTable extends StatefulWidget {
 }
 
 class _CardTableState extends State<CardTable> {
+  TextEditingController controller = TextEditingController();
   List<MyData> _data = [];
   bool _isLoading = false;
-
+  String _searchResult = '';
   final String searchText;
   _CardTableState(this.searchText);
 
@@ -383,10 +359,13 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.idmas.toString()
-              .toLowerCase()
-              .contains(searchText.toLowerCase());
-        }).toList();
+          return data.name
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.uom
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase());        
+          }).toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -402,6 +381,48 @@ class _CardTableState extends State<CardTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ListTile(
+                    leading: const Icon(Icons.search),
+                    title: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        hintText: 'Cari...',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchResult = value;
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          controller.clear();
+                          _searchResult = '';
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 26),
