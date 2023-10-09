@@ -94,29 +94,6 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 20),
-                    // Container(
-                    //   height: 70,
-                    //   padding: const EdgeInsets.symmetric(horizontal: 26),
-                    //   child: TextField(
-                    //     decoration: InputDecoration(
-                    //       hintText: " Cari Kode Barang...",
-                    //       filled: true,
-                    //       fillColor: Colors.white,
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(16),
-                    //         borderSide: BorderSide.none,
-                    //       ),
-                    //       suffixIcon: Icon(Icons.search),
-                    //       suffixIconConstraints: BoxConstraints(minWidth: 40),
-                    //     ),
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         searchText = value;
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
                     SizedBox(height: 10),
                     CardTable(searchText),
                     SizedBox(height: 30),
@@ -373,7 +350,7 @@ class MyDataTableSource extends DataTableSource {
           AksiCellWidget(
             entry: entry,
             onDelete: onDelete,
-            data: data, // Pass callback onDelete ke AksiCellWidget
+            data: data, 
           ),
         ),
       ],
