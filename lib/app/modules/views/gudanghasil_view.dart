@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
 import '../controllers/gudangview_controller.dart';
+import '../utils/sessionmanager.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -22,11 +23,12 @@ class _GudangHasilViewState extends State<GudangHasilView> {
   int page = 1;
   int pageSize = 10;
   String searchText = "";
+  final SessionManager sessionManager = SessionManager();
+  String userIdLogin = "";
 
   @override
   void initState() {
     super.initState();
-    print('GudangHasilView initState');
   }
 
   @override
@@ -92,29 +94,29 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
-                      height: 70,
-                      padding: const EdgeInsets.symmetric(horizontal: 26),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: " Cari Kode Barang...",
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: Icon(Icons.search),
-                          suffixIconConstraints: BoxConstraints(minWidth: 40),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            searchText = value;
-                          });
-                        },
-                      ),
-                    ),
+                    // SizedBox(height: 20),
+                    // Container(
+                    //   height: 70,
+                    //   padding: const EdgeInsets.symmetric(horizontal: 26),
+                    //   child: TextField(
+                    //     decoration: InputDecoration(
+                    //       hintText: " Cari Kode Barang...",
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(16),
+                    //         borderSide: BorderSide.none,
+                    //       ),
+                    //       suffixIcon: Icon(Icons.search),
+                    //       suffixIconConstraints: BoxConstraints(minWidth: 40),
+                    //     ),
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         searchText = value;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                     SizedBox(height: 10),
                     CardTable(searchText),
                     SizedBox(height: 30),
@@ -398,9 +400,10 @@ class CardTable extends StatefulWidget {
 }
 
 class _CardTableState extends State<CardTable> {
+  TextEditingController controller = TextEditingController();
   List<MyData> _data = [];
   bool _isLoading = false;
-
+  String _searchResult = '';
   final String searchText;
   _CardTableState(this.searchText);
 
@@ -454,14 +457,19 @@ class _CardTableState extends State<CardTable> {
           state: state,
           aksi: '',
         );
-        print('$MyData');
+        //print('$MyData');
       }).toList();
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.lotnumber
-              .toLowerCase()
-              .contains(searchText.toLowerCase());
+          return data.barcode_mobil
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.name.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.lotnumber
+                  .toLowerCase()
+                  .contains(_searchResult.toLowerCase()) ||
+              data.state.toLowerCase().contains(_searchResult.toLowerCase());
         }).toList();
         _isLoading = false;
       });
@@ -478,7 +486,49 @@ class _CardTableState extends State<CardTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ListTile(
+                    leading: const Icon(Icons.search),
+                    title: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        hintText: 'Cari...',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchResult = value;
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          controller.clear();
+                          _searchResult = '';
+                          fetchDataFromAPI();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
         Card(
           margin: EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
