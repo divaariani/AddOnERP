@@ -50,7 +50,8 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
 
   Future<void> fetchMachineData() async {
     try {
-      final Map<String, dynamic> apiData = await MachineController.getWorkcenterList();
+      final Map<String, dynamic> apiData =
+          await MachineController.getWorkcenterList();
       final List<dynamic> dataList = apiData['data'];
 
       for (var item in dataList) {
@@ -221,51 +222,79 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                   height: 70,
                                 ),
                                 const SizedBox(height: 30),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(userPhoto),
-                                        ),
-                                        borderRadius: BorderRadius.circular(40),
-                                        border: Border.all(
-                                          color: const Color(0xFF084D88),
-                                          style: BorderStyle.solid,
-                                          width: 2,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(userPhoto),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                          border: Border.all(
+                                            color: const Color(0xFF084D88),
+                                            style: BorderStyle.solid,
+                                            width: 2,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 40),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          userName,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF084D88),
+                                      const SizedBox(width: 40),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            userName,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFF084D88),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          'Mesin: $_machineName',
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF084D88),
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                          const SizedBox(height: 5),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Mesin:',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFF084D88),
+                                                ),
+                                              ),
+                                              Text(
+                                                _machineName.length <= 10
+                                                    ? _machineName
+                                                    : _machineName.substring(0, 10),
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF084D88),
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              if (_machineName.length > 10)
+                                                Text(
+                                                  _machineName.substring(10),
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: Color(0xFF084D88),
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -291,8 +320,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
                               ),
                               child: Align(
                                 alignment: Alignment.center,
@@ -356,23 +384,17 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                             const SizedBox(height: 10),
                                             Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xffD1D3D9),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: const Color(0xffD1D3D9),
                                                     elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
                                                   ),
                                                   child: const Text(
@@ -388,16 +410,11 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                     tapController.text = "O";
                                                     _submitForm();
                                                   },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xFF084D88),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: const Color(0xFF084D88),
                                                     elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
                                                   ),
                                                   child: const Text(
@@ -421,8 +438,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
                               ),
                               child: Align(
                                 alignment: Alignment.center,
