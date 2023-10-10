@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
-import 'audithasil_view.dart';
 import 'refresh_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
@@ -68,6 +68,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
     final int id = int.parse(userIdLogin);
     final String title = 'Stock';
     final String description = 'Anda berhasil upload stok barang';
+    final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
 
     try {
       await _fetchCurrentTime();
@@ -76,7 +77,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         userid: id,
         title: title,
         description: description,
-        date: currentTime.toString(),
+        date: date,
       );
 
       if (response.status == 1) {
@@ -107,6 +108,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
     final int id = int.parse(idController.text);
     final String plokasi = plokasiController.text;
     List<String> errorMessages = [];
+    bool success = true; 
 
     try {
       await _fetchCurrentTime();
@@ -120,12 +122,16 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         );
 
         if (response.status == 1) {
-          _submitNotif();
+          success = true;
         } else if (response.status == 0) {
           errorMessages.add('Request gagal: ${response.message}');
         } else if (response.status != 1) {
           errorMessages.add('Terjadi kesalahan: Response tidak valid.');
         }
+      }
+
+      if (success) {
+        _submitNotif();
       }
 
       if (errorMessages.isNotEmpty) {
@@ -149,14 +155,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         ),
       );
     }
-  }
-
-  void refreshNavigateToAuditHasilView() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const AuditHasilView(),
-      ),
-    );
   }
 
   @override
