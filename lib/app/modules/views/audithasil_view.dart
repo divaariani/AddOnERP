@@ -30,7 +30,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -52,42 +52,42 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                 ),
               ),
             ),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 70),
+                    SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 23),
+                        padding: EdgeInsets.only(left: 23),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
+                              padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Auditor",
                                 isActive: false,
-                                targetPage: const AuditView(),
+                                targetPage: AuditView(),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
+                              padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Stock",
                                 isActive: true,
-                                targetPage: const AuditHasilView(),
+                                targetPage: AuditHasilView(),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     CardTable(),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -329,17 +329,6 @@ class _CardTableState extends State<CardTable> {
   List<MyData> _data = [];
   bool _isLoading = false;
 
-  void handleRefresh(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        opaque: true,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const AuditHasilView(),
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -443,13 +432,6 @@ class _CardTableState extends State<CardTable> {
                   ),
                 ),
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.refresh,
-                  color: Colors.white,
-                ),
-                onPressed: () => handleRefresh(context),
-              )
             ],
           ),
         ),
