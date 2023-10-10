@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'home_view.dart';
 import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
@@ -83,6 +84,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
     final int idwc = int.parse(idwcController.text);
     final int userId = int.parse(userIdLogin);
     final String tap = tapController.text;
+    final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
 
     try {
       await fetchCurrentTime();
@@ -102,7 +104,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
               userid: userId,
               title: 'Presensi',
               description: 'Anda telah IN mesin $_machineName',
-              date: currentTime.toString(),
+              date: date,
             );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -127,7 +129,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
               userid: userId,
               title: 'Presensi',
               description: 'Anda telah OUT mesin $_machineName',
-              date: currentTime.toString(),
+              date: date,
             );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -270,7 +272,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                               Text(
                                                 _machineName.length <= 10
                                                     ? _machineName
-                                                    : _machineName.substring(0, 10),
+                                                    : _machineName.substring(0, 10) + '-',
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
