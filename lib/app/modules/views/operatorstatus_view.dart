@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../controllers/machine_controller.dart';
 import '../controllers/machinestate_controller.dart';
 import '../controllers/response_model.dart';
@@ -444,6 +445,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
     final int id = int.parse(idController.text);
     final String state = stateController.text;
     final int userId = int.parse(userIdLogin);
+    final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
 
     try {
       await fetchCurrentTime();
@@ -464,7 +466,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               userid: userId,
               title: 'Mesin',
               description: 'Anda melakukan start mesin $machineName',
-              date: currentTime.toString(),
+              date: date,
             );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -504,7 +506,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               userid: userId,
               title: 'Mesin',
               description: 'Anda melakukan end mesin $machineName',
-              date: currentTime.toString(),
+              date: date,
             );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
