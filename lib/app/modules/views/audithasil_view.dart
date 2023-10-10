@@ -211,12 +211,12 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 class MyData {
-  final int id;
-  final String lokasi;
-  final String lotbarang;
-  final String namabarang;
-  final int qty;
-  final String state;
+  final int? id;
+  final String? lokasi;
+  final String? lotbarang;
+  final String? namabarang;
+  final int? qty;
+  final String? state;
 
   MyData({
     required this.id,
@@ -238,6 +238,7 @@ class MyDataTableSource extends DataTableSource {
       return null;
     }
     final entry = data[index];
+
     return DataRow.byIndex(
       index: index,
       cells: [
@@ -245,7 +246,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.lokasi,
+              entry.lokasi ?? "", 
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -257,7 +258,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.namabarang,
+              entry.namabarang ?? "", 
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -269,7 +270,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.lotbarang,
+              entry.lotbarang ?? "", 
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -281,7 +282,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.qty.toString(),
+              entry.qty?.toString() ?? "", 
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -293,7 +294,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.state,
+              entry.state ?? "", 
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -341,52 +342,51 @@ class _CardTableState extends State<CardTable> {
     fetchDataFromAPI();
   }
 
-  Future<void> fetchDataFromAPI() async {
-    try {
-      setState(() {
-        _isLoading = true;
-      });
+Future<void> fetchDataFromAPI() async {
+  try {
+    setState(() {
+      _isLoading = true;
+    });
 
-      final response = await AuditViewController.postFormData(
-          id: 1, lokasi: '', lotBarang: '', namabarang: '', qty: 1, state: '');
+    final response = await AuditViewController.postFormData(id: 1, lokasi: '', lotBarang: '', namabarang: '', qty: 1, state: '');
 
-      final List<dynamic> nameDataList = response.data;
-      print('API Response: $nameDataList');
+    final List<dynamic> nameDataList = response.data;
+    print('API Response: $nameDataList');
 
-      final List<MyData> myDataList = nameDataList.map((data) {
-        int id = int.tryParse(data['id'].toString()) ?? 0;
-        String lokasi = data['lokasi'];
-        String lotbarang = data['lot_barang'];
-        String namabarang = data['namabarang'];
-        int qty = int.tryParse(data['qty'].toString()) ?? 0;
-        String state = data['state'];
+    final List<MyData> myDataList = nameDataList.map((data) {
+      int id = int.tryParse(data['id'].toString()) ?? 0;
+      String lokasi = data['lokasi'] ?? ""; 
+      String lotbarang = data['lot_barang'] ?? ""; 
+      String namabarang = data['namabarang'] ?? ""; 
+      int qty = int.tryParse(data['qty'].toString()) ?? 0;
+      String state = data['state'] ?? ""; 
 
-        return MyData(
-          id: id,
-          lokasi: lokasi,
-          lotbarang: lotbarang,
-          namabarang: namabarang,
-          qty: qty,
-          state: state,
-        );
+      return MyData(
+        id: id,
+        lokasi: lokasi,
+        lotbarang: lotbarang,
+        namabarang: namabarang,
+        qty: qty,
+        state: state,
+      );
+    }).toList();
+
+    setState(() {
+      _data = myDataList.where((data) {
+        return (data.lokasi?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.namabarang?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.lotbarang?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.state?.toLowerCase() ?? "").contains(_searchResult.toLowerCase());
       }).toList();
-
-      setState(() {
-        _data = myDataList.where((data) {
-          return data.lokasi.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.namabarang.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.lotbarang.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.state.toLowerCase().contains(_searchResult.toLowerCase());
-        }).toList();
-        _isLoading = false;
-      });
-    } catch (e) {
-      print('Error fetching data: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
+      _isLoading = false;
+    });
+  } catch (e) {
+    print('Error fetching data: $e');
+    setState(() {
+      _isLoading = false;
+    });
   }
+}
 
   @override
   Widget build(BuildContext context) {
