@@ -13,7 +13,6 @@ import '../utils/sessionmanager.dart';
 
 class AuditView extends StatefulWidget {
   const AuditView({Key? key}) : super(key: key);
-  
   @override
   State<AuditView> createState() => _AuditViewState();
 }
@@ -138,41 +137,56 @@ class _AuditViewState extends State<AuditView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 26),
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'User: ',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                    FutureBuilder<String>(
+                      future: Future.delayed(const Duration(seconds: 1), () {
+                        return nameController.text != "Auditor_$userName" "_$formattedDate" ? "-" : nameController.text;
+                      }),
+                      builder: (context, snapshot) {
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 26),
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'User: ',
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.blue[900],
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          snapshot.data ?? "",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.blue[900],
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  nameController.text != "Auditor_$userName" "_$formattedDate" ? "-" : nameController.text,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                            if (snapshot.connectionState == ConnectionState.waiting)
+                              const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 20),
                     Align(
