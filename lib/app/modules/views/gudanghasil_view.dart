@@ -250,14 +250,15 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 class MyData {
-  final int id;
-  final int userid;
-  final String barcode_mobil;
-  final String lotnumber;
-  final String name;
-  final int quantity;
-  final String state;
-  final String aksi;
+  final int? id;
+  final int? userid;
+  final String? barcode_mobil;
+  final String? lotnumber;
+  final String? name;
+  final int? quantity;
+  final String? state;
+  final String? aksi;
+  
 
   MyData({
     required this.id,
@@ -286,11 +287,11 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(
+         DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.barcode_mobil,
+              entry.barcode_mobil ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -302,7 +303,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.name,
+              entry.barcode_mobil ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -314,7 +315,19 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.lotnumber,
+              entry.name ?? "",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        DataCell(
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              entry.lotnumber ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -338,7 +351,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.state,
+              entry.state ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -418,11 +431,11 @@ class _CardTableState extends State<CardTable> {
       final List<MyData> myDataList = nameDataList.map((data) {
         int id = int.tryParse(data['id'].toString()) ?? 0;
         int userid = int.tryParse(data['userid'].toString()) ?? 0;
-        String barcode_mobil = data['barcode_mobil'];
-        String lotnumber = data['lotnumber'];
-        String name = data['name'];
+        String barcode_mobil = data['barcode_mobil'] ?? "";
+        String lotnumber = data['lotnumber'] ?? "";
+        String name = data['name'] ?? "";
         int quantity = int.tryParse(data['quantity'].toString()) ?? 0;
-        String state = data['state'];
+        String state = data['state'] ?? "";
 
         return MyData(
           id: id,
@@ -439,15 +452,11 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.barcode_mobil
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
-              data.name.toLowerCase().contains(_searchResult.toLowerCase()) ||
-              data.lotnumber
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
-              data.state.toLowerCase().contains(_searchResult.toLowerCase());
-        }).toList();
+        return (data.barcode_mobil?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.name?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.lotnumber?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
+              (data.state?.toLowerCase() ?? "").contains(_searchResult.toLowerCase());
+      }).toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -651,7 +660,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
 
   Future<void> _submitState() async {
     try {
-      widget.onDelete(widget.entry.id);
+      widget.onDelete(widget.entry.id!);
 
       setState(() {
         widget.data.removeWhere((element) => element.id == widget.entry.id);
