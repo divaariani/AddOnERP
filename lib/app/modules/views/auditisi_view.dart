@@ -8,6 +8,7 @@ import '../controllers/auditor_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
 import 'audit_view.dart';
+import 'refresh_view.dart';
 
 class AuditIsiView extends StatefulWidget {
   const AuditIsiView({Key? key}) : super(key: key);
@@ -54,14 +55,13 @@ class _AuditIsiViewState extends State<AuditIsiView> {
     final String description = 'Anda berhasil melakukan presensi audit';
 
     try {
-      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
       await _fetchCurrentTime();
 
       ResponseModel response = await NotificationController.postNotification(
         userid: id,
         title: title,
         description: description,
-        date: date,
+        date: currentTime.toString(),
       );
 
       if (response.status == 1) {
@@ -185,10 +185,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                     ),
                                   ),
                                   Text(
-                                    'Auditor_$userName' +
-                                        "_" +
-                                        DateFormat('ddMMyyyy')
-                                            .format(DateTime.now()),
+                                    'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
                                     style: GoogleFonts.poppins(
                                       color: Colors.blue[900],
                                       fontSize: 14,
@@ -207,8 +204,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                         fontSize: 14,
                                       )),
                                   Text(
-                                      DateFormat('dd-MM-yyyy')
-                                          .format(DateTime.now()),
+                                      DateFormat('dd-MM-yyyy').format(DateTime.now()),
                                       style: TextStyle(
                                         color: Colors.blue[900],
                                         fontWeight: FontWeight.normal,
@@ -235,7 +231,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                         color: Colors.blue[900],
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
-                                      )),
+                                      )
+                                    ),
                                 ],
                               ),
                             ],
@@ -255,7 +252,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const AuditView(),
+                                  builder: (context) => RefreshAuditor(),
                                 ),
                               );
                             },
