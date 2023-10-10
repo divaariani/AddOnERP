@@ -53,6 +53,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
     final int id = int.parse(userIdLogin);
     final String title = 'Presensi';
     final String description = 'Anda berhasil melakukan presensi audit';
+    final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
 
     try {
       await _fetchCurrentTime();
@@ -61,7 +62,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
         userid: id,
         title: title,
         description: description,
-        date: currentTime.toString(),
+        date: date,
       );
 
       if (response.status == 1) {
