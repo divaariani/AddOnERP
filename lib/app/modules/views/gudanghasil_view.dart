@@ -257,7 +257,7 @@ class MyData {
   final String? name;
   final int? quantity;
   final String? state;
-  final String? aksi;
+  final String aksi;
   
 
   MyData({
@@ -288,18 +288,6 @@ class MyDataTableSource extends DataTableSource {
       index: index,
       cells: [
          DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.barcode_mobil ?? "",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
