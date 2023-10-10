@@ -7,6 +7,7 @@ import 'actor_controller.dart';
 import '../views/home_view.dart';
 import '../views/login_view.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
 
 class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
@@ -36,8 +37,7 @@ class LoginController extends GetxController {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
       loading.value = false;
-      Get.snackbar(
-          'No Internet Connection', 'Please check your internet connection.');
+      Get.snackbar('No Internet Connection', 'Please check your internet connection.');
       return;
     }
 
@@ -75,10 +75,10 @@ class LoginController extends GetxController {
         await sessionManager.setAuthToken(userToken);
         await sessionManager.setUserProfile(profilePhotoUrl.value);
 
-        ActorController _actorController = Get.put(ActorController());
-        await _actorController.fetchUserData();
+        ActorController actorController = Get.put(ActorController());
+        await actorController.fetchUserData();
 
-        Get.to(() => HomeView());
+        Get.to(() => const HomeView());
       } else {
         loading.value = false;
         if (data.containsKey('error')) {
@@ -93,11 +93,16 @@ class LoginController extends GetxController {
     }
   }
 
+  void clearGlobalBarcodeResult() {
+    setGlobalBarcodeResult(''); 
+  }
+
   void logout() {
     final SessionManager sessionManager = SessionManager();
     sessionManager.clearAuthToken();
     sessionManager.setLoggedIn(false);
-    Get.offAll(() => LoginView());
+    Get.offAll(() => const LoginView());
+    clearGlobalBarcodeResult();
   }
 
   final count = 0.obs;
