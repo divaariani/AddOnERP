@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'scanauditbarang_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
+import 'refresh_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/auditstock_controller.dart';
@@ -70,14 +70,13 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
     final String description = 'Anda berhasil upload stok barang';
 
     try {
-      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
       await _fetchCurrentTime();
 
       ResponseModel response = await NotificationController.postNotification(
         userid: id,
         title: title,
         description: description,
-        date: date,
+        date: currentTime.toString(),
       );
 
       if (response.status == 1) {
@@ -121,7 +120,6 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         );
 
         if (response.status == 1) {
-          Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
           _submitNotif();
         } else if (response.status == 0) {
           errorMessages.add('Request gagal: ${response.message}');
@@ -136,6 +134,8 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
             content: Text(errorMessages.join('\n')),
           ),
         );
+      } else {
+        Get.snackbar('Stock Berhasil Diupload', 'Congratulations');
       }
 
       widget.resultBarang.clear();
@@ -149,6 +149,14 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
         ),
       );
     }
+  }
+
+  void refreshNavigateToAuditHasilView() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const AuditHasilView(),
+      ),
+    );
   }
 
   @override
@@ -388,12 +396,11 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                               );
                             },
                             icon: Image.asset(
-                              'assets/icon.scan.png', 
-                              width: 15, 
-                              height: 15, 
+                              'assets/icon.scan.png',
+                              width: 15,
+                              height: 15,
                             ),
-                            label: const Text('Scan Barang',
-                                style: TextStyle(fontSize: 12)),
+                            label: const Text('Scan Barang', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
                               onPrimary: Colors.white,
@@ -410,8 +417,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                               _submitStock();
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AuditHasilView()),
+                                    builder: (context) => RefreshAuditTable()),
                               );
                             },
                             icon: Image.asset(
@@ -419,8 +425,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                               width: 15, 
                               height: 15, 
                             ),
-                            label: const Text('Upload',
-                                style: TextStyle(fontSize: 12)),
+                            label: const Text('Upload', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
                               onPrimary: Colors.white,
