@@ -5,8 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import '../controllers/laporanview_controller.dart';
 import '../utils/globals.dart';
-// import 'audit_view.dart';
-//import '../controllers/auditview_controller.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -21,6 +20,7 @@ class LaporanHasilView extends StatefulWidget {
 }
 
 class _LaporanHasilViewState extends State<LaporanHasilView> {
+  late DateTime currentTime;
   int page = 1;
   int pageSize = 10;
   String searchText = "";
@@ -28,6 +28,17 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
   @override
   void initState() {
     super.initState();
+    _fetchCurrentTime();
+  }
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -72,12 +83,10 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                           borderRadius: BorderRadius.circular(8.0),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.2), 
+                              color: Colors.black.withOpacity(0.2),
                               spreadRadius: 2,
-                              blurRadius: 5, 
-                              offset:
-                                  Offset(0, 3), 
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
@@ -89,8 +98,8 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                           ),
                           onPressed: () {
                             Get.to(() => LaporanTambahView(
-                               result: '', resultBarangQc: globalBarcodeBarangResults
-                            ));
+                                result: '',
+                                resultBarangQc: globalBarcodeBarangResults));
                           },
                         ),
                       ),
@@ -170,18 +179,18 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
 }
 
 class MyData {
-  final int product_id;
-  final String lotnumber;
-  final String namabarang;
-  final int qty;
-  final String uom;
+  final int? nomor_kp;
+  final DateTime? tgl_kp;
+  final int? userid;
+  final String? dibuatoleh;
+  final DateTime? dibuattgl;
 
   MyData({
-    required this.product_id,
-    required this.lotnumber,
-    required this.namabarang,
-    required this.qty,
-    required this.uom,
+    required this.nomor_kp,
+    required this.tgl_kp,
+    required this.userid,
+    required this.dibuatoleh,
+    required this.dibuattgl,
   });
 }
 
@@ -202,7 +211,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.product_id.toString(),
+              entry.nomor_kp?.toString() ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -214,7 +223,9 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.lotnumber,
+              (entry.tgl_kp != null)
+                  ? DateFormat('yyyy-MM-dd').format(entry.tgl_kp!)
+                  : "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -226,7 +237,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.namabarang,
+              entry.dibuatoleh ?? "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -238,26 +249,16 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.qty.toString(),
+              entry.dibuattgl != null
+                  ? DateFormat('yyyy-MM-dd HH:mm:ss').format(entry.dibuattgl!)
+                  : "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-        ),
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.uom,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
+        )
       ],
     );
   }
@@ -306,36 +307,36 @@ class _CardTableState extends State<CardTable> {
       });
 
       final response = await LaporanViewController.postFormData(
-        product_id: 1,
-        lotnumber: '',
-        namabarang: '',
-        qty: 1,
-        uom: '',
+        nomor_kp: 1,
+        tgl_kp: DateTime.now(),
+        userid: 1,
+        dibuatoleh: '',
+        dibuattgl: DateTime.now(),
       );
 
       final List<dynamic> nameDataList = response.data;
       //print('API Response: $nameDataList');
 
       final List<MyData> myDataList = nameDataList.map((data) {
-        int product_id = int.tryParse(data['product_id'].toString()) ?? 0;
-        String lotnumber = data['lotnumber'];
-        String namabarang= data['namabarang'];
-        int qty = int.tryParse(data['qty'].toString()) ?? 0;
-        String uom = data['uom'];
+        int nomor_kp = int.tryParse(data['nomor_kp'].toString()) ?? 0;
+        DateTime tgl_kp = DateTime.parse(data['tgl_kp']);
+        int userid = int.tryParse(data['userid'].toString()) ?? 0;
+        String dibuatoleh = data['dibuatoleh'];
+        DateTime dibuattgl = DateTime.parse(data['dibuattgl']);
 
         return MyData(
-          product_id: product_id,
-          lotnumber: lotnumber,
-          namabarang: namabarang,
-          qty: qty,
-          uom: uom,
+          nomor_kp: nomor_kp,
+          tgl_kp: tgl_kp,
+          userid: userid,
+          dibuatoleh: dibuatoleh,
+          dibuattgl: dibuattgl,
         );
         //print('$MyData');
       }).toList();
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.lotnumber
+          return data.nomor_kp
               .toString()
               .toLowerCase()
               .contains(searchText.toLowerCase());
@@ -368,61 +369,52 @@ class _CardTableState extends State<CardTable> {
             child: Column(
               children: [
                 _isLoading
-                ? CircularProgressIndicator()
+                    ? CircularProgressIndicator()
                     : _data.isEmpty
-                    ? EmptyData()
-                    : PaginatedDataTable(
-                        columns: [
-                          DataColumn(
-                            label: Text(
-                              'Product ID',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
+                        ? EmptyData()
+                        : PaginatedDataTable(
+                            columns: [
+                              DataColumn(
+                                label: Text(
+                                  'Nomor Kp',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Kode Barang',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
+                              DataColumn(
+                                label: Text(
+                                  'Tanggal Kp',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Nama Barang',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
+                              DataColumn(
+                                label: Text(
+                                  'Pembuat',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Kuantitas',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
+                              DataColumn(
+                                label: Text(
+                                  'Tanggal',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
+                            source: MyDataTableSource(_data),
+                            rowsPerPage: 10,
                           ),
-                          DataColumn(
-                            label: Text(
-                              'Uom',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                        ],
-                        source: MyDataTableSource(_data),
-                        rowsPerPage: 10,
-                      ),
-                ],
+              ],
             ),
           ),
         ),
