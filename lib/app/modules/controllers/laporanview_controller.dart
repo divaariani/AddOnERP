@@ -1,28 +1,24 @@
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'response_model.dart';
-import 'package:get/get.dart';
-
-
 
 class LaporanViewController{
   static const String baseUrl = '{YOUR API}';
   static Future<ResponseModel> postFormData({
-    required int product_id,
-    required String lotnumber,
-    required String namabarang,
-    required int qty,
-    required String uom,
+    required int nomor_kp,
+    required DateTime tgl_kp,
+    required int userid,
+    required String dibuatoleh,
+    required DateTime dibuattgl,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_laporan_produksi'),
+      Uri.parse('$baseUrl?function=get_laporan_produksi_2'),
       body: {
-        'product_id': product_id.toString(),
-        'lotnumber': lotnumber,
-        'namabarang': namabarang,
-        'qty': qty.toString(),
-        'uom': uom,
+        'nomor_kp': nomor_kp.toString(),
+        'tgl_kp': tgl_kp.toString(),
+        'userid': userid.toString(),
+        'dibuatoleh': dibuatoleh,
+        'dibuattgl' : dibuattgl.toString(),
       },
     );
     
@@ -36,5 +32,3 @@ class LaporanViewController{
     }
   }
 }
-
- 
