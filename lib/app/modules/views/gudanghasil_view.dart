@@ -6,11 +6,26 @@ import 'package:get/get.dart';
 import 'home_view.dart';
 import '../controllers/gudangview_controller.dart';
 import '../utils/sessionmanager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/src/widgets/basic.dart' as flutter;
+import 'package:provider/provider.dart';
+import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:excel/excel.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: GudangHasilView(),
-  ));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: GudangHasilView(),
+    );
+  }
 }
 
 class GudangHasilView extends StatefulWidget {
@@ -23,6 +38,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
   int page = 1;
   int pageSize = 10;
   String searchText = "";
+
   final SessionManager sessionManager = SessionManager();
   String userIdLogin = "";
 
@@ -31,6 +47,38 @@ class _GudangHasilViewState extends State<GudangHasilView> {
     super.initState();
   }
 
+  Future<void> createAndExportExcel() async {
+  var status = await Permission.storage.status;
+  if (!status.isGranted) {
+    await Permission.storage.request();
+    status = await Permission.storage.status;
+    if (!status.isGranted) {
+      return;
+    }
+  }
+
+  final excel = Excel.createExcel();
+  final sheet = excel['Sheet1'];
+
+  sheet.appendRow(['Nama', 'Usia', 'Kota']);
+  sheet.appendRow(['Pra', 30, 'Bogor']);
+  sheet.appendRow(['Dinda', 25, 'Barat']);
+  sheet.appendRow(['Kusuma', 35, 'Bandung']);
+
+  final excelFile = File('${(await getTemporaryDirectory()).path}/warehouse.xlsx');
+  final excelData = excel.encode()!; 
+
+  await excelFile.writeAsBytes(excelData);
+
+  if (excelFile.existsSync()) {
+    Share.shareFiles(
+      [excelFile.path],
+      text: 'Exported Excel',
+    );
+  } else {
+    print('File Excel tidak ditemukan.');
+  }
+}
   @override
   Widget build(BuildContext context) {
     print('Building GudangHasilView');
@@ -45,7 +93,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
+        body: flutter.Stack(
           fit: StackFit.expand,
           children: [
             Container(
@@ -63,7 +111,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
             ),
             SingleChildScrollView(
               child: SafeArea(
-                child: Column(
+                child: flutter.Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 70),
@@ -71,7 +119,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                       scrollDirection: Axis.horizontal,
                       child: Padding(
                         padding: EdgeInsets.only(left: 23),
-                        child: Row(
+                        child: flutter.Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Padding(
@@ -97,7 +145,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                     SizedBox(height: 10),
                     CardTable(searchText),
                     SizedBox(height: 30),
-                    Row(
+                    flutter.Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton.icon(
@@ -119,6 +167,13 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                             elevation: 4,
                             minimumSize: Size(160, 48),
                           ),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            createAndExportExcel();
+                          },
+                          child: Text('Export Excel'),
                         ),
                       ],
                     ),
@@ -187,7 +242,7 @@ class _CustomButtonState extends State<CustomButton> {
     isCurrentPage = widget.targetPage.runtimeType == GudangHasilView;
   }
 
-  void _navigateToTargetPage() {
+  void _navigateToTargetPage(BuildContext context) {
     if (!isCurrentPage) {
       Navigator.push(
         context,
@@ -206,7 +261,9 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _navigateToTargetPage,
+      onTap: () {
+        _navigateToTargetPage(context);
+      },
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -258,7 +315,6 @@ class MyData {
   final int? quantity;
   final String? state;
   final String aksi;
-  
 
   MyData({
     required this.id,
@@ -287,7 +343,7 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-         DataCell(
+        DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -351,7 +407,7 @@ class MyDataTableSource extends DataTableSource {
           AksiCellWidget(
             entry: entry,
             onDelete: onDelete,
-            data: data, 
+            data: data,
           ),
         ),
       ],
@@ -440,11 +496,15 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-        return (data.barcode_mobil?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
-              (data.name?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
-              (data.lotnumber?.toLowerCase() ?? "").contains(_searchResult.toLowerCase()) ||
-              (data.state?.toLowerCase() ?? "").contains(_searchResult.toLowerCase());
-      }).toList();
+          return (data.barcode_mobil?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
+              (data.name?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
+              (data.lotnumber?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
+              (data.state?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase());
+        }).toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -457,12 +517,12 @@ class _CardTableState extends State<CardTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return flutter.Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 26),
-          child: Row(
+          child: flutter.Row(
             children: [
               Expanded(
                 child: Container(
@@ -512,7 +572,7 @@ class _CardTableState extends State<CardTable> {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(children: [
+            child: flutter.Column(children: [
               _isLoading
                   ? CircularProgressIndicator()
                   : _data.isEmpty
@@ -599,7 +659,7 @@ class EmptyData extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
+        child: flutter.Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
@@ -638,6 +698,22 @@ class AksiCellWidget extends StatefulWidget {
   State<AksiCellWidget> createState() => _AksiCellWidgetState();
 }
 
+class MyDataProvider extends ChangeNotifier {
+  List<MyData> _data = [];
+
+  List<MyData> get data => _data;
+
+  void setData(List<MyData> newData) {
+    _data = newData;
+    notifyListeners();
+  }
+
+  void deleteData(int id) {
+    _data.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+}
+
 class _AksiCellWidgetState extends State<AksiCellWidget> {
   final idController = TextEditingController();
 
@@ -646,16 +722,20 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
     super.initState();
   }
 
-  Future<void> _submitState() async {
+  Future<void> _submitState(BuildContext context) async {
     try {
-      widget.onDelete(widget.entry.id!);
+      final myDataProvider =
+          Provider.of<MyDataProvider>(context, listen: false);
+      if (widget.entry.id != null) {
+        myDataProvider.deleteData(
+            widget.entry.id!); // Using the non-nullable assertion operator (!)
+      }
+
+      final _data = myDataProvider.data;
 
       setState(() {
-        widget.data.removeWhere((element) => element.id == widget.entry.id);
+        _data.removeWhere((element) => element.id == widget.entry.id);
       });
-
-      final cardTableState = context.findAncestorStateOfType<_CardTableState>();
-      cardTableState?.setState(() {});
 
       Get.snackbar(
         'Sukses',
@@ -664,8 +744,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
         duration: Duration(seconds: 3),
       );
 
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => GudangHasilView()));
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => GudangHasilView()));
     } catch (e) {
       Get.snackbar(
         'Kesalahan',
@@ -697,7 +776,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                   ),
                   content: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
+                    child: flutter.Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
@@ -718,7 +797,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Row(
+                        flutter.Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -743,7 +822,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                             const SizedBox(width: 10),
                             ElevatedButton(
                               onPressed: () {
-                                _submitState();
+                                _submitState(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
