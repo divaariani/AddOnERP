@@ -65,9 +65,8 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
       //final int id = int.tryParse(['id'].toString()) ?? 0;
 
       if (_selectedDay == null) {
-      // Tambahkan penanganan jika tglkp tidak dipilih
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Tgl Kp belum dipilih.'),
         ),
       );
@@ -82,7 +81,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     } else {
       // Tambahkan penanganan jika createdate kosong
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Createdate tidak valid.'),
         ),
       );
@@ -91,7 +90,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
       final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
         .map((lotnumber) => {
               'lotnumber': lotnumber,
-              'state': 'draft', // Atur sesuai kebutuhan
+              'state': 'draft', 
             })
         .toList();
 
