@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import 'audit_view.dart';
@@ -217,6 +218,7 @@ class MyData {
   final String? namabarang;
   final int? qty;
   final String? state;
+  final String aksi;
 
   MyData({
     required this.id,
@@ -225,12 +227,16 @@ class MyData {
     required this.namabarang,
     required this.qty,
     required this.state,
+    required this.aksi
   });
 }
 
 class MyDataTableSource extends DataTableSource {
   final List<MyData> data;
-  MyDataTableSource(this.data);
+  final Function(int) onDelete;
+
+  MyDataTableSource(this.data, {required this.onDelete});
+  
 
   @override
   DataRow? getRow(int index) {
@@ -303,6 +309,13 @@ class MyDataTableSource extends DataTableSource {
             ),
           ),
         ),
+        DataCell(
+          AksiCellWidget(
+            entry: entry,
+            onDelete: onDelete,
+            data: data, 
+          ),
+        ),
       ],
     );
   }
@@ -368,6 +381,7 @@ Future<void> fetchDataFromAPI() async {
         namabarang: namabarang,
         qty: qty,
         state: state,
+        aksi: ''
       );
     }).toList();
 
@@ -498,8 +512,19 @@ Future<void> fetchDataFromAPI() async {
                                   ),
                                 ),
                               ),
+                              DataColumn(
+                                label: Text(
+                                  'Aksi',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
                             ],
-                            source: MyDataTableSource(_data),
+                            source: MyDataTableSource(_data, onDelete: (int id) {
+                            AuditViewController.deleteData(id);
+                          }),
                             rowsPerPage: 10,
                           ),
               ],
@@ -507,6 +532,160 @@ Future<void> fetchDataFromAPI() async {
           ),
         ),
       ],
+    );
+  }
+}
+
+class AksiCellWidget extends StatefulWidget {
+  final MyData entry;
+  final Function(int) onDelete;
+  final List<MyData> data;
+
+  const AksiCellWidget({Key? key, required this.entry, required this.onDelete, required this.data}): super(key: key);
+
+  @override
+  State<AksiCellWidget> createState() => _AksiCellWidgetState();
+}
+
+class _AksiCellWidgetState extends State<AksiCellWidget> {
+  final idController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _submitAction() async {
+    try {
+      widget.onDelete(widget.entry.id!);
+
+      setState(() {
+        widget.data.removeWhere((element) => element.id == widget.entry.id);
+      });
+
+      final cardTableState = context.findAncestorStateOfType<_CardTableState>();
+      cardTableState?.setState(() {});
+
+      Get.snackbar(
+        'Sukses',
+        'Kode Barang ${widget.entry.lotbarang} berhasil dihapus.',
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 3),
+      );
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AuditHasilView()));
+
+    } catch (e) {
+      Get.snackbar(
+        'Kesalahan',
+        'Terjadi kesalahan saat menghapus data: $e',
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 3),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 0, 0),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: InkWell(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  content: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.asset(
+                            'assets/icon.warning.png',
+                            width: 70,
+                            height: 70,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Apakah yakin akan dihapus?',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: const Color(0xFF084D88),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffD1D3D9),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Batal',
+                                style: TextStyle(
+                                  color: Color(0xFF084D88),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: () {
+                                _submitAction();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Hapus',
+                                style: TextStyle(
+                                  color: Color(0xFFFAFAFA),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: Center(
+            child: Image.asset(
+              'assets/icon.delete.png',
+              width: 20,
+              height: 20,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
