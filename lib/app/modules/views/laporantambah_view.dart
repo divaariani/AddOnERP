@@ -61,43 +61,76 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
     try {
       final int userId = int.parse(userIdLogin);
-      final int id = int.tryParse(['id'].toString()) ?? 0;
-      for (String plotnumber in widget.resultBarangQc) {
-        ResponseModel response = await LaporanTambahController.postFormData(
-          id: id,
-          puserid: userId,
-          plotnumber: plotnumber,
-        );
+      final String uid = userIdLogin;
+      //final int id = int.tryParse(['id'].toString()) ?? 0;
 
-        if (response.status == 0) {
-          errorMessages.add('Request gagal: ${response.message}');
-        } else if (response.status != 1) {
-          errorMessages.add('Terjadi kesalahan: Response tidak valid.');
-        }
-      }
-
-      if (errorMessages.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessages.join('\n')),
-          ),
-        );
-      } else {
-        Get.snackbar('Stock Berhasil Diupload', successMessage);
-      }
-
-      widget.resultBarangQc.clear();
-      setState(() {
-        widget.resultBarangQc = [];
-      });
-    } catch (e) {
+      if (_selectedDay == null) {
+      // Tambahkan penanganan jika tglkp tidak dipilih
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Terjadi kesalahan: $e'),
+          content: Text('Tgl Kp belum dipilih.'),
         ),
       );
+      return;
     }
+
+    DateTime tglkp = _selectedDay!;
+
+    DateTime createdate;
+    if (_createTglController.text.isNotEmpty) {
+      createdate = DateTime.parse(_createTglController.text);
+    } else {
+      // Tambahkan penanganan jika createdate kosong
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Createdate tidak valid.'),
+        ),
+      );
+      return;
+    }
+      final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
+        .map((lotnumber) => {
+              'lotnumber': lotnumber,
+              'state': 'draft', // Atur sesuai kebutuhan
+            })
+        .toList();
+
+    ResponseModel response = await LaporanTambahController.postFormData(
+      p_tgl_kp: tglkp,
+      p_userid: userId,
+      p_uid: uid,
+      p_createdate: createdate,
+      p_inventory_details: inventoryDetails,
+    );
+
+    if (response.status == 0) {
+      errorMessages.add('Request gagal: ${response.message}');
+    } else if (response.status != 1) {
+      errorMessages.add('Terjadi kesalahan: Response tidak valid.');
+    }
+
+    if (errorMessages.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessages.join('\n')),
+        ),
+      );
+    } else {
+      Get.snackbar('Stock Berhasil Diupload', successMessage);
+    }
+
+    widget.resultBarangQc.clear();
+    setState(() {
+      widget.resultBarangQc = [];
+    });
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Terjadi kesalahan: $e'),
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
