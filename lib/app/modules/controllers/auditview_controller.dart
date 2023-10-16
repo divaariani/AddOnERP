@@ -32,4 +32,23 @@ class AuditViewController{
       throw Exception('Failed to view form data');
     }
   }
+
+  static Future<void> deleteData(int id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl?function=delete_audit'),
+        body: {
+          'id': id.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Data with ID $id has been deleted successfully.');
+      } else {
+        print('Failed to delete data with ID $id');
+      }
+    } catch (e) {
+      print('Error deleting data: $e');
+    }
+  }
 }
