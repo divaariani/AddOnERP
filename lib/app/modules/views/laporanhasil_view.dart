@@ -8,7 +8,7 @@ import '../utils/globals.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp( const MaterialApp(
     home: LaporanHasilView(),
   ));
 }
@@ -40,6 +40,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
       print(error);
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -60,7 +61,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -74,9 +75,9 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     Align(
-                      alignment: Alignment(0.85, -1.0),
+                      alignment: const Alignment(0.85, -1.0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -86,15 +87,15 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                               color: Colors.black.withOpacity(0.2),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
-                        padding: EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add,
-                            color: const Color.fromARGB(255, 7, 93, 163),
+                            color: Color.fromARGB(255, 7, 93, 163),
                           ),
                           onPressed: () {
                             Get.to(() => LaporanTambahView(
@@ -104,9 +105,9 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CardTable(searchText),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -116,13 +117,13 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) =>const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -131,7 +132,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Laporan Hasil Produksi",
                   style: TextStyle(
                     fontSize: 20,
@@ -146,13 +147,13 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -161,7 +162,7 @@ class _LaporanHasilViewState extends State<LaporanHasilView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Laporan Hasil Produksi",
                   style: TextStyle(
                     fontSize: 20,
@@ -212,7 +213,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.nomor_kp?.toString() ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -226,7 +227,7 @@ class MyDataTableSource extends DataTableSource {
               (entry.tgl_kp != null)
                   ? DateFormat('yyyy-MM-dd').format(entry.tgl_kp!)
                   : "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -238,7 +239,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.dibuatoleh ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -252,7 +253,7 @@ class MyDataTableSource extends DataTableSource {
               entry.dibuattgl != null
                   ? DateFormat('yyyy-MM-dd HH:mm:ss').format(entry.dibuattgl!)
                   : "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -356,9 +357,9 @@ class _CardTableState extends State<CardTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
+       const  SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -369,11 +370,11 @@ class _CardTableState extends State<CardTable> {
             child: Column(
               children: [
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : _data.isEmpty
                         ? EmptyData()
                         : PaginatedDataTable(
-                            columns: [
+                            columns: const [
                               DataColumn(
                                 label: Text(
                                   'Nomor Kp',
