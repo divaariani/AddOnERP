@@ -60,8 +60,8 @@ class _GudangMobilViewState extends State<GudangMobilView> {
 
   Future<void> _submitNotif() async {
     final int id = int.parse(userIdLogin);
-    final String title = 'Stock';
-    final String description = 'Anda berhasil upload stok barang';
+    const String title = 'Stock';
+    const String description = 'Anda berhasil upload stok barang';
 
     try {
       final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
@@ -84,7 +84,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Terjadi kesalahan: Response tidak valid.'),
           ),
         );
@@ -153,7 +153,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/bgscreen.png"),
                 fit: BoxFit.cover,
@@ -165,23 +165,23 @@ class _GudangMobilViewState extends State<GudangMobilView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
+                            MaterialPageRoute(builder: (context) => const HomeView()),
                           );
                         },
                         child: Image.asset('assets/icon.back.png',
                             width: 60, height: 60),
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
+                      const SizedBox(width: 16),
+                      const Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Text(
@@ -234,7 +234,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Visibility(
                     visible: widget.resultBarangGudang.isNotEmpty,
                     child: Padding(
@@ -288,11 +288,11 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ScanGudangBarangView()),
+                                  builder: (context) => const ScanGudangBarangView()),
                             );
                           },
-                          icon: Icon(Icons.qr_code_scanner, size: 15),
-                          label: Text('Scan Barang',
+                          icon: const Icon(Icons.qr_code_scanner, size: 15),
+                          label: const Text('Scan Barang',
                               style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
@@ -304,17 +304,17 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                             minimumSize: Size(130, 48),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         ElevatedButton.icon(
                           onPressed: () {
                             _submitStock();
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => GudangHasilView()),
+                                  builder: (context) => const GudangHasilView()),
                             );
                           },
-                          icon: Icon(Icons.cloud_upload, size: 15),
-                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                          icon: const Icon(Icons.cloud_upload, size: 15),
+                          label: const Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -322,13 +322,13 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             elevation: 4,
-                            minimumSize: Size(100, 48),
+                            minimumSize: const Size(100, 48),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
