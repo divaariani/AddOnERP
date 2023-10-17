@@ -4,7 +4,7 @@ import 'home_view.dart';
 import '../controllers/monitoringview_controller.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: MonitoringHasilView(),
   ));
 }
@@ -31,7 +31,7 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -44,7 +44,7 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -58,29 +58,29 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 23),
+                        padding: const EdgeInsets.only(left: 23),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Monitoring",
                                 isActive: true,
-                                targetPage: MonitoringHasilView(),
+                                targetPage: const MonitoringHasilView(),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CardTable(searchText),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -90,13 +90,13 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -105,7 +105,7 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Monitoring",
                   style: TextStyle(
                     fontSize: 20,
@@ -122,7 +122,7 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
   }
 }
 
-class CustomButton extends StatefulWidget {
+class CustomButton extends StatefulWidget { 
   final String text;
   final bool isActive;
   final Widget targetPage;
@@ -150,7 +150,7 @@ class _CustomButtonState extends State<CustomButton> {
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               widget.targetPage,
-          transitionDuration: Duration(milliseconds: 150),
+          transitionDuration: const Duration(milliseconds: 150),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -169,10 +169,10 @@ class _CustomButtonState extends State<CustomButton> {
             colors: widget.isActive
                 ? [
                     const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
+                   const Color.fromARGB(56, 0, 151, 251)
                   ]
                 : [
-                    Color.fromARGB(255, 255, 255, 255),
+                   const Color.fromARGB(255, 255, 255, 255),
                     const Color.fromRGBO(96, 187, 231, 1)
                   ],
             begin: Alignment.topCenter,
@@ -185,12 +185,12 @@ class _CustomButtonState extends State<CustomButton> {
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   )
                 ]
               : [],
         ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
         child: Text(
           widget.text,
           style: TextStyle(
@@ -239,7 +239,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.idmas.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -251,7 +251,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -263,7 +263,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.qty.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -275,7 +275,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.uom,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -423,9 +423,9 @@ class _CardTableState extends State<CardTable> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -436,11 +436,11 @@ class _CardTableState extends State<CardTable> {
             child: Column(
               children: [
                 _isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
               :_data.isEmpty
                 ? EmptyData()
                 : PaginatedDataTable(
-                    columns: [
+                    columns: const [
                       DataColumn(
                         label: Text(
                           'Idmas',
