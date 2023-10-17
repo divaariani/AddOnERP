@@ -4,7 +4,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import '../utils/globals.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ScanQcBarangView(),
   ));
 }
@@ -25,17 +25,17 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
       ScanMode.BARCODE,
     );
 
-    String finalQcBarangResult = '';
+    //String finalQcBarangResult = '';
 
-    if (barcodeQcBarangResult.length >= 12) {
-      finalQcBarangResult = barcodeQcBarangResult.substring(
-        barcodeQcBarangResult.length - 7 - 5, barcodeQcBarangResult.length - 5
-      );
-    }
+    // if (barcodeQcBarangResult.length >= 12) {
+    //   finalQcBarangResult = barcodeQcBarangResult.substring(
+    //     barcodeQcBarangResult.length - 7 - 5, barcodeQcBarangResult.length - 5
+    //   );
+    // }
 
     if (barcodeQcBarangResult.isNotEmpty) {
       setState(() {
-        globalBarcodeBarangQcResults.add(finalQcBarangResult);
+        globalBarcodeBarangQcResults.add(barcodeQcBarangResult);
       });
     }
 
@@ -59,7 +59,7 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
             width: 360,
             height: 800,
             clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment(0.99, -0.14),
                 end: Alignment(-0.99, 0.14),
@@ -71,11 +71,11 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -88,8 +88,8 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
                         child: Image.asset('assets/icon.back.png',
                             width: 60, height: 60),
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
+                      const SizedBox(width: 16),
+                      const Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Text(
@@ -105,37 +105,37 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.all(40),
+                      padding: const EdgeInsets.all(40),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color(0xFF084D88),
+                            color: const Color(0xFF084D88),
                             width: 4,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 80),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image(
+                              const Image(
                                 image: AssetImage("assets/icon.barcode.png"),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               ElevatedButton(
                                 onPressed: _scanBarcode,
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF226EA4),
+                                  primary:const Color(0xFF226EA4),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(
@@ -159,7 +159,7 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     textAlign: TextAlign.center,
                     "Scan barcode pada barang!",
                     style: TextStyle(
@@ -167,7 +167,7 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
