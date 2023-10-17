@@ -150,7 +150,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -164,8 +164,8 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 70),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -195,7 +195,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: GestureDetector(
@@ -238,7 +238,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 19),
+                    const SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -268,7 +268,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: TextField(
@@ -288,7 +288,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 19),
+                    const SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -306,7 +306,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: TextField(
@@ -325,12 +325,12 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 19),
+                    const SizedBox(height: 19),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -340,17 +340,17 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   color: Colors.black.withOpacity(0.2),
                                   spreadRadius: 2,
                                   blurRadius: 5,
-                                  offset: Offset(0, 3),
+                                  offset: const Offset(0, 3),
                                 ),
                               ],
                             ),
-                            padding: EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ScanQcBarangView(),
+                                    builder: (context) => const ScanQcBarangView(),
                                   ),
                                 );
                               },
@@ -365,7 +365,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -381,7 +381,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -401,7 +401,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 40),
+                                const SizedBox(width: 40),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
@@ -429,18 +429,18 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                             width: MediaQuery.of(context).size.width * 0.89,
                             height: 3,
                             color: Colors.white,
-                            margin: EdgeInsets.symmetric(vertical: 10),
+                            margin: const EdgeInsets.symmetric(vertical: 10),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ListView.builder(
                       itemCount: globalBarcodeBarangQcResults.isEmpty
                           ? 1
                           : globalBarcodeBarangQcResults.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -471,7 +471,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 5),
+                                  const SizedBox(width: 5),
                                   Expanded(
                                     flex: 3,
                                     child: Container(
@@ -486,7 +486,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                               : globalBarcodeBarangQcResults[
                                                   index],
                                           filled: true,
-                                          fillColor: Color.fromARGB(
+                                          fillColor: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           border: OutlineInputBorder(
                                             borderRadius:
@@ -505,7 +505,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                         );
                       },
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Align(
                       alignment: Alignment.center,
                       child: Row(
@@ -516,7 +516,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               _submitStock();
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => LaporanHasilView(),
+                                  builder: (context) => const LaporanHasilView(),
                                 ),
                               );
                             },
@@ -531,8 +531,8 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                             ),
                             child: Row(
                               children: [
-                                Text('Submit', style: TextStyle(fontSize: 14)),
-                                SizedBox(
+                                const Text('Submit', style: TextStyle(fontSize: 14)),
+                                const SizedBox(
                                     width:
                                         8), 
                                 Image.asset(
@@ -557,14 +557,14 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor:const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LaporanHasilView(),
+                        builder: (context) => const LaporanHasilView(),
                       ),
                     );
                   },
@@ -574,7 +574,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Tambah Laporan",
                   style: TextStyle(
                     fontSize: 20,
