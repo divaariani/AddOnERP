@@ -10,7 +10,7 @@ import '../controllers/response_model.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/notification_controller.dart';
 import 'package:intl/intl.dart';
-
+import 'gudangrefresh_view.dart';
 
 class GudangMobilView extends StatefulWidget {
   String result;
@@ -144,6 +144,15 @@ class _GudangMobilViewState extends State<GudangMobilView> {
       );
     }
   }
+
+  void refreshNavigateToLaporantHasilView() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const GudangHasilView(),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +319,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                             _submitStock();
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => const GudangHasilView()),
+                                  builder: (context) => RefreshGudangTable()),
                             );
                           },
                           icon: const Icon(Icons.cloud_upload, size: 15),
