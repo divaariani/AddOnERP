@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../utils/globals.dart';
 import '../controllers/laporantambah_controller.dart';
 import '../controllers/response_model.dart';
+import 'laporanrefresh_view.dart';
 
 class LaporanTambahView extends StatefulWidget {
   String result;
@@ -29,7 +30,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   String userIdLogin = "";
   final plotnumberController = TextEditingController();
   final stateController = TextEditingController();
-
   double fontSize = 16.0;
   DateTime? _selectedDay;
   TextEditingController _dateController = TextEditingController();
@@ -38,8 +38,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   @override
   void initState() {
     super.initState();
-    //_fetchUserId();
-
+    
     String plotnumberList = widget.resultBarangQc.join('\n');
     plotnumberController.text = plotnumberList;
   }
@@ -47,7 +46,9 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   void _updateCreateTgl() {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(now);
-    _createTglController.text = formattedDate;
+    setState(() {
+      _createTglController.text = formattedDate;
+    });
   }
 
   Future<void> _fetchUserId() async {
@@ -56,15 +57,14 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   }
 
   Future<void> _submitStock() async {
-    String successMessage = 'Congratulations';
-    List<String> errorMessages = [];
+  String successMessage = 'Selamat';
+  List<String> errorMessages = [];
 
-    try {
-      final int userId = int.parse(userIdLogin);
-      final String uid = userIdLogin;
-      //final int id = int.tryParse(['id'].toString()) ?? 0;
+  try {
+    final int userId = int.parse(userIdLogin);
+    final String uid = userIdLogin;
 
-      if (_selectedDay == null) {
+    if (_selectedDay == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Tgl Kp belum dipilih.'),
@@ -75,22 +75,22 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
     DateTime tglkp = _selectedDay!;
 
-    DateTime createdate;
-    if (_createTglController.text.isNotEmpty) {
-      createdate = DateTime.parse(_createTglController.text);
-    } else {
-      // Tambahkan penanganan jika createdate kosong
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Createdate tidak valid.'),
-        ),
-      );
-      return;
-    }
-      final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
+     DateTime createdate;
+  if (_createTglController.text.isNotEmpty) {
+    createdate = DateTime.parse(_createTglController.text);
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Createdate tidak valid.'),
+      ),
+    );
+    return;
+  }
+
+    final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
         .map((lotnumber) => {
               'lotnumber': lotnumber,
-              'state': 'draft', 
+              'state': 'draft',
             })
         .toList();
 
@@ -103,9 +103,9 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     );
 
     if (response.status == 0) {
-      errorMessages.add('Request gagal: ${response.message}');
+      errorMessages.add('Permintaan gagal: ${response.message}');
     } else if (response.status != 1) {
-      errorMessages.add('Terjadi kesalahan: Response tidak valid.');
+      errorMessages.add('Terjadi kesalahan: Respon tidak valid.');
     }
 
     if (errorMessages.isNotEmpty) {
@@ -115,13 +115,14 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
         ),
       );
     } else {
-      Get.snackbar('Stock Berhasil Diupload', successMessage);
+      Get.snackbar('Stok Berhasil Diunggah', successMessage);
     }
 
     widget.resultBarangQc.clear();
     setState(() {
       widget.resultBarangQc = [];
     });
+
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -211,7 +212,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   setState(() {
                                     _selectedDay = selectedDate;
                                     _dateController.text =
-                                        DateFormat('yyy-MM-dd')
+                                        DateFormat('yyyy-MM-dd')
                                             .format(selectedDate);
                                     _fetchUserId();
                                     _updateCreateTgl();
@@ -516,8 +517,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               _submitStock();
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => const LaporanHasilView(),
-                                ),
+                                  builder: (context) => RefreshLaporanTable()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
