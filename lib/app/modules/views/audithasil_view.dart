@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import 'audit_view.dart';
-import '../controllers/auditview_controller.dart';
+import '../controllers/audit_controller.dart';
+import '../utils/app_colors.dart';
 
 class AuditHasilView extends StatefulWidget {
   const AuditHasilView({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -98,7 +99,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -118,7 +119,7 @@ class _AuditHasilViewState extends State<AuditHasilView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -174,12 +175,12 @@ class _CustomButtonState extends State<CustomButton> {
           gradient: LinearGradient(
             colors: widget.isActive
                 ? [
-                    const Color.fromRGBO(255, 255, 255, 1),
-                    const Color.fromARGB(56, 0, 151, 251)
+                    AppColors.white,
+                    AppColors.blueOne
                   ]
                 : [
-                    const Color.fromARGB(255, 255, 255, 255),
-                    const Color.fromRGBO(96, 187, 231, 1)
+                    AppColors.white,
+                    AppColors.blueThree
                   ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -188,7 +189,7 @@ class _CustomButtonState extends State<CustomButton> {
           boxShadow: widget.isActive
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: AppColors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
                     offset: const Offset(0, 2),
@@ -201,8 +202,8 @@ class _CustomButtonState extends State<CustomButton> {
           widget.text,
           style: TextStyle(
             color: widget.isActive
-                ? Colors.white
-                : const Color.fromRGBO(8, 77, 136, 1),
+                ? AppColors.white
+                : AppColors.blueOne,
             fontSize: 12,
           ),
         ),
@@ -361,7 +362,7 @@ Future<void> fetchDataFromAPI() async {
       _isLoading = true;
     });
 
-    final response = await AuditViewController.postFormData(id: 1, lokasi: '', lotBarang: '', namabarang: '', qty: 1, state: '');
+    final response = await AuditController.viewData(id: 1, lokasi: '', lotBarang: '', namabarang: '', qty: 1, state: '');
 
     final List<dynamic> nameDataList = response.data;
     print('API Response: $nameDataList');
@@ -415,7 +416,7 @@ Future<void> fetchDataFromAPI() async {
                 child: Container(
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: ListTile(
@@ -456,7 +457,7 @@ Future<void> fetchDataFromAPI() async {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          color: Colors.white,
+          color: AppColors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
@@ -523,7 +524,7 @@ Future<void> fetchDataFromAPI() async {
                               ),
                             ],
                             source: MyDataTableSource(_data, onDelete: (int id) {
-                            AuditViewController.deleteData(id);
+                            AuditController.deleteData(id);
                           }),
                             rowsPerPage: 10,
                           ),
@@ -592,7 +593,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
         width: 30,
         height: 30,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 0, 0),
+          color: Colors.red,
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
@@ -623,7 +624,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
-                            color: const Color(0xFF084D88),
+                            color: AppColors.blueOne,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -636,7 +637,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 Navigator.of(context).pop();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffD1D3D9),
+                                backgroundColor: AppColors.greyThree,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -645,7 +646,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               child: const Text(
                                 'Batal',
                                 style: TextStyle(
-                                  color: Color(0xFF084D88),
+                                  color: AppColors.blueOne,
                                 ),
                               ),
                             ),
@@ -664,7 +665,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               child: const Text(
                                 'Hapus',
                                 style: TextStyle(
-                                  color: Color(0xFFFAFAFA),
+                                  color: AppColors.white,
                                 ),
                               ),
                             ),
@@ -701,7 +702,7 @@ class EmptyData extends StatelessWidget {
         width: 1 * MediaQuery.of(context).size.width,
         height: 300,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Stack(
@@ -714,14 +715,14 @@ class EmptyData extends StatelessWidget {
                   'assets/icon.nodata.png',
                   width: 30,
                   height: 30,
-                  color: Colors.blue[900],
+                  color: AppColors.blueOne,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     'Tidak ada barang',
                     style: GoogleFonts.poppins(
-                      color: Colors.blue[900],
+                      color: AppColors.blueOne,
                       fontSize: 12,
                       fontWeight: FontWeight.normal,
                     ),
