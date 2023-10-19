@@ -7,8 +7,8 @@ import 'home_view.dart';
 import 'refresh_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
-import '../controllers/auditstock_controller.dart';
-import '../controllers/audituser_controller.dart';
+import '../utils/app_colors.dart';
+import '../controllers/audit_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
 
@@ -24,7 +24,7 @@ class AuditLokasiView extends StatefulWidget {
 
 class _AuditLokasiViewState extends State<AuditLokasiView> {
   late DateTime currentTime;
-  final AuditUserController _auditUserController = Get.put(AuditUserController());
+  final AuditController _auditUserController = Get.put(AuditController());
   final SessionManager sessionManager = SessionManager();
   final idController = TextEditingController();
   final pbarangController = TextEditingController();
@@ -114,7 +114,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
       await _fetchCurrentTime();
 
       for (String pbarang in widget.resultBarang) {
-        ResponseModel response = await AuditStockController.postFormData(
+        ResponseModel response = await AuditController.postFormStock(
           id: id,
           pbarang: pbarang,
           plokasi: plokasi,
@@ -180,7 +180,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -196,7 +196,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Align(
@@ -208,7 +208,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                 Text(
                                   'LOKASI: ',
                                   style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -216,7 +216,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                 Text(
                                   barcodeAuditLokasiResult,
                                   style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -235,7 +235,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                         child: Container(
                           width: 1 * MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Padding(
@@ -246,7 +246,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                   'Daftar Barang',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -290,7 +290,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                                             textAlign: TextAlign.center,
                                                             style: GoogleFonts.poppins(
                                                               fontSize: 12,
-                                                              color: const Color(0xFF084D88),
+                                                              color: AppColors.blueOne,
                                                             ),
                                                           ),
                                                           const SizedBox(height: 10),
@@ -303,7 +303,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                                                   Navigator.of(context).pop();
                                                                 },
                                                                 style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: const Color(0xffD1D3D9),
+                                                                  backgroundColor: AppColors.greyThree,
                                                                   elevation: 0,
                                                                   shape: RoundedRectangleBorder(
                                                                     borderRadius: BorderRadius.circular(10),
@@ -312,7 +312,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                                                 child: const Text(
                                                                   'Batal',
                                                                   style: TextStyle(
-                                                                    color: Color(0xFF084D88),
+                                                                    color: AppColors.blueOne,
                                                                   ),
                                                                 ),
                                                               ),
@@ -334,7 +334,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                                                 child: const Text(
                                                                   'Hapus',
                                                                   style: TextStyle(
-                                                                    color: Color(0xFFFAFAFA),
+                                                                    color: AppColors.white,
                                                                   ),
                                                                 ),
                                                               ),
@@ -359,7 +359,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                                           item,
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
-                                            color: Colors.blue[900],
+                                            color: AppColors.blueOne,
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal,
                                           ),
@@ -400,8 +400,8 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                             ),
                             label: const Text('Scan Barang', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
+                              primary: AppColors.blueOne,
+                              onPrimary: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -425,8 +425,8 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                             ),
                             label: const Text('Upload', style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
+                              primary: AppColors.blueOne,
+                              onPrimary: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -447,7 +447,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -467,7 +467,7 @@ class _AuditLokasiViewState extends State<AuditLokasiView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -490,7 +490,7 @@ class EmptyData extends StatelessWidget {
         width: 1 * MediaQuery.of(context).size.width,
         height: 300,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -500,14 +500,14 @@ class EmptyData extends StatelessWidget {
               'assets/icon.nodata.png',
               width: 30,
               height: 30,
-              color: Colors.blue[900],
+              color: AppColors.blueOne,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 'Tidak ada hasil scan barang',
                 style: GoogleFonts.poppins(
-                  color: Colors.blue[900],
+                  color: AppColors.blueOne,
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
                 ),
