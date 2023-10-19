@@ -12,10 +12,11 @@ import 'monitoringhasil_view.dart';
 import 'customer_view.dart';
 import 'operatormonitoring_view.dart';
 import '../controllers/actor_controller.dart';
-import '../controllers/audituser_controller.dart';
+import '../controllers/audit_controller.dart';
 import '../controllers/machine_controller.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -81,7 +82,7 @@ class _DashboardViewState extends State<DashboardView> {
     _fetchUserId();
     _fetchCurrentTime();
     _fetchMachineData();
-    AuditUserController auditUserController = Get.put(AuditUserController());
+    AuditController auditUserController = Get.put(AuditController());
 
     loadNameInventory().then((value) {
       setState(() {
@@ -135,7 +136,7 @@ class _DashboardViewState extends State<DashboardView> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFAFAFA),
+                              color: AppColors.white,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Row(
@@ -147,7 +148,7 @@ class _DashboardViewState extends State<DashboardView> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     border: Border.all(
-                                      color: const Color(0xFF084D88),
+                                      color: AppColors.blueOne,
                                       style: BorderStyle.solid,
                                       width: 4,
                                     ),
@@ -166,7 +167,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         "Selamat Bekerja, $userName !",
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
-                                          color: const Color(0xFF084D88),
+                                          color: AppColors.blueOne,
                                         ),
                                       ),
                                     ),
@@ -206,12 +207,12 @@ class _DashboardViewState extends State<DashboardView> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return Dialog(
-                                        backgroundColor: const Color(0xFFFAFAFA),
+                                        backgroundColor: AppColors.white,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           side: const BorderSide(
-                                              color: Color(0xFF084D88),
+                                              color: AppColors.blueOne,
                                               width: 2),
                                         ),
                                         child: Padding(
@@ -224,7 +225,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                 width: 250,
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(15),
-                                                  color: const Color(0xFF084D88),
+                                                  color: AppColors.blueOne,
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
@@ -250,7 +251,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       const Text(
                                                         'Isi Presensi',
                                                         style: TextStyle(
-                                                            color:Color(0xFFFAFAFA)),
+                                                            color:AppColors.white),
                                                       ),
                                                     ],
                                                   ),
@@ -261,9 +262,8 @@ class _DashboardViewState extends State<DashboardView> {
                                                 height: 50,
                                                 width: 250,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  color: Color(0xFF084D88),
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: AppColors.blueOne,
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
@@ -287,7 +287,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       const Text(
                                                         'Status Mesin',
                                                         style: TextStyle(
-                                                          color: Color(0xFFFAFAFA),
+                                                          color: AppColors.white,
                                                         ),
                                                       ),
                                                     ],
@@ -300,7 +300,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                 width: 250,
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(15),
-                                                  color: const Color(0xFF084D88),
+                                                  color: AppColors.blueOne,
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
@@ -324,7 +324,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                       const Text(
                                                         'Production Monitoring',
                                                         style: TextStyle(
-                                                          color: Color(0xFFFAFAFA),
+                                                          color: AppColors.white,
                                                         ),
                                                       ),
                                                     ],
@@ -344,7 +344,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -367,8 +367,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   color: _actorController.isOperator.value ==
                                               't' ||
                                           _actorController.isAdmin == 't'
-                                      ? const Color(0xFF226EA4)
-                                      : Colors.grey,
+                                      ? AppColors.blueTwo
+                                      : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -382,7 +382,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -405,8 +405,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   color:
                                       _actorController.isAuditor.value == 't' ||
                                               _actorController.isAdmin == 't'
-                                          ? const Color(0xFF226EA4)
-                                          : Colors.grey,
+                                          ? AppColors.blueTwo
+                                          : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -421,7 +421,7 @@ class _DashboardViewState extends State<DashboardView> {
                                     }
                                   : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -442,8 +442,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isWarehouse.value == 't' || _actorController.isAdmin == 't'
-                                      ? const Color(0xFF226EA4)
-                                      : Colors.grey,
+                                      ? AppColors.blueTwo
+                                      : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -456,7 +456,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -478,8 +478,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isQC.value == 't' ||
                                           _actorController.isAdmin == 't'
-                                      ? const Color(0xFF226EA4)
-                                      : Colors.grey,
+                                      ? AppColors.blueTwo
+                                      : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -493,7 +493,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -514,8 +514,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: _actorController.isMonitor.value == 't' || _actorController.isAdmin == 't'
-                                          ? const Color(0xFF226EA4)
-                                          : Colors.grey,
+                                          ? AppColors.blueTwo
+                                          : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -529,7 +529,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFFFAFAFA),
+                            primary: AppColors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -552,8 +552,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   color: _actorController.isCustomer.value ==
                                               't' ||
                                           _actorController.isAdmin == 't'
-                                      ? const Color(0xFF226EA4)
-                                      : Colors.grey,
+                                      ? AppColors.blueTwo
+                                      : AppColors.greyTwo,
                                 ),
                               ),
                             ],
@@ -584,9 +584,9 @@ class CardID extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Card(
-          color: const Color(0xFFFAFAFA),
+          color: AppColors.white,
           elevation: 4,
-          shadowColor: Colors.black.withOpacity(0.8),
+          shadowColor: AppColors.black.withOpacity(0.8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -599,7 +599,7 @@ class CardID extends StatelessWidget {
                   "ID: $id",
                   style: const TextStyle(
                     fontSize: 18,
-                    color: Color(0xFF226EA4),
+                    color: AppColors.blueOne,
                   ),
                 ),
                 Row(
@@ -608,7 +608,7 @@ class CardID extends StatelessWidget {
                       name,
                       style: const TextStyle(
                         fontSize: 18,
-                        color: Color(0xFF226EA4),
+                        color: AppColors.blueOne,
                       ),
                     ),
                     Spacer(),
@@ -617,7 +617,7 @@ class CardID extends StatelessWidget {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Color(0xFF226EA4),
+                        color: AppColors.blueOne,
                       ),
                     ),
                   ],
