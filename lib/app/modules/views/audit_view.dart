@@ -8,8 +8,9 @@ import 'scanaudit_view.dart';
 import 'home_view.dart';
 import 'audithasil_view.dart';
 import 'auditisi_view.dart';
-import '../controllers/audituser_controller.dart';
+import '../controllers/audit_controller.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
 
 class AuditView extends StatefulWidget {
   const AuditView({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _AuditViewState extends State<AuditView> {
   late DateTime currentTime;
   late String formattedDate;
   bool isLoading = false;
-  
+
   String userName = "";
   String nameInventory = '';
 
@@ -49,7 +50,7 @@ class _AuditViewState extends State<AuditView> {
     super.initState();
     _fetchUserId();
     _fetchCurrentTime();
-    AuditUserController auditUserController = Get.put(AuditUserController());
+    AuditController auditUserController = Get.put(AuditController());
 
     loadNameInventory().then((value) {
       setState(() {
@@ -90,6 +91,7 @@ class _AuditViewState extends State<AuditView> {
         body: Stack(
           fit: StackFit.expand,
           children: [
+            
             Container(
               width: 360,
               height: 800,
@@ -98,7 +100,7 @@ class _AuditViewState extends State<AuditView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -117,7 +119,8 @@ class _AuditViewState extends State<AuditView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Auditor",
                                 isActive: true,
@@ -125,7 +128,8 @@ class _AuditViewState extends State<AuditView> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Stock",
                                 isActive: false,
@@ -139,17 +143,21 @@ class _AuditViewState extends State<AuditView> {
                     const SizedBox(height: 20),
                     FutureBuilder<String>(
                       future: Future.delayed(const Duration(seconds: 1), () {
-                        return nameController.text != "Auditor_$userName" "_$formattedDate" ? "-" : nameController.text;
+                        return nameController.text !=
+                                "Auditor_$userName" "_$formattedDate"
+                            ? "-"
+                            : nameController.text;
                       }),
                       builder: (context, snapshot) {
                         return Stack(
                           children: [
                             Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 26),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 26),
                               child: Container(
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Align(
@@ -161,7 +169,7 @@ class _AuditViewState extends State<AuditView> {
                                         Text(
                                           'User: ',
                                           style: GoogleFonts.poppins(
-                                            color: Colors.blue[900],
+                                            color: AppColors.blueOne,
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -169,7 +177,7 @@ class _AuditViewState extends State<AuditView> {
                                         Text(
                                           snapshot.data ?? "",
                                           style: GoogleFonts.poppins(
-                                            color: Colors.blue[900],
+                                            color: AppColors.blueOne,
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal,
                                           ),
@@ -180,7 +188,8 @@ class _AuditViewState extends State<AuditView> {
                                 ),
                               ),
                             ),
-                            if (snapshot.connectionState == ConnectionState.waiting)
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting)
                               const Center(
                                 child: CircularProgressIndicator(),
                               ),
@@ -195,20 +204,23 @@ class _AuditViewState extends State<AuditView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: nameController.text != "Auditor_$userName" "_$formattedDate"
+                            onPressed: nameController.text !=
+                                    "Auditor_$userName" "_$formattedDate"
                                 ? () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const AuditIsiView()),
+                                          builder: (context) =>
+                                              const AuditIsiView()),
                                     );
                                   }
                                 : null,
                             icon: const Icon(Icons.person_outline, size: 15),
-                            label: const Text('Isi Auditor', style: TextStyle(fontSize: 12)),
+                            label: const Text('Isi Auditor',
+                                style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
+                              primary: AppColors.blueOne,
+                              onPrimary: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -218,7 +230,8 @@ class _AuditViewState extends State<AuditView> {
                           ),
                           const SizedBox(width: 10),
                           ElevatedButton.icon(
-                            onPressed: nameController.text == "Auditor_$userName" "_$formattedDate"
+                            onPressed: nameController.text ==
+                                    "Auditor_$userName" "_$formattedDate"
                                 ? () {
                                     Navigator.push(
                                       context,
@@ -229,10 +242,11 @@ class _AuditViewState extends State<AuditView> {
                                   }
                                 : null,
                             icon: const Icon(Icons.qr_code_scanner, size: 15),
-                            label: const Text('Scan Lokasi', style: TextStyle(fontSize: 12)),
+                            label: const Text('Scan Lokasi',
+                                style: TextStyle(fontSize: 12)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
+                              primary: AppColors.blueOne,
+                              onPrimary: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -253,7 +267,7 @@ class _AuditViewState extends State<AuditView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -273,7 +287,7 @@ class _AuditViewState extends State<AuditView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -331,12 +345,12 @@ class _CustomButtonState extends State<CustomButton> {
           gradient: LinearGradient(
             colors: widget.isActive
                 ? [
-                    const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
+                    AppColors.white,
+                    AppColors.blueOne
                   ]
                 : [
-                    Color.fromARGB(255, 255, 255, 255),
-                    const Color.fromRGBO(96, 187, 231, 1)
+                    AppColors.white,
+                    AppColors.blueThree
                   ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -345,7 +359,7 @@ class _CustomButtonState extends State<CustomButton> {
           boxShadow: widget.isActive
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: AppColors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
                     offset: const Offset(0, 2),
@@ -358,8 +372,8 @@ class _CustomButtonState extends State<CustomButton> {
           widget.text,
           style: TextStyle(
             color: widget.isActive
-                ? Colors.white
-                : const Color.fromRGBO(8, 77, 136, 1),
+                ? AppColors.white
+                : AppColors.blueOne,
             fontSize: 12,
           ),
         ),
