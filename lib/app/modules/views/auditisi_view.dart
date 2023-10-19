@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-import '../utils/sessionmanager.dart';
-import '../controllers/actor_controller.dart';
-import '../controllers/auditor_controller.dart';
-import '../controllers/response_model.dart';
-import '../controllers/notification_controller.dart';
 import 'audit_view.dart';
 import 'refresh_view.dart';
+import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
+import '../controllers/actor_controller.dart';
+import '../controllers/audit_controller.dart';
+import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
 
 class AuditIsiView extends StatefulWidget {
   const AuditIsiView({Key? key}) : super(key: key);
@@ -96,7 +97,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
     try {
       await _fetchCurrentTime();
 
-      ResponseModel response = await AuditorController.postFormData(
+      ResponseModel response = await AuditController.postFormAuditor(
         userid: id,
         name: name,
         date: currentTime,
@@ -150,7 +151,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -167,7 +168,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                         width: 1 * MediaQuery.of(context).size.width,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
@@ -180,7 +181,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                   Text(
                                     'Nama: ',
                                     style: GoogleFonts.poppins(
-                                      color: Colors.blue[900],
+                                      color: AppColors.blueOne,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -188,7 +189,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                   Text(
                                     'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
                                     style: GoogleFonts.poppins(
-                                      color: Colors.blue[900],
+                                      color: AppColors.blueOne,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -198,16 +199,16 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  Text("Date: ",
+                                  const Text("Date: ",
                                       style: TextStyle(
-                                        color: Colors.blue[900],
+                                        color: AppColors.blueOne,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                       )),
                                   Text(
                                       DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                      style: TextStyle(
-                                        color: Colors.blue[900],
+                                      style: const TextStyle(
+                                        color: AppColors.blueOne,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
                                       )),
@@ -216,9 +217,9 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  Text("Department: ",
+                                  const Text("Department: ",
                                       style: TextStyle(
-                                        color: Colors.blue[900],
+                                        color: AppColors.blueOne,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                       )),
@@ -228,8 +229,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                           : _actorController.isAuditor.value == 't'
                                               ? 'Auditor'
                                               : 'Unknown Staff',
-                                      style: TextStyle(
-                                        color: Colors.blue[900],
+                                      style: const TextStyle(
+                                        color: AppColors.blueOne,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
                                       )
@@ -261,8 +262,8 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                             label: const Text('Simpan',
                                 style: TextStyle(fontSize: 14)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(8, 77, 136, 136),
-                              onPrimary: Colors.white,
+                              primary: AppColors.blueOne,
+                              onPrimary: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -283,7 +284,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -304,7 +305,7 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
