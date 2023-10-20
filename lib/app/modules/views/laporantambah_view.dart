@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import '../utils/globals.dart';
 import '../controllers/laporantambah_controller.dart';
 import '../controllers/response_model.dart';
-import 'laporanrefresh_view.dart';
+import 'refresh_view.dart';
 
 class LaporanTambahView extends StatefulWidget {
   String result;
@@ -32,15 +32,19 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   final stateController = TextEditingController();
   double fontSize = 16.0;
   DateTime? _selectedDay;
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _createTglController = TextEditingController();
-
+  
+  final _dateController = TextEditingController();
+  final _createTglController = TextEditingController();
+  String _userIdLogin = "";
+  
   @override
   void initState() {
-    super.initState();
-    
+    super.initState();  
     String plotnumberList = widget.resultBarangQc.join('\n');
     plotnumberController.text = plotnumberList;
+    _dateController.text = ''; // Initialize with an empty string or any default value
+    _createTglController.text = ''; // Initialize with an empty string or any default value
+    userIdLogin = '';
   }
 
   void _updateCreateTgl() {
@@ -351,7 +355,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const ScanQcBarangView(),
+                                    builder: (context) => ScanQcBarangView(),
                                   ),
                                 );
                               },
