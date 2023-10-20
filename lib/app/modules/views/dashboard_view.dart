@@ -417,7 +417,7 @@ class _DashboardViewState extends State<DashboardView> {
                               _actorController.isWarehouse.value == 't' ||
                                       _actorController.isAdmin == 't'
                                   ? () {
-                                      Get.to(() => const GudangHasilView());
+                                      Get.to(() => const GudangInView());
                                     }
                                   : null,
                           style: ElevatedButton.styleFrom(
