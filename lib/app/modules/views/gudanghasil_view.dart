@@ -1,4 +1,5 @@
 import 'package:addon/app/modules/controllers/gudangdelete_controller.dart';
+import 'package:addon/app/modules/views/gudangin_view.dart';
 import 'package:addon/app/modules/views/scangudang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:excel/excel.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -22,7 +24,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: GudangHasilView(),
     );
   }
@@ -47,38 +49,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
     super.initState();
   }
 
-  Future<void> createAndExportExcel() async {
-  var status = await Permission.storage.status;
-  if (!status.isGranted) {
-    await Permission.storage.request();
-    status = await Permission.storage.status;
-    if (!status.isGranted) {
-      return;
-    }
-  }
-
-  final excel = Excel.createExcel();
-  final sheet = excel['Sheet1'];
-
-  sheet.appendRow(['Nama', 'Usia', 'Kota']);
-  sheet.appendRow(['Pra', 30, 'Bogor']);
-  sheet.appendRow(['Dinda', 25, 'Barat']);
-  sheet.appendRow(['Kusuma', 35, 'Bandung']);
-
-  final excelFile = File('${(await getTemporaryDirectory()).path}/warehouse.xlsx');
-  final excelData = excel.encode()!; 
-
-  await excelFile.writeAsBytes(excelData);
-
-  if (excelFile.existsSync()) {
-    Share.shareFiles(
-      [excelFile.path],
-      text: 'Exported Excel',
-    );
-  } else {
-    print('File Excel tidak ditemukan.');
-  }
-}
+  
   @override
   Widget build(BuildContext context) {
     print('Building GudangHasilView');
@@ -122,14 +93,14 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                         child: flutter.Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(horizontal: 3),
-                            //   child: CustomButton(
-                            //     text: "Gudang In",
-                            //     isActive: false,
-                            //     targetPage: GudangInView(),
-                            //   ),
-                            // ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: CustomButton(
+                                text: "Gudang In",
+                                isActive: false,
+                                targetPage: GudangInView(),
+                              ),
+                            ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
@@ -167,13 +138,6 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                             elevation: 4,
                             minimumSize: Size(160, 48),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            createAndExportExcel();
-                          },
-                          child: Text('Export Excel'),
                         ),
                       ],
                     ),
