@@ -1,5 +1,6 @@
 import 'package:addon/app/modules/controllers/gudangdelete_controller.dart';
 import 'package:addon/app/modules/views/scangudang_view.dart';
+import 'package:addon/app/modules/views/scangudangin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -119,7 +120,7 @@ class _GudangInViewState extends State<GudangInView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ScanGudangView()),
+                                  builder: (context) => ScanGudangInView()),
                             );
                           },
                           icon: Icon(Icons.qr_code_scanner),
