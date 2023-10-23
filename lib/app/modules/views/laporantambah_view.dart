@@ -9,6 +9,8 @@ import '../utils/globals.dart';
 import '../controllers/laporantambah_controller.dart';
 import '../controllers/response_model.dart';
 import 'refresh_view.dart';
+import 'dart:async';
+
 
 class LaporanTambahView extends StatefulWidget {
   String result;
@@ -24,7 +26,7 @@ class LaporanTambahView extends StatefulWidget {
 
 class _LaporanTambahViewState extends State<LaporanTambahView> {
   String barcodeBarangqcResult = globalBarcodeBarangqcResult;
-  final idController = TextEditingController();
+  
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   String userIdLogin = "";
@@ -32,20 +34,35 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   final stateController = TextEditingController();
   double fontSize = 16.0;
   DateTime? _selectedDay;
+  final idController = TextEditingController();
+  final _dateController = TextEditingController(text: '');
+  final _createTglController = TextEditingController(text: '');
+  Timer? _timer;
+
   
-  final _dateController = TextEditingController();
-  final _createTglController = TextEditingController();
-  String _userIdLogin = "";
-  
-  @override
+ @override
   void initState() {
-    super.initState();  
+    super.initState();
     String plotnumberList = widget.resultBarangQc.join('\n');
     plotnumberController.text = plotnumberList;
-    _dateController.text = ''; // Initialize with an empty string or any default value
-    _createTglController.text = ''; // Initialize with an empty string or any default value
-    userIdLogin = '';
+
+    _createTglController.text = _getFormattedCurrentDateTime();
+      _selectedDay = DateTime.now();
+    
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        _updateCreateTgl();
+      });
+
+    _fetchUserId();
   }
+
+  String _getFormattedCurrentDateTime() {
+      DateTime now = DateTime.now();
+      return DateFormat('yyyy-MM-dd HH:mm').format(now);
+    }
+
+
 
   void _updateCreateTgl() {
     DateTime now = DateTime.now();
@@ -60,6 +77,12 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     setState(() {});
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _timer?.cancel();
+  }
+
   Future<void> _submitStock() async {
   String successMessage = 'Selamat';
   List<String> errorMessages = [];
@@ -67,29 +90,12 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   try {
     final int userId = int.parse(userIdLogin);
     final String uid = userIdLogin;
+    String tglKpText = _dateController.text;
+    String createdateText = _createTglController.text;
 
-    if (_selectedDay == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Tgl Kp belum dipilih.'),
-        ),
-      );
-      return;
-    }
 
-    DateTime tglkp = _selectedDay!;
-
-     DateTime createdate;
-  if (_createTglController.text.isNotEmpty) {
-    createdate = DateTime.parse(_createTglController.text);
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Createdate tidak valid.'),
-      ),
-    );
-    return;
-  }
+    DateTime tglkp = DateFormat('yyyy-MM-dd').parse(tglKpText);
+    DateTime createdate = DateFormat('yyyy-MM-dd HH:mm').parse(createdateText);
 
     final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
         .map((lotnumber) => {
@@ -123,6 +129,9 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     }
 
     widget.resultBarangQc.clear();
+    _dateController.clear(); 
+    _createTglController.clear();
+
     setState(() {
       widget.resultBarangQc = [];
     });
@@ -352,12 +361,16 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                             padding: const EdgeInsets.all(4.0),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ScanQcBarangView(),
-                                  ),
-                                );
+                                if(_selectedDay != null){ 
+                                  DateTime selectedDay = _selectedDay ?? DateTime.now();
+                                  String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDay);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ScanQcBarangView(date: formattedDate),
+                                    ),
+                                  );
+                                }
                               },
                               child: Image.asset(
                                 'assets/barcode.png',
