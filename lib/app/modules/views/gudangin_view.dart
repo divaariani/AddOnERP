@@ -1,15 +1,11 @@
-import 'package:addon/app/modules/controllers/gudangdelete_controller.dart';
-import 'package:addon/app/modules/views/scangudang_view.dart';
 import 'package:addon/app/modules/views/scangudangin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
 import 'home_view.dart';
 import '../controllers/gudanginview_controller.dart';
 import '../utils/sessionmanager.dart';
 import 'gudanghasil_view.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
-import 'package:provider/provider.dart';
 
 
 
@@ -45,7 +41,6 @@ class _GudangInViewState extends State<GudangInView> {
     super.initState();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     print('Building GudangHasilView');
