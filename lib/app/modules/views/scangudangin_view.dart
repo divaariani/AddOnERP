@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'gudangmobil_view.dart';
 import '../utils/globals.dart';
+import '../controllers/gudanginscan_controller.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -18,6 +19,8 @@ class ScanGudangInView extends StatefulWidget {
 }
 
 class _ScanGudangInViewState extends State<ScanGudangInView> {
+  GudangInScanController _controller = GudangInScanController();
+
   Future<void> _scanBarcode() async {
     String barcodeGudangBarangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
@@ -26,28 +29,22 @@ class _ScanGudangInViewState extends State<ScanGudangInView> {
       ScanMode.BARCODE,
     );
 
-    // String finalGudangBarangResult = '';
-
-    // if (barcodeGudangBarangResult.length >= 12) {
-    //   finalGudangBarangResult = barcodeGudangBarangResult.substring(
-    //     barcodeGudangBarangResult.length - 7 - 5, barcodeGudangBarangResult.length - 5
-    //   );
-    // }
 
     if (barcodeGudangBarangResult.isNotEmpty) {
-      setState(() {
-        globalBarcodeBarangResults.add(barcodeGudangBarangResult);
-      });
+    try {
+      await GudangInScanController.updateWarehouseInScan(lotnumber: barcodeGudangBarangResult);
+    } catch (e) {
+      print('Error: $e');
     }
+  }
 
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GudangInView(
-            ),
-      ),
-    );
-  }
+    context,
+    MaterialPageRoute(
+      builder: (context) => GudangInView(),
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +79,8 @@ class _ScanGudangInViewState extends State<ScanGudangInView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => GudangMobilView(
-                                    result: '', resultBarangGudang: [''])),
+                                builder: (context) => GudangInView(
+                                    )),
                           );
                         },
                         child: Image.asset('assets/icon.back.png',
