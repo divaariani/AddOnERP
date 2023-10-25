@@ -10,6 +10,8 @@ import '../controllers/laporantambah_controller.dart';
 import '../controllers/response_model.dart';
 import 'refresh_view.dart';
 import 'dart:async';
+import '../controllers/notification_controller.dart';
+import '../controllers/notificationview_controller.dart';
 
 
 class LaporanTambahView extends StatefulWidget {
@@ -26,7 +28,6 @@ class LaporanTambahView extends StatefulWidget {
 
 class _LaporanTambahViewState extends State<LaporanTambahView> {
   String barcodeBarangqcResult = globalBarcodeBarangqcResult;
-  
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   String userIdLogin = "";
@@ -35,20 +36,30 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   double fontSize = 16.0;
   DateTime? _selectedDay;
   final idController = TextEditingController();
-  final _dateController = TextEditingController(text: '');
-  final _createTglController = TextEditingController(text: '');
+  final _dateController = TextEditingController();
+  final _createTglController = TextEditingController();
   Timer? _timer;
-
+  String? globalTglKP;
+  late DateTime currentTime;
+  
   
  @override
   void initState() {
     super.initState();
     String plotnumberList = widget.resultBarangQc.join('\n');
     plotnumberController.text = plotnumberList;
-
+    _fetchUserId();
+    _fetchCurrentTime();
     _createTglController.text = _getFormattedCurrentDateTime();
-      _selectedDay = DateTime.now();
     
+     if (globalTglKP != null && globalTglKP!.isNotEmpty) {
+    _selectedDay = DateFormat('yyyy-MM-dd').parse(globalTglKP!);
+    }
+    else {
+      _selectedDay = DateTime.now();
+    }
+
+    _dateController.text = globalTglKP ?? _getFormattedCurrentDateTime();
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         _updateCreateTgl();
@@ -59,10 +70,17 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
   String _getFormattedCurrentDateTime() {
       DateTime now = DateTime.now();
-      return DateFormat('yyyy-MM-dd HH:mm').format(now);
+      return DateFormat('yyyy-MM-dd').format(now);
     }
 
+  void _updateSelectedDay() {
+  if (_selectedDay != null) {
+    String formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDay!);
+    globalTglKP = formattedDate;
 
+    _dateController.text = formattedDate;
+  }
+}
 
   void _updateCreateTgl() {
     DateTime now = DateTime.now();
@@ -83,67 +101,119 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     _timer?.cancel();
   }
 
-  Future<void> _submitStock() async {
-  String successMessage = 'Selamat';
-  List<String> errorMessages = [];
-
-  try {
-    final int userId = int.parse(userIdLogin);
-    final String uid = userIdLogin;
-    String tglKpText = _dateController.text;
-    String createdateText = _createTglController.text;
-
-
-    DateTime tglkp = DateFormat('yyyy-MM-dd').parse(tglKpText);
-    DateTime createdate = DateFormat('yyyy-MM-dd HH:mm').parse(createdateText);
-
-    final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
-        .map((lotnumber) => {
-              'lotnumber': lotnumber,
-              'state': 'draft',
-            })
-        .toList();
-
-    ResponseModel response = await LaporanTambahController.postFormData(
-      p_tgl_kp: tglkp,
-      p_userid: userId,
-      p_uid: uid,
-      p_createdate: createdate,
-      p_inventory_details: inventoryDetails,
-    );
-
-    if (response.status == 0) {
-      errorMessages.add('Permintaan gagal: ${response.message}');
-    } else if (response.status != 1) {
-      errorMessages.add('Terjadi kesalahan: Respon tidak valid.');
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
     }
+  }
 
-    if (errorMessages.isNotEmpty) {
+  Future<void> _submitNotif() async {
+    final int id = int.parse(userIdLogin);
+    const String title = 'Laporan Produksi';
+    const String description = 'Anda berhasil upload barang';
+
+    try {
+      final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+      await _fetchCurrentTime();
+
+      ResponseModel response = await NotificationController.postNotification(
+        userid: id,
+        title: title,
+        description: description,
+        date: date,
+      );
+
+      if (response.status == 1) {
+        print('notification insert success');
+      } else if (response.status == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Request gagal: ${response.message}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Terjadi kesalahan: Response tidak valid.'),
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(errorMessages.join('\n')),
+          content: Text('Terjadi kesalahan: $e'),
         ),
       );
-    } else {
-      Get.snackbar('Stok Berhasil Diunggah', successMessage);
     }
-
-    widget.resultBarangQc.clear();
-    _dateController.clear(); 
-    _createTglController.clear();
-
-    setState(() {
-      widget.resultBarangQc = [];
-    });
-
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Terjadi kesalahan: $e'),
-      ),
-    );
   }
-}
+
+  Future<void> _submitStock() async {
+    String successMessage = 'Selamat';
+    List<String> errorMessages = [];
+
+    try {
+      final int userId = int.parse(userIdLogin);
+      final String uid = userIdLogin;
+      String tglKpText = _dateController.text;
+      String createdateText = _createTglController.text;
+
+
+      DateTime tglkp = DateFormat('yyyy-MM-dd').parse(tglKpText);
+      DateTime createdate = DateFormat('yyyy-MM-dd HH:mm').parse(createdateText);
+
+      final List<Map<String, String?>> inventoryDetails = widget.resultBarangQc
+          .map((lotnumber) => {
+                'lotnumber': lotnumber,
+                'state': 'draft',
+              })
+          .toList();
+
+      ResponseModel response = await LaporanTambahController.postFormData(
+        p_tgl_kp: tglkp,
+        p_userid: userId,
+        p_uid: uid,
+        p_createdate: createdate,
+        p_inventory_details: inventoryDetails,
+      );
+
+      if (response.status == 0) {
+        errorMessages.add('Permintaan gagal: ${response.message}');
+      } else if (response.status != 1) {
+        errorMessages.add('Terjadi kesalahan: Respon tidak valid.');
+      }
+
+      if (errorMessages.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessages.join('\n')),
+          ),
+        );
+      } else {
+        Get.snackbar('Stok Berhasil Diunggah', successMessage);
+      }
+
+      _submitNotif();
+
+      widget.resultBarangQc.clear();
+      _dateController.clear(); 
+      _createTglController.clear();
+
+      setState(() {
+        widget.resultBarangQc = [];
+      });
+
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan: $e'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
