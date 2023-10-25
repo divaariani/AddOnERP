@@ -4,6 +4,7 @@ import 'audit_view.dart';
 import 'audithasil_view.dart';
 import 'laporanhasil_view.dart';
 import 'gudanghasil_view.dart';
+import 'gudangin_view.dart';
 
 
 class RefreshAuditor extends StatefulWidget {
@@ -28,9 +29,6 @@ class _RefreshAuditorState extends State<RefreshAuditor> {
       );
     });
   }
-
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +151,49 @@ class _RefreshGudangTableState extends State<RefreshGudangTable> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const GudangHasilView(),
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+          ),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class RefreshGudangInTable extends StatefulWidget {
+  RefreshGudangInTable({Key? key}) : super(key: key);
+
+  @override
+  _RefreshGudangInTableState createState() => _RefreshGudangInTableState();
+}
+
+class _RefreshGudangInTableState extends State<RefreshGudangInTable> {
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(const Duration(seconds: 1), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const GudangInView(),
         ),
       );
     });
