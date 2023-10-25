@@ -10,14 +10,23 @@ void main() {
 }
 
 class ScanQcBarangView extends StatefulWidget {
-  const ScanQcBarangView({Key? key}) : super(key: key);
+  final String? date;
+
+  const ScanQcBarangView({ this.date, Key? key}) : super(key: key);
 
   @override
   State<ScanQcBarangView> createState() => _ScanQcBarangViewState();
 }
 
 class _ScanQcBarangViewState extends State<ScanQcBarangView> {
+  DateTime? _selectedDay;
+  String _userIdLogin = "";
+  final _createTglController = TextEditingController();
+
   Future<void> _scanBarcode() async {
+    DateTime? previousSelectedDay = _selectedDay;
+    String previousUserIdLogin = _userIdLogin;
+    String previousCreateTgl = _createTglController.text;
     String barcodeQcBarangResult = await FlutterBarcodeScanner.scanBarcode(
       '#FF0000',
       'Cancel',
@@ -38,6 +47,12 @@ class _ScanQcBarangViewState extends State<ScanQcBarangView> {
         globalBarcodeBarangQcResults.add(barcodeQcBarangResult);
       });
     }
+
+    setState(() {
+      _selectedDay = previousSelectedDay;
+      _userIdLogin = previousUserIdLogin;
+      _createTglController.text = previousCreateTgl;
+    });
 
     Navigator.push(
       context,
