@@ -6,7 +6,12 @@ import '../controllers/gudanginview_controller.dart';
 import '../utils/sessionmanager.dart';
 import 'gudanghasil_view.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
-
+import '../controllers/gudangupload_controller.dart';
+import 'package:get/get.dart';
+import 'refresh_view.dart';
+import '../controllers/response_model.dart';
+import '../controllers/notification_controller.dart';
+import 'package:intl/intl.dart';
 
 
 void main() {
@@ -31,7 +36,10 @@ class GudangInView extends StatefulWidget {
 class _GudangInViewState extends State<GudangInView> {
   int page = 1;
   int pageSize = 10;
+  bool isSnackbarVisible = false;
   String searchText = "";
+  late DateTime currentTime;
+  final GudangUploadController _gudangUploadController = Get.put(GudangUploadController());
 
   final SessionManager sessionManager = SessionManager();
   String userIdLogin = "";
@@ -39,7 +47,74 @@ class _GudangInViewState extends State<GudangInView> {
   @override
   void initState() {
     super.initState();
+    _fetchCurrentTime();
   }
+
+  Future<void> _fetchCurrentTime() async {
+    try {
+      setState(() {
+        currentTime = DateTime.now();
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _submitNotif() async {
+    if (!isSnackbarVisible) {
+      final int id = int.parse(userIdLogin);
+      const String title = 'Stock';
+      const String description = 'Anda berhasil upload stok barang';
+
+      try {
+        final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
+        await _fetchCurrentTime();
+
+        ResponseModel response = await NotificationController.postNotification(
+          userid: id,
+          title: title,
+          description: description,
+          date: date,
+        );
+
+        if (response.status == 1) {
+          print('notification insert success');
+        } else if (response.status == 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Request gagal: ${response.message}'),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Terjadi kesalahan: Response tidak valid.'),
+            ),
+          );
+        }
+
+        // Setel isSnackbarVisible menjadi true
+        isSnackbarVisible = true;
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: $e'),
+          ),
+        );
+      }
+    }
+  }
+
+  
+
+  void refreshNavigateToLaporantHasilView() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const GudangHasilView(),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +124,7 @@ class _GudangInViewState extends State<GudangInView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -107,19 +182,68 @@ class _GudangInViewState extends State<GudangInView> {
                     SizedBox(height: 10),
                     CardTable(searchText),
                     SizedBox(height: 30),
-                    flutter.Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment
+                          .center, 
                       children: [
-                        ElevatedButton.icon(
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScanGudangInView()),
+                              );
+                            },
+                            icon: Icon(Icons.qr_code_scanner),
+                            label: Text('Scan Barang'),
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(8, 77, 136, 136),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              elevation: 4,
+                              minimumSize: Size(160, 48),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton.icon(
                           onPressed: () {
-                            Navigator.push(
-                              context,
+                            _gudangUploadController.uploadDataToGudang().then((response) {
+                              if (response['status'] == 1) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(response['message']),
+                                  ),
+                                );
+                                _submitNotif();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Upload failed: ${response['message']}'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Error: $error'),
+                                ),
+                              );
+                            });
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => ScanGudangInView()),
+                                builder: (context) => RefreshGudangInTable(),
+                              ),
                             );
                           },
-                          icon: Icon(Icons.qr_code_scanner),
-                          label: Text('Scan Barang'),
+                          icon: Icon(Icons.cloud_upload, size: 15),
+                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -127,8 +251,9 @@ class _GudangInViewState extends State<GudangInView> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             elevation: 4,
-                            minimumSize: Size(160, 48),
+                            minimumSize: Size(100, 48),
                           ),
+                        ),
                         ),
                       ],
                     ),
@@ -261,7 +386,7 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
-class MyData {  
+class MyData {
   final String? checked;
   final int? id;
   final String? tgl_kp;
@@ -592,7 +717,7 @@ class _CardTableState extends State<CardTable> {
                                 ),
                               ),
                             ),
-                             DataColumn(
+                            DataColumn(
                               label: Text(
                                 'Quantity',
                                 style: TextStyle(
@@ -601,7 +726,7 @@ class _CardTableState extends State<CardTable> {
                                 ),
                               ),
                             ),
-                             DataColumn(
+                            DataColumn(
                               label: Text(
                                 'Uom',
                                 style: TextStyle(
@@ -660,106 +785,3 @@ class EmptyData extends StatelessWidget {
     );
   }
 }
-
-class MyDataProvider extends ChangeNotifier {
-  List<MyData> _data = [];
-
-  List<MyData> get data => _data;
-
-  void setData(List<MyData> newData) {
-    _data = newData;
-    notifyListeners();
-  }
-
-  void deleteData(int id) {
-    _data.removeWhere((element) => element.id == id);
-    notifyListeners();
-  }
-}
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 0, 0),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: InkWell(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  content: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: flutter.Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Image.asset(
-                            'assets/icon.warning.png',
-                            width: 70,
-                            height: 70,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Apakah yakin akan dihapus?',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            color: const Color(0xFF084D88),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        flutter.Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffD1D3D9),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                'Batal',
-                                style: TextStyle(
-                                  color: Color(0xFF084D88),
-                                ),
-                              ),
-                            ),
-                            
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          child: Center(
-            child: Image.asset(
-              'assets/icon.delete.png',
-              width: 20,
-              height: 20,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
