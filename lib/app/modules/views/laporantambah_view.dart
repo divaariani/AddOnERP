@@ -92,7 +92,13 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
 
   Future<void> _fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
-    setState(() {});
+    final username = await _sessionManager.getUsername();
+
+    if (username != null) {
+    setState(() {
+      idController.text = username;
+    });
+  }
   }
 
   @override
@@ -282,28 +288,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                           const Spacer(),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
-                            child: GestureDetector(
-                              onTap: () async {
-                                DateTime? selectedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: _selectedDay ?? DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2101),
-                                );
-                                if (selectedDate != null &&
-                                    selectedDate != _selectedDay) {
-                                  setState(() {
-                                    _selectedDay = selectedDate;
-                                    _dateController.text =
-                                        DateFormat('yyyy-MM-dd')
-                                            .format(selectedDate);
-                                    _fetchUserId();
-                                    _updateCreateTgl();
-                                  });
-                                }
-                              },
-                              child: AbsorbPointer(
-                                child: TextField(
+                            child:  TextField(
                                   readOnly: true,
                                   controller: _dateController,
                                   decoration: InputDecoration(
@@ -316,9 +301,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -333,7 +316,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                               Row(
                                 children: [
                                   Text(
-                                    'User ID',
+                                    'User Name',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: fontSize,
@@ -366,7 +349,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 ),
                               ),
                               controller:
-                                  TextEditingController(text: userIdLogin),
+                                  idController,
                             ),
                           ),
                         ],
