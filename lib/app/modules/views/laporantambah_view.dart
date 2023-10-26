@@ -90,6 +90,13 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     });
   }
 
+  void _deleteItem(int index) {
+    setState(() {
+      globalBarcodeBarangQcResults.removeAt(index);
+    });
+  }
+
+
   Future<void> _fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
     final username = await _sessionManager.getUsername();
@@ -567,6 +574,18 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                         ),
                                       ),
                                     ),
+                                  ),
+                                  Visibility(
+                                    visible: globalBarcodeBarangQcResults.isNotEmpty,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      _deleteItem(index);
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: const Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
                                   ),
                                 ],
                               ),
