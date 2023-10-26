@@ -595,6 +595,8 @@ class _CardTableState extends State<CardTable> {
         _data = myDataList.where((data) {
           return (data.checked?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
+              (data.id?.toString() ?? "")
+                .contains(_searchResult.toLowerCase()) ||
               (data.namabarang?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.lotnumber?.toLowerCase() ?? "")
