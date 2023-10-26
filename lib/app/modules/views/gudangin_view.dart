@@ -40,7 +40,7 @@ class _GudangInViewState extends State<GudangInView> {
   String searchText = "";
   late DateTime currentTime;
   final GudangUploadController _gudangUploadController = Get.put(GudangUploadController());
-
+  final SessionManager _sessionManager = SessionManager();
   final SessionManager sessionManager = SessionManager();
   String userIdLogin = "";
 
@@ -48,6 +48,12 @@ class _GudangInViewState extends State<GudangInView> {
   void initState() {
     super.initState();
     _fetchCurrentTime();
+    _fetchUserId();
+  }
+
+  Future<void> _fetchUserId() async {
+    userIdLogin= await _sessionManager.getUserId() ?? "";
+    setState(() {});
   }
 
   Future<void> _fetchCurrentTime() async {
@@ -63,8 +69,8 @@ class _GudangInViewState extends State<GudangInView> {
   Future<void> _submitNotif() async {
     if (!isSnackbarVisible) {
       final int id = int.parse(userIdLogin);
-      const String title = 'Stock';
-      const String description = 'Anda berhasil upload stok barang';
+      const String title = 'Gudang In';
+      const String description = 'Anda berhasil Confirm barang';
 
       try {
         final String date = DateFormat('yyyy-MM-dd HH:mm').format(currentTime);
@@ -92,8 +98,6 @@ class _GudangInViewState extends State<GudangInView> {
             ),
           );
         }
-
-        // Setel isSnackbarVisible menjadi true
         isSnackbarVisible = true;
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -105,7 +109,29 @@ class _GudangInViewState extends State<GudangInView> {
     }
   }
 
-  
+  Future<void> submitStock() async {
+    try {
+      await _fetchCurrentTime();
+      final response = await _gudangUploadController.uploadDataToGudang();
+      if (response['status'] == 1) {
+        Get.snackbar(
+          'Success', 
+          response['message'], 
+        );
+        _submitNotif();
+      } else {
+        Get.snackbar(
+          'Upload Failed', 
+          'Upload failed: ${response['message']}', 
+        );
+      }
+    } catch (error) {
+      Get.snackbar(
+        'Error',
+        'Terjadi kesalahan: $error', 
+      );
+    }
+  }
 
   void refreshNavigateToLaporantHasilView() {
     Navigator.of(context).pushReplacement(
@@ -214,32 +240,10 @@ class _GudangInViewState extends State<GudangInView> {
                           alignment: Alignment.centerRight,
                           child: ElevatedButton.icon(
                           onPressed: () {
-                            _gudangUploadController.uploadDataToGudang().then((response) {
-                              if (response['status'] == 1) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(response['message']),
-                                  ),
-                                );
-                                _submitNotif();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Upload failed: ${response['message']}'),
-                                  ),
-                                );
-                              }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Error: $error'),
-                                ),
-                              );
-                            });
+                            submitStock();
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (context) => RefreshGudangInTable(),
-                              ),
+                                  builder: (context) => RefreshGudangInTable()),
                             );
                           },
                           icon: Icon(Icons.cloud_upload, size: 15),
