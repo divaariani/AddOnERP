@@ -593,13 +593,15 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return (data.tgl_kp?.toLowerCase() ?? "")
+          return (data.checked?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.namabarang?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.lotnumber?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.uom?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
+              (data.namabarang?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase());
         }).toList();
         _isLoading = false;
