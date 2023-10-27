@@ -597,6 +597,8 @@ class _CardTableState extends State<CardTable> {
                   .contains(_searchResult.toLowerCase()) ||
               (data.id?.toString() ?? "")
                 .contains(_searchResult.toLowerCase()) ||
+              (data.qty?.toString() ?? "")
+                .contains(_searchResult.toLowerCase()) ||
               (data.namabarang?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.lotnumber?.toLowerCase() ?? "")
