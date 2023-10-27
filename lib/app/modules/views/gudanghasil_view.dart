@@ -466,6 +466,8 @@ class _CardTableState extends State<CardTable> {
                   .contains(_searchResult.toLowerCase()) ||
               (data.lotnumber?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
+              (data.quantity?.toString() ?? "")
+                .contains(_searchResult.toLowerCase()) ||
               (data.state?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase());
         }).toList();
@@ -692,7 +694,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
           Provider.of<MyDataProvider>(context, listen: false);
       if (widget.entry.id != null) {
         myDataProvider.deleteData(
-            widget.entry.id!); // Using the non-nullable assertion operator (!)
+            widget.entry.id!); 
       }
 
       final _data = myDataProvider.data;
