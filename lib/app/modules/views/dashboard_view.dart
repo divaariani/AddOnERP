@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'scanoperator_view.dart';
 import 'operatorstatus_view.dart';
 import 'audit_view.dart';
-import 'gudanghasil_view.dart';
 import 'laporanhasil_view.dart';
 import 'monitoringhasil_view.dart';
 import 'customer_view.dart';
