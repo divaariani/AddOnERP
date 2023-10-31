@@ -7,14 +7,10 @@ import 'package:get/get.dart';
 import 'home_view.dart';
 import '../controllers/gudangview_controller.dart';
 import '../utils/sessionmanager.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
 import 'package:provider/provider.dart';
-import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:excel/excel.dart';
+
 
 
 void main() {
@@ -37,18 +33,16 @@ class GudangHasilView extends StatefulWidget {
 }
 
 class _GudangHasilViewState extends State<GudangHasilView> {
+  final SessionManager sessionManager = SessionManager();
   int page = 1;
   int pageSize = 10;
   String searchText = "";
-
-  final SessionManager sessionManager = SessionManager();
   String userIdLogin = "";
 
   @override
   void initState() {
     super.initState();
   }
-
   
   @override
   Widget build(BuildContext context) {
@@ -58,7 +52,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -71,7 +65,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -85,37 +79,37 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                 child: flutter.Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 23),
+                        padding: const EdgeInsets.only(left: 23),
                         child: flutter.Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Gudang In",
                                 isActive: false,
-                                targetPage: GudangInView(),
+                                targetPage: const GudangInView(),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Gudang Out",
                                 isActive: true,
-                                targetPage: GudangHasilView(),
+                                targetPage: const GudangHasilView(),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CardTable(searchText),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     flutter.Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -124,11 +118,11 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ScanGudangView()),
+                                  builder: (context) => const ScanGudangView()),
                             );
                           },
-                          icon: Icon(Icons.qr_code_scanner),
-                          label: Text('Scan Mobil'),
+                          icon: const Icon(Icons.qr_code_scanner),
+                          label: const Text('Scan Mobil'),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -141,7 +135,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     )
                   ],
@@ -153,13 +147,13 @@ class _GudangHasilViewState extends State<GudangHasilView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -168,7 +162,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Warehouse",
                   style: TextStyle(
                     fontSize: 20,
@@ -213,7 +207,7 @@ class _CustomButtonState extends State<CustomButton> {
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               widget.targetPage,
-          transitionDuration: Duration(milliseconds: 150),
+          transitionDuration: const Duration(milliseconds: 150),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -234,10 +228,10 @@ class _CustomButtonState extends State<CustomButton> {
             colors: widget.isActive
                 ? [
                     const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
+                   const Color.fromARGB(56, 0, 151, 251)
                   ]
                 : [
-                    Color.fromARGB(255, 255, 255, 255),
+                   const Color.fromARGB(255, 255, 255, 255),
                     const Color.fromRGBO(96, 187, 231, 1)
                   ],
             begin: Alignment.topCenter,
@@ -255,7 +249,7 @@ class _CustomButtonState extends State<CustomButton> {
                 ]
               : [],
         ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
         child: Text(
           widget.text,
           style: TextStyle(
@@ -312,7 +306,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.barcode_mobil ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -324,7 +318,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.name ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -336,7 +330,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.lotnumber ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -348,7 +342,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.quantity.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -360,7 +354,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.state ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -530,7 +524,7 @@ class _CardTableState extends State<CardTable> {
         ),
         const SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -540,11 +534,11 @@ class _CardTableState extends State<CardTable> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: flutter.Column(children: [
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : _data.isEmpty
                       ? EmptyData()
                       : PaginatedDataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 'Kode Mobil',
@@ -716,7 +710,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
         'Kesalahan',
         'Terjadi kesalahan saat menghapus data: $e',
         snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
     }
   }
