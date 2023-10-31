@@ -34,16 +34,16 @@ class GudangInView extends StatefulWidget {
 }
 
 class _GudangInViewState extends State<GudangInView> {
-  int page = 1;
-  int pageSize = 10;
-  bool isSnackbarVisible = false;
-  String searchText = "";
-  late DateTime currentTime;
   final GudangUploadController _gudangUploadController = Get.put(GudangUploadController());
   final SessionManager _sessionManager = SessionManager();
   final SessionManager sessionManager = SessionManager();
+  late DateTime currentTime;
+  bool isSnackbarVisible = false;
+  int page = 1;
+  int pageSize = 10;
+  String searchText = "";
   String userIdLogin = "";
-
+  
   @override
   void initState() {
     super.initState();
@@ -163,7 +163,7 @@ class _GudangInViewState extends State<GudangInView> {
               width: 360,
               height: 800,
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -177,37 +177,37 @@ class _GudangInViewState extends State<GudangInView> {
                 child: flutter.Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 23),
+                        padding: const EdgeInsets.only(left: 23),
                         child: flutter.Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Gudang In",
                                 isActive: true,
-                                targetPage: GudangInView(),
+                                targetPage: const GudangInView(),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 3),
                               child: CustomButton(
                                 text: "Gudang Out",
                                 isActive: false,
-                                targetPage: GudangHasilView(),
+                                targetPage: const GudangHasilView(),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CardTable(searchText),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment
                           .center, 
@@ -219,11 +219,11 @@ class _GudangInViewState extends State<GudangInView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ScanGudangInView()),
+                                    builder: (context) => const ScanGudangInView()),
                               );
                             },
-                            icon: Icon(Icons.qr_code_scanner),
-                            label: Text('Scan Barang'),
+                            icon: const Icon(Icons.qr_code_scanner),
+                            label: const Text('Scan Barang'),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(8, 77, 136, 136),
                               onPrimary: Colors.white,
@@ -231,11 +231,11 @@ class _GudangInViewState extends State<GudangInView> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               elevation: 4,
-                              minimumSize: Size(160, 48),
+                              minimumSize: const Size(160, 48),
                             ),
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton.icon(
@@ -246,8 +246,8 @@ class _GudangInViewState extends State<GudangInView> {
                                   builder: (context) => RefreshGudangInTable()),
                             );
                           },
-                          icon: Icon(Icons.cloud_upload, size: 15),
-                          label: Text('UPLOAD', style: TextStyle(fontSize: 12)),
+                          icon: const Icon(Icons.cloud_upload, size: 15),
+                          label: const Text('UPLOAD', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
                             primary: const Color.fromRGBO(8, 77, 136, 136),
                             onPrimary: Colors.white,
@@ -261,7 +261,7 @@ class _GudangInViewState extends State<GudangInView> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     )
                   ],
@@ -273,13 +273,13 @@ class _GudangInViewState extends State<GudangInView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: Color(0xFF2A77AC),
+                backgroundColor: const Color(0xFF2A77AC),
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
+                      MaterialPageRoute(builder: (context) => const HomeView()),
                     );
                   },
                   child: Image.asset(
@@ -288,7 +288,7 @@ class _GudangInViewState extends State<GudangInView> {
                     height: 40,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   "Warehouse",
                   style: TextStyle(
                     fontSize: 20,
@@ -333,7 +333,7 @@ class _CustomButtonState extends State<CustomButton> {
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               widget.targetPage,
-          transitionDuration: Duration(milliseconds: 150),
+          transitionDuration: const Duration(milliseconds: 150),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -354,10 +354,10 @@ class _CustomButtonState extends State<CustomButton> {
             colors: widget.isActive
                 ? [
                     const Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromARGB(56, 0, 151, 251)
+                   const Color.fromARGB(56, 0, 151, 251)
                   ]
                 : [
-                    Color.fromARGB(255, 255, 255, 255),
+                   const Color.fromARGB(255, 255, 255, 255),
                     const Color.fromRGBO(96, 187, 231, 1)
                   ],
             begin: Alignment.topCenter,
@@ -370,12 +370,12 @@ class _CustomButtonState extends State<CustomButton> {
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 2,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   )
                 ]
               : [],
         ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
         child: Text(
           widget.text,
           style: TextStyle(
@@ -429,7 +429,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.checked ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -441,7 +441,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.id.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -453,7 +453,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.tgl_kp ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -465,7 +465,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.lotnumber ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -477,7 +477,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.namabarang ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -489,7 +489,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.qty.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -501,7 +501,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.uom ?? "",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -681,7 +681,7 @@ class _CardTableState extends State<CardTable> {
                   : _data.isEmpty
                       ? EmptyData()
                       : PaginatedDataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 'Checked',
