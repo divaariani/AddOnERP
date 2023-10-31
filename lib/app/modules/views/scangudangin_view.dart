@@ -1,9 +1,8 @@
 import 'package:addon/app/modules/views/gudangin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'gudangmobil_view.dart';
-import '../utils/globals.dart';
 import '../controllers/gudanginscan_controller.dart';
+
 
 void main() {
   runApp(const MaterialApp(
@@ -19,7 +18,6 @@ class ScanGudangInView extends StatefulWidget {
 }
 
 class _ScanGudangInViewState extends State<ScanGudangInView> {
-  GudangInScanController _controller = GudangInScanController();
 
   Future<void> _scanBarcode() async {
     String barcodeGudangBarangResult = await FlutterBarcodeScanner.scanBarcode(
@@ -28,7 +26,6 @@ class _ScanGudangInViewState extends State<ScanGudangInView> {
       true,
       ScanMode.BARCODE,
     );
-
 
     if (barcodeGudangBarangResult.isNotEmpty) {
     try {
