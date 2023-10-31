@@ -16,6 +16,7 @@ import '../controllers/machine_controller.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../utils/app_colors.dart';
+import 'gudangin_view.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
