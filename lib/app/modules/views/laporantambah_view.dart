@@ -11,7 +11,12 @@ import '../controllers/response_model.dart';
 import 'refresh_view.dart';
 import 'dart:async';
 import '../controllers/notification_controller.dart';
-import '../controllers/notificationview_controller.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:excel/excel.dart';
 
 
 class LaporanTambahView extends StatefulWidget {
@@ -30,14 +35,14 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   String barcodeBarangqcResult = globalBarcodeBarangqcResult;
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
-  String userIdLogin = "";
   final plotnumberController = TextEditingController();
   final stateController = TextEditingController();
-  double fontSize = 16.0;
-  DateTime? _selectedDay;
   final idController = TextEditingController();
   final _dateController = TextEditingController();
   final _createTglController = TextEditingController();
+  String userIdLogin = "";
+  double fontSize = 16.0;
+  DateTime? _selectedDay;
   Timer? _timer;
   String? globalTglKP;
   late DateTime currentTime;
@@ -48,8 +53,10 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     super.initState();
     String plotnumberList = widget.resultBarangQc.join('\n');
     plotnumberController.text = plotnumberList;
+    _dateController.text = globalTglKP ?? _getFormattedCurrentDateTime();
     _fetchUserId();
-    _fetchCurrentTime();
+    // _fetchCurrentTime();
+
     _createTglController.text = _getFormattedCurrentDateTime();
     
      if (globalTglKP != null && globalTglKP!.isNotEmpty) {
@@ -59,28 +66,16 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
       _selectedDay = DateTime.now();
     }
 
-    _dateController.text = globalTglKP ?? _getFormattedCurrentDateTime();
-
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         _updateCreateTgl();
       });
 
-    _fetchUserId();
   }
 
   String _getFormattedCurrentDateTime() {
       DateTime now = DateTime.now();
       return DateFormat('yyyy-MM-dd').format(now);
     }
-
-  void _updateSelectedDay() {
-  if (_selectedDay != null) {
-    String formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDay!);
-    globalTglKP = formattedDate;
-
-    _dateController.text = formattedDate;
-  }
-}
 
   void _updateCreateTgl() {
     DateTime now = DateTime.now();
@@ -95,7 +90,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
       globalBarcodeBarangQcResults.removeAt(index);
     });
   }
-
 
   Future<void> _fetchUserId() async {
     userIdLogin = await _sessionManager.getUserId() ?? "";
@@ -228,6 +222,43 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     }
   }
 
+  Future<void> createAndExportExcel(List<String> data) async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      if (!status.isGranted) {
+        return;
+      }
+    }
+
+    final excel = Excel.createExcel();
+    final sheet = excel['Sheet1'];
+
+    // Add headers to the Excel sheet
+    sheet.appendRow(['Nomor Kp', 'Tanggal Kp', 'Lot Number']);
+
+    // Add data from the globalBarcodeBarangqcResult list to the Excel sheet
+    for (String lotNumber in data) {
+      sheet.appendRow(['', '', lotNumber]);
+    }
+
+    final excelFile = File('${(await getTemporaryDirectory()).path}/warehouse.xlsx');
+    final excelData = excel.encode()!;
+
+    await excelFile.writeAsBytes(excelData);
+
+    if (excelFile.existsSync()) {
+      Share.shareFiles(
+        [excelFile.path],
+        text: 'Exported Excel',
+      );
+    } else {
+      print('File Excel not found.');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -280,14 +311,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    ' *',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fontSize,
-                                      color: Colors.red,
-                                    ),
-                                  ),
                                 ],
                               ),
                             ],
@@ -299,7 +322,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                   readOnly: true,
                                   controller: _dateController,
                                   decoration: InputDecoration(
-                                    //hintText: "Pilih tgl",
                                     filled: true,
                                     fillColor: Colors.white,
                                     border: OutlineInputBorder(
@@ -329,15 +351,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                       fontSize: fontSize,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                  Text(
-                                    ' *',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fontSize,
-                                      color: Colors.red,
-                                    ),
-                                  ),
+                                  ),      
                                 ],
                               ),
                             ],
@@ -581,15 +595,15 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                     onPressed: () {
                                       _deleteItem(index);
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.delete,
-                                      color: const Color.fromARGB(255, 255, 255, 255),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                     ),
                                   ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 13),
+                              const SizedBox(height: 13),
                             ],
                           ),
                         );
@@ -633,6 +647,15 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 ),
                               ],
                             ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              createAndExportExcel(globalBarcodeBarangQcResults);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              // button styles
+                            ),
+                            child: const Text('Export to Excel'),
                           ),
                         ],
                       ),
