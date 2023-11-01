@@ -8,21 +8,26 @@ class MonitoringViewController{
     required int id,
     required int idmas,
     required String name,
+    required int amount,
     required int qty,
     required String uom,
+    required String rincianstock,
+    required String total,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_monitoring_stock'),
+      Uri.parse('$baseUrl?function=get_monitoring_stock_2'),
       body: {
         'id': id.toString(),
         'idmas': idmas.toString(),
         'name': name,
-        'quantity': qty.toString(),
-        'state': uom,
+        'amount': amount.toString(),
+        'qty': qty.toString(),
+        'uom': uom,
+        'rincianstock': rincianstock,
+        'total': total,
       },
     );
     
-  //  print('${response.body}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body); 
       print("=======================");
