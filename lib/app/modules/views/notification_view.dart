@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../controllers/notificationview_controller.dart';
+import '../controllers/notification_controller.dart';
+import '../utils/app_colors.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _NotificationViewState extends State<NotificationView> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFFFAFAFA),
+                                color: AppColors.white,
                               ),
                             ),
                           ),
@@ -108,7 +109,7 @@ class _CardNotificationState extends State<CardNotification> {
 
   Future<void> fetchDataFromAPI() async {
     try {
-      final notificationController = NotificationViewController();
+      final notificationController = NotificationController();
 
       final response = await notificationController.viewData(
         id: 1,
@@ -158,11 +159,11 @@ class _CardNotificationState extends State<CardNotification> {
               padding: const EdgeInsets.only(
                   left: 12, right: 12, top: 12, bottom: 6),
               decoration: BoxDecoration(
-                color: const Color(0xFFFAFAFA),
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: AppColors.black.withOpacity(0.1),
                     spreadRadius: 2,
                     blurRadius: 4,
                     offset: const Offset(0, 3),
@@ -175,7 +176,7 @@ class _CardNotificationState extends State<CardNotification> {
                   Text(
                     data.title,
                     style: GoogleFonts.poppins(
-                      color: const Color(0xFF084D88),
+                      color: AppColors.blueOne,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -184,7 +185,7 @@ class _CardNotificationState extends State<CardNotification> {
                   Text(
                     data.description,
                     style: GoogleFonts.poppins(
-                      color: const Color(0xFF084D88),
+                      color: AppColors.blueOne,
                       fontSize: 12,
                       fontWeight: FontWeight.normal,
                     ),
@@ -194,7 +195,7 @@ class _CardNotificationState extends State<CardNotification> {
                     child: Text(
                       formatDate(data.date),
                       style: GoogleFonts.poppins(
-                        color: const Color(0xFF084D88),
+                        color: AppColors.blueOne,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
