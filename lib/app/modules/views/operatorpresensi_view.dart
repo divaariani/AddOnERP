@@ -6,6 +6,7 @@ import 'home_view.dart';
 import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
 import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
@@ -51,8 +52,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
 
   Future<void> fetchMachineData() async {
     try {
-      final Map<String, dynamic> apiData =
-          await MachineController.getWorkcenterList();
+      final Map<String, dynamic> apiData = await MachineController.getWorkcenterList();
       final List<dynamic> dataList = apiData['data'];
 
       for (var item in dataList) {
@@ -193,7 +193,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -212,7 +212,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          color: const Color(0xFFFAFAFA),
+                          color: AppColors.white,
                           child: Align(
                             alignment: Alignment.center,
                             child: Column(
@@ -240,7 +240,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                           borderRadius:
                                               BorderRadius.circular(40),
                                           border: Border.all(
-                                            color: const Color(0xFF084D88),
+                                            color: AppColors.blueOne,
                                             style: BorderStyle.solid,
                                             width: 2,
                                           ),
@@ -254,7 +254,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                             userName,
                                             style: const TextStyle(
                                               fontSize: 18,
-                                              color: Color(0xFF084D88),
+                                              color: AppColors.blueOne,
                                             ),
                                           ),
                                           const SizedBox(height: 5),
@@ -266,7 +266,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF084D88),
+                                                  color: AppColors.blueOne,
                                                 ),
                                               ),
                                               Text(
@@ -276,7 +276,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
-                                                  color: Color(0xFF084D88),
+                                                  color: AppColors.blueOne,
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -286,7 +286,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.normal,
-                                                    color: Color(0xFF084D88),
+                                                    color: AppColors.blueOne,
                                                   ),
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -318,7 +318,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 _submitForm();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
+                                primary: AppColors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -339,7 +339,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       "IN",
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: Color(0xFF084D88),
+                                        color: AppColors.blueOne,
                                       ),
                                     ),
                                   ],
@@ -380,7 +380,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 12,
-                                                color: const Color(0xFF084D88),
+                                                color: AppColors.blueOne,
                                               ),
                                             ),
                                             const SizedBox(height: 10),
@@ -393,7 +393,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                     Navigator.of(context).pop();
                                                   },
                                                   style: ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xffD1D3D9),
+                                                    backgroundColor: AppColors.greyThree,
                                                     elevation: 0,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(10),
@@ -402,7 +402,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                   child: const Text(
                                                     'Tidak',
                                                     style: TextStyle(
-                                                      color: Color(0xFF084D88),
+                                                      color: AppColors.blueOne,
                                                     ),
                                                   ),
                                                 ),
@@ -413,7 +413,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                     _submitForm();
                                                   },
                                                   style: ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xFF084D88),
+                                                    backgroundColor: AppColors.blueOne,
                                                     elevation: 0,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(10),
@@ -422,7 +422,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                                   child: const Text(
                                                     'Ya',
                                                     style: TextStyle(
-                                                      color: Color(0xFFFAFAFA),
+                                                      color: AppColors.white,
                                                     ),
                                                   ),
                                                 ),
@@ -436,7 +436,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
+                                primary: AppColors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -457,7 +457,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                                       "OUT",
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: Color(0xFF084D88),
+                                        color: AppColors.blueOne,
                                       ),
                                     ),
                                   ],
@@ -478,7 +478,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -498,7 +498,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFFAFAFA),
+                    color: AppColors.white,
                   ),
                 ),
               ),
