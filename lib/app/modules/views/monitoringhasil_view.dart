@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import '../controllers/monitoringview_controller.dart';
 
+
 void main() {
   runApp(const MaterialApp(
     home: MonitoringHasilView(),
@@ -209,15 +210,21 @@ class MyData {
   final int id;
   final int idmas;
   final String name;
+  final int amount;
   final int qty;
   final String uom;
+  final String rincianstock;
+  final String total;
 
   MyData({
     required this.id,
     required this.idmas,
     required this.name,
+    required this.amount,
     required this.qty,
     required this.uom,
+    required this.rincianstock,
+    required this.total,
   });
 }
 
@@ -262,7 +269,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.qty.toString(),
+              entry.rincianstock,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -275,6 +282,18 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.uom,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+         DataCell(
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              entry.total,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -335,8 +354,11 @@ class _CardTableState extends State<CardTable> {
         id: 1,
         idmas: 1,
         name: '',
+        amount: 1,
         qty: 1,
         uom: '',
+        rincianstock: '',
+        total: '',
       );
 
       final List<dynamic> nameDataList = response.data;
@@ -345,26 +367,33 @@ class _CardTableState extends State<CardTable> {
         int id = int.tryParse(data['id'].toString()) ?? 0;
         int idmas = int.tryParse(data['idmas'].toString()) ?? 0;
         String name = data['name'];
+        int amount= int.tryParse(data['amount'].toString()) ?? 0;
         int qty = int.tryParse(data['qty'].toString()) ?? 0;
         String uom= data['uom'];
+        String rincianstock = data['rincianstock'];
+        String total = data['total'];
 
         return MyData(
           id: id,
           idmas: idmas,
           name: name,
+          amount:amount,
           qty: qty,
           uom: uom,
+          rincianstock: rincianstock,
+          total: total,
         );
       }).toList();
-
       setState(() {
         _data = myDataList.where((data) {
-          return data.name
-                  .toLowerCase()
+          return (data.name.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
-              data.uom
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase());        
+              (data.name?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
+              (data.uom?.toString() ?? "")
+                .contains(_searchResult.toLowerCase()) ||
+              (data.rincianstock?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase());      
           }).toList();
         _isLoading = false;
       });
@@ -461,7 +490,7 @@ class _CardTableState extends State<CardTable> {
                       ),
                       DataColumn(
                         label: Text(
-                          'Kuantitas',
+                          'Rincian Stock',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
@@ -471,6 +500,15 @@ class _CardTableState extends State<CardTable> {
                       DataColumn(
                         label: Text(
                           'Uom',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                       DataColumn(
+                        label: Text(
+                          'Total',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
