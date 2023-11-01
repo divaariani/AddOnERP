@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'home_view.dart';
 import '../controllers/machine_controller.dart';
-import '../controllers/machinestate_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
 import '../utils/sessionmanager.dart';
-import 'home_view.dart';
+import '../utils/app_colors.dart';
 
 class OperatorStatusView extends StatefulWidget {
   const OperatorStatusView({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
 
   Future<void> fetchDataFromAPI() async {
     try {
-      final response = await MachineController.postFormData(
+      final response = await MachineController.postFormOperator(
         id: 1,
         name: '',
         userId: 1,
@@ -73,7 +73,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeView()),
+          MaterialPageRoute(builder: (context) => const HomeView()),
         );
         return false;
       },
@@ -90,7 +90,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -112,7 +112,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -132,7 +132,7 @@ class _OperatorStatusViewState extends State<OperatorStatusView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -242,7 +242,7 @@ class _CardTableState extends State<CardTable> {
         _isLoading = true;
       });
 
-      final response = await MachineController.postFormData(
+      final response = await MachineController.postFormOperator(
         id: 1,
         name: '',
         userId: 1,
@@ -305,7 +305,7 @@ class _CardTableState extends State<CardTable> {
           child: Container(
             height: 60,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(16),
             ),
             child: ListTile(
@@ -343,7 +343,7 @@ class _CardTableState extends State<CardTable> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          color: Colors.white,
+          color: AppColors.white,
           child: Padding(
             padding: const EdgeInsets.all(1),
             child: PaginatedDataTable(
@@ -450,7 +450,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
     try {
       await fetchCurrentTime();
 
-      ResponseModel response = await MachineStateController.postFormData(
+      ResponseModel response = await MachineController.postFormMachineState(
         id: id,
         state: state,
         timestate: currentTime.toString(),
@@ -567,7 +567,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                 context: context,
                 builder: (BuildContext context) {
                   return Dialog(
-                    backgroundColor: const Color(0xFF084D88),
+                    backgroundColor: AppColors.blueOne,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -580,7 +580,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                             const Text(
                               'Pause',
                               style: TextStyle(
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -590,7 +590,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -599,10 +599,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                   stateController.text = "Pause (Naik WIP)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Naik WIP',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -612,7 +612,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -621,10 +621,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                   stateController.text = "Pause (Setup Mesin)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Set Up Mesin',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -634,7 +634,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -643,10 +643,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                   stateController.text = "Pause (Naik Bobin)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Naik Bobin',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -656,7 +656,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -666,10 +666,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Pause (Pergi/Istirahat)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Pergi/Istirahat',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -679,7 +679,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -688,10 +688,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                   stateController.text = "Pause (Lingkungan)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Lingkungan',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -721,7 +721,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                 context: context,
                 builder: (BuildContext context) {
                   return Dialog(
-                    backgroundColor: const Color(0xFF084D88),
+                    backgroundColor: AppColors.blueOne,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -734,7 +734,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                             const Text(
                               'Blocked',
                               style: TextStyle(
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -744,7 +744,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -754,10 +754,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Material Availability)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Material Availability',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -767,7 +767,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -777,10 +777,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Equiment Failure)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Equipment Failure',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -790,7 +790,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -800,10 +800,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Setup Adjustments)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Setup and Adjustments',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -813,7 +813,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -823,10 +823,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Reduced Speed)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Reduced Speed',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -836,7 +836,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -846,10 +846,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Process Defect)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Process Defect',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -859,7 +859,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -869,10 +869,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Reduced Yield)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Reduced Yield',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
@@ -882,7 +882,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFD9D9D9),
+                                color: AppColors.greyThree,
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -892,10 +892,10 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                       "Block (Fully Productive Time)";
                                   _submitState();
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Fully Productive Time',
                                   style: TextStyle(
-                                    color: Colors.blue[900],
+                                    color: AppColors.blueOne,
                                   ),
                                 ),
                               ),
