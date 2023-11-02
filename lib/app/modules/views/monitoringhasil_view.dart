@@ -207,14 +207,14 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 class MyData {
-  final int id;
-  final int idmas;
-  final String name;
-  final int amount;
-  final int qty;
-  final String uom;
-  final String rincianstock;
-  final String total;
+  final int? id;
+  final int? idmas;
+  final String? name;
+  final int? amount;
+  final int? qty;
+  final String? uom;
+  final String? rincianstock;
+  final String? total;
 
   MyData({
     required this.id,
@@ -257,7 +257,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.name,
+              entry.name ?? "",
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -269,7 +269,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.rincianstock,
+              entry.rincianstock ?? "",
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -281,7 +281,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.uom,
+              entry.uom ?? "",
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -293,7 +293,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.total,
+              entry.total ?? "",
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -366,12 +366,12 @@ class _CardTableState extends State<CardTable> {
       final List<MyData> myDataList = nameDataList.map((data) {
         int id = int.tryParse(data['id'].toString()) ?? 0;
         int idmas = int.tryParse(data['idmas'].toString()) ?? 0;
-        String name = data['name'];
+        String name = data['name'] ?? "";
         int amount= int.tryParse(data['amount'].toString()) ?? 0;
         int qty = int.tryParse(data['qty'].toString()) ?? 0;
-        String uom= data['uom'];
-        String rincianstock = data['rincianstock'];
-        String total = data['total'];
+        String uom= data['uom'] ?? "";
+        String rincianstock = data['rincianstock'] ?? "";
+        String total = data['total'] ?? "";
 
         return MyData(
           id: id,
@@ -386,15 +386,17 @@ class _CardTableState extends State<CardTable> {
       }).toList();
       setState(() {
         _data = myDataList.where((data) {
-          return (data.name.toLowerCase() ?? "")
+          return (data.name?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.name?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
+              (data.idmas?.toString() ?? "")
+                  .contains(_searchResult.toLowerCase()) ||
               (data.uom?.toString() ?? "")
                 .contains(_searchResult.toLowerCase()) ||
-              (data.rincianstock?.toLowerCase() ?? "")
-                  .contains(_searchResult.toLowerCase());      
-          }).toList();
+              (data.total?.toLowerCase() ?? "")
+                  .contains(_searchResult.toLowerCase());
+        }).toList();
         _isLoading = false;
       });
     } catch (e) {
