@@ -6,12 +6,8 @@ import 'home_view.dart';
 import '../controllers/laporanview_controller.dart';
 import '../utils/globals.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:excel/excel.dart';
+
 
 void main() {
   runApp( const MaterialApp(
@@ -291,7 +287,6 @@ class CardTable extends StatefulWidget {
 class _CardTableState extends State<CardTable> {
   List<MyData> _data = [];
   bool _isLoading = false;
-  List<MyData> _fetchedData = [];
   final String searchText;
   _CardTableState(this.searchText);
 
@@ -341,8 +336,6 @@ class _CardTableState extends State<CardTable> {
         //print('$MyData');
       }).toList();
 
-      _fetchedData = myDataList;
-
       setState(() {
         _data = myDataList.where((data) {
           return data.nomor_kp
@@ -357,45 +350,6 @@ class _CardTableState extends State<CardTable> {
       setState(() {
         _isLoading = false;
       });
-    }
-  }
-
-  Future<void> createAndExportExcel(List<String> data) async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-      status = await Permission.storage.status;
-      if (!status.isGranted) {
-        return;
-      }
-    }
-
-    final excel = Excel.createExcel();
-    final sheet = excel['Sheet1'];
-
-    sheet.appendRow(['Nomor Kp', 'Tanggal Kp', 'User Id', 'dibuatoleh']);
-
-    for (MyData data in _fetchedData) {
-      sheet.appendRow([
-        data.nomor_kp.toString(),
-        data.tgl_kp.toString(),
-        data.userid.toString(),
-        data.dibuatoleh,
-      ]);
-    }
-
-    final excelFile = File('${(await getTemporaryDirectory()).path}/warehouse.xlsx');
-    final excelData = excel.encode()!;
-
-    await excelFile.writeAsBytes(excelData);
-
-    if (excelFile.existsSync()) {
-      Share.shareFiles(
-        [excelFile.path],
-        text: 'Exported Excel',
-      );
-    } else {
-      print('File Excel not found.');
     }
   }
 
@@ -462,12 +416,6 @@ class _CardTableState extends State<CardTable> {
                             source: MyDataTableSource(_data),
                             rowsPerPage: 10,
                           ),
-                          ElevatedButton(
-                          onPressed: () {
-                            createAndExportExcel(_data.map((data) => data.toString()).toList());
-                          },
-                          child: Text('Export to Excel'),
-                        )
               ],
             ),
           ),
