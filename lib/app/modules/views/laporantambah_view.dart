@@ -11,12 +11,8 @@ import '../controllers/response_model.dart';
 import 'refresh_view.dart';
 import 'dart:async';
 import '../controllers/notification_controller.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:excel/excel.dart';
+
 
 
 class LaporanTambahView extends StatefulWidget {
@@ -219,42 +215,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
           content: Text('Terjadi kesalahan: $e'),
         ),
       );
-    }
-  }
-
-  Future<void> createAndExportExcel(List<String> data) async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-      status = await Permission.storage.status;
-      if (!status.isGranted) {
-        return;
-      }
-    }
-
-    final excel = Excel.createExcel();
-    final sheet = excel['Sheet1'];
-
-    // Add headers to the Excel sheet
-    sheet.appendRow(['Nomor Kp', 'Tanggal Kp', 'Lot Number']);
-
-    // Add data from the globalBarcodeBarangqcResult list to the Excel sheet
-    for (String lotNumber in data) {
-      sheet.appendRow(['', '', lotNumber]);
-    }
-
-    final excelFile = File('${(await getTemporaryDirectory()).path}/warehouse.xlsx');
-    final excelData = excel.encode()!;
-
-    await excelFile.writeAsBytes(excelData);
-
-    if (excelFile.existsSync()) {
-      Share.shareFiles(
-        [excelFile.path],
-        text: 'Exported Excel',
-      );
-    } else {
-      print('File Excel not found.');
     }
   }
 
@@ -647,15 +607,6 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                                 ),
                               ],
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              createAndExportExcel(globalBarcodeBarangQcResults);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              // button styles
-                            ),
-                            child: const Text('Export to Excel'),
                           ),
                         ],
                       ),
