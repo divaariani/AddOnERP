@@ -10,6 +10,14 @@ import '../utils/sessionmanager.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:excel/excel.dart';
+
 
 
 
@@ -302,6 +310,13 @@ class MyDataTableSource extends DataTableSource {
       index: index,
       cells: [
         DataCell(
+          AksiCellWidget(
+            entry: entry,
+            onDelete: onDelete,
+            data: data,
+          ),
+        ),
+        DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -361,13 +376,6 @@ class MyDataTableSource extends DataTableSource {
             ),
           ),
         ),
-        DataCell(
-          AksiCellWidget(
-            entry: entry,
-            onDelete: onDelete,
-            data: data,
-          ),
-        ),
       ],
     );
   }
@@ -394,6 +402,7 @@ class CardTable extends StatefulWidget {
 class _CardTableState extends State<CardTable> {
   TextEditingController controller = TextEditingController();
   List<MyData> _data = [];
+  List<MyData> _fetchedData = [];
   bool _isLoading = false;
   String _searchResult = '';
   final String searchText;
@@ -428,7 +437,7 @@ class _CardTableState extends State<CardTable> {
       );
 
       final List<dynamic> nameDataList = response.data;
-      print('API Response: $nameDataList');
+      //print('API Response: $nameDataList');
 
       final List<MyData> myDataList = nameDataList.map((data) {
         int id = int.tryParse(data['id'].toString()) ?? 0;
@@ -452,6 +461,8 @@ class _CardTableState extends State<CardTable> {
         //print('$MyData');
       }).toList();
 
+      _fetchedData = myDataList;
+
       setState(() {
         _data = myDataList.where((data) {
           return (data.barcode_mobil?.toLowerCase() ?? "")
@@ -472,6 +483,46 @@ class _CardTableState extends State<CardTable> {
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> createAndExportExcel(List<String> data) async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      if (!status.isGranted) {
+        return;
+      }
+    }
+
+    final excel = Excel.createExcel();
+    final sheet = excel['Sheet1'];
+
+    sheet.appendRow(['Kode Mobil', 'Nama Barang', 'Kode Barang', 'Kuantitas', 'Status']);
+
+    for (MyData data in _fetchedData) {
+      sheet.appendRow([
+        data.barcode_mobil.toString(),
+        data.name.toString(),
+        data.lotnumber,
+        data.quantity,
+        data.state,
+      ]);
+    }
+
+    final excelFile = File('${(await getTemporaryDirectory()).path}/GudangOut.xlsx');
+    final excelData = excel.encode()!;
+
+    await excelFile.writeAsBytes(excelData);
+
+    if (excelFile.existsSync()) {
+      Share.shareFiles(
+        [excelFile.path],
+        text: 'Exported Excel',
+      );
+    } else {
+      print('File Excel not found.');
     }
   }
 
@@ -541,6 +592,15 @@ class _CardTableState extends State<CardTable> {
                           columns: const [
                             DataColumn(
                               label: Text(
+                                'Aksi',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
                                 'Kode Mobil',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -584,21 +644,18 @@ class _CardTableState extends State<CardTable> {
                                 ),
                               ),
                             ),
-                            DataColumn(
-                              label: Text(
-                                'Aksi',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
                           ],
                           source: MyDataTableSource(_data, onDelete: (int id) {
                             GudangDeleteController.deleteData(id);
                           }),
                           rowsPerPage: 10,
                         ),
+                        ElevatedButton(
+                          onPressed: () {
+                            createAndExportExcel(_data.map((data) => data.toString()).toList());
+                          },
+                          child: Text('Export to Excel'),
+                        )
             ]),
           ),
         ),
