@@ -241,18 +241,7 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.idmas.toString(),
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
+        
         DataCell(
           Container(
             alignment: Alignment.centerLeft,
@@ -281,7 +270,7 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.uom ?? "",
+              entry.idmas.toString(),
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -289,11 +278,23 @@ class MyDataTableSource extends DataTableSource {
             ),
           ),
         ),
-         DataCell(
+        DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
               entry.total ?? "",
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        DataCell(
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              entry.uom ?? "",
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -474,15 +475,6 @@ class _CardTableState extends State<CardTable> {
                     columns: const [
                       DataColumn(
                         label: Text(
-                          'Idmas',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
                           'Nama Barang',
                           style: TextStyle(
                             fontSize: 12,
@@ -501,7 +493,16 @@ class _CardTableState extends State<CardTable> {
                       ),
                       DataColumn(
                         label: Text(
-                          'Uom',
+                          'Idmas',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Total',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
@@ -510,7 +511,7 @@ class _CardTableState extends State<CardTable> {
                       ),
                        DataColumn(
                         label: Text(
-                          'Total',
+                          'Uom',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
