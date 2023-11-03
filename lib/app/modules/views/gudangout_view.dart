@@ -10,11 +10,9 @@ import '../utils/sessionmanager.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:excel/excel.dart';
 
@@ -29,18 +27,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: GudangHasilView(),
+      home: GudangOutView(),
     );
   }
 }
 
-class GudangHasilView extends StatefulWidget {
-  const GudangHasilView({Key? key}) : super(key: key);
+class GudangOutView extends StatefulWidget {
+  const GudangOutView({Key? key}) : super(key: key);
   @override
-  State<GudangHasilView> createState() => _GudangHasilViewState();
+  State<GudangOutView> createState() => _GudangOutViewState();
 }
 
-class _GudangHasilViewState extends State<GudangHasilView> {
+class _GudangOutViewState extends State<GudangOutView> {
   final SessionManager sessionManager = SessionManager();
   int page = 1;
   int pageSize = 10;
@@ -54,7 +52,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
   
   @override
   Widget build(BuildContext context) {
-    print('Building GudangHasilView');
+    //print('Building GudangHasilView');
 
     return WillPopScope(
       onWillPop: () async {
@@ -108,7 +106,7 @@ class _GudangHasilViewState extends State<GudangHasilView> {
                               child: CustomButton(
                                 text: "Gudang Out",
                                 isActive: true,
-                                targetPage: const GudangHasilView(),
+                                targetPage: const GudangOutView(),
                               ),
                             ),
                           ],
@@ -205,7 +203,7 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   void initState() {
     super.initState();
-    isCurrentPage = widget.targetPage.runtimeType == GudangHasilView;
+    isCurrentPage = widget.targetPage.runtimeType == GudangOutView;
   }
 
   void _navigateToTargetPage(BuildContext context) {
@@ -500,7 +498,7 @@ class _CardTableState extends State<CardTable> {
     final sheet = excel['Sheet1'];
 
     sheet.appendRow(['Kode Mobil', 'Nama Barang', 'Kode Barang', 'Kuantitas', 'Status']);
-
+    
     for (MyData data in _fetchedData) {
       sheet.appendRow([
         data.barcode_mobil.toString(),
@@ -509,6 +507,14 @@ class _CardTableState extends State<CardTable> {
         data.quantity,
         data.state,
       ]);
+    }
+
+    for (var cell in sheet.row(0)) {
+      if (cell != null) {
+        cell.cellStyle = CellStyle(
+          bold: true,
+        );
+      }
     }
 
     final excelFile = File('${(await getTemporaryDirectory()).path}/GudangOut.xlsx');
