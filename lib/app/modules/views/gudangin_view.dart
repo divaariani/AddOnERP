@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import '../controllers/gudanginview_controller.dart';
 import '../utils/sessionmanager.dart';
-import 'gudanghasil_view.dart';
+import 'gudangout_view.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
 import '../controllers/gudangupload_controller.dart';
 import 'package:get/get.dart';
@@ -136,7 +136,7 @@ class _GudangInViewState extends State<GudangInView> {
   void refreshNavigateToLaporantHasilView() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const GudangHasilView(),
+        builder: (context) => const GudangOutView(),
       ),
     );
   }
@@ -198,7 +198,7 @@ class _GudangInViewState extends State<GudangInView> {
                               child: CustomButton(
                                 text: "Gudang Out",
                                 isActive: false,
-                                targetPage: const GudangHasilView(),
+                                targetPage: const GudangOutView(),
                               ),
                             ),
                           ],
@@ -667,7 +667,7 @@ class _CardTableState extends State<CardTable> {
         ),
         const SizedBox(height: 10),
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -677,7 +677,7 @@ class _CardTableState extends State<CardTable> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: flutter.Column(children: [
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : _data.isEmpty
                       ? EmptyData()
                       : PaginatedDataTable(
