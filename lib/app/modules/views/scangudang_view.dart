@@ -1,8 +1,7 @@
-import 'package:addon/app/modules/views/gudanghasil_view.dart';
+import 'package:addon/app/modules/views/gudangout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import '../utils/globals.dart';
-import 'gudanghasil_view.dart';
 import 'gudangmobil_view.dart';
 
 void main() {
@@ -75,7 +74,7 @@ class _ScanGudangViewState extends State<ScanGudangView> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const GudangHasilView()),
+                            MaterialPageRoute(builder: (context) => const GudangOutView()),
                           );
                         },
                         child: Image.asset('assets/icon.back.png',
