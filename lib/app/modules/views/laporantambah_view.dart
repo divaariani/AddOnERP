@@ -51,7 +51,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
     plotnumberController.text = plotnumberList;
     _dateController.text = globalTglKP ?? _getFormattedCurrentDateTime();
     _fetchUserId();
-    // _fetchCurrentTime();
+    _fetchCurrentTime();
 
     _createTglController.text = _getFormattedCurrentDateTime();
     
