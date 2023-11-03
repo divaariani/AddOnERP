@@ -60,25 +60,25 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 70),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 23),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
-                              child: CustomButton(
-                                text: "Monitoring",
-                                isActive: true,
-                                targetPage: const MonitoringHasilView(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(left: 23),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Padding(
+                    //           padding: const EdgeInsets.symmetric(horizontal: 3),
+                    //           child: CustomButton(
+                    //             text: "Monitoring",
+                    //             isActive: true,
+                    //             targetPage: const MonitoringHasilView(),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(height: 10),
                     CardTable(searchText),
                     const SizedBox(height: 30),
@@ -241,7 +241,6 @@ class MyDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        
         DataCell(
           Container(
             alignment: Alignment.centerLeft,
@@ -389,7 +388,7 @@ class _CardTableState extends State<CardTable> {
         _data = myDataList.where((data) {
           return (data.name?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
-              (data.name?.toLowerCase() ?? "")
+              (data.rincianstock?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.idmas?.toString() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
