@@ -3,7 +3,7 @@ import 'dart:async';
 import 'audit_view.dart';
 import 'audithasil_view.dart';
 import 'laporanhasil_view.dart';
-import 'gudanghasil_view.dart';
+import 'gudangout_view.dart';
 import 'gudangin_view.dart';
 
 
@@ -150,7 +150,7 @@ class _RefreshGudangTableState extends State<RefreshGudangTable> {
     Timer(const Duration(seconds: 1), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const GudangHasilView(),
+          builder: (context) => const GudangOutView(),
         ),
       );
     });
