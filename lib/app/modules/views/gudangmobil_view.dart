@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'home_view.dart';
-import 'gudanghasil_view.dart';
+import 'gudangout_view.dart';
 import 'scangudangbarang_view.dart';
 import '../utils/globals.dart';
 import '../controllers/gudangmobil_controller.dart';
@@ -11,6 +11,7 @@ import '../utils/sessionmanager.dart';
 import '../controllers/notification_controller.dart';
 import 'package:intl/intl.dart';
 import 'refresh_view.dart';
+
 
 class GudangMobilView extends StatefulWidget {
   String result;
@@ -98,7 +99,6 @@ class _GudangMobilViewState extends State<GudangMobilView> {
     }
   }
 
-
   Future<void> _submitStock() async {
     final String pbarcode_mobil = pbarcode_mobilController.text;
     String successMessage = 'Congratulations';
@@ -148,7 +148,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
   void refreshNavigateToLaporantHasilView() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const GudangHasilView(),
+        builder: (context) => const GudangOutView(),
       ),
     );
   }
@@ -206,7 +206,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 26),
                     child: Container(
