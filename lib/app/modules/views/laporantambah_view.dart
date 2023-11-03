@@ -174,6 +174,11 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
                 'state': 'draft',
               })
           .toList();
+      
+      if (inventoryDetails.isEmpty) {
+          Get.snackbar('Peringatan', 'Tidak ada data yang ingin disubmit.');
+          return; 
+      }
 
       ResponseModel response = await LaporanTambahController.postFormData(
         p_tgl_kp: tglkp,
