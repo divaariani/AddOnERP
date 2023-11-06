@@ -3,13 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
 import '../controllers/monitoringview_controller.dart';
 
-
-void main() {
-  runApp(const MaterialApp(
-    home: MonitoringHasilView(),
-  ));
-}
-
 class MonitoringHasilView extends StatefulWidget {
   const MonitoringHasilView({Key? key}) : super(key: key);
   @override
@@ -60,26 +53,6 @@ class _MonitoringHasilViewState extends State<MonitoringHasilView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 70),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(left: 23),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       children: [
-                    //         Padding(
-                    //           padding: const EdgeInsets.symmetric(horizontal: 3),
-                    //           child: CustomButton(
-                    //             text: "Monitoring",
-                    //             isActive: true,
-                    //             targetPage: const MonitoringHasilView(),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: 10),
                     CardTable(searchText),
                     const SizedBox(height: 30),
                   ],
@@ -208,7 +181,6 @@ class _CustomButtonState extends State<CustomButton> {
 
 class MyData {
   final int? id;
-  final int? idmas;
   final String? name;
   final int? amount;
   final int? qty;
@@ -218,7 +190,6 @@ class MyData {
 
   MyData({
     required this.id,
-    required this.idmas,
     required this.name,
     required this.amount,
     required this.qty,
@@ -258,18 +229,6 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.rincianstock ?? "",
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        DataCell(
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              entry.idmas.toString(),
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -352,7 +311,6 @@ class _CardTableState extends State<CardTable> {
 
       final response = await MonitoringViewController.postFormData(
         id: 1,
-        idmas: 1,
         name: '',
         amount: 1,
         qty: 1,
@@ -365,7 +323,6 @@ class _CardTableState extends State<CardTable> {
 
       final List<MyData> myDataList = nameDataList.map((data) {
         int id = int.tryParse(data['id'].toString()) ?? 0;
-        int idmas = int.tryParse(data['idmas'].toString()) ?? 0;
         String name = data['name'] ?? "";
         int amount= int.tryParse(data['amount'].toString()) ?? 0;
         int qty = int.tryParse(data['qty'].toString()) ?? 0;
@@ -375,7 +332,6 @@ class _CardTableState extends State<CardTable> {
 
         return MyData(
           id: id,
-          idmas: idmas,
           name: name,
           amount:amount,
           qty: qty,
@@ -389,8 +345,6 @@ class _CardTableState extends State<CardTable> {
           return (data.name?.toLowerCase() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.rincianstock?.toLowerCase() ?? "")
-                  .contains(_searchResult.toLowerCase()) ||
-              (data.idmas?.toString() ?? "")
                   .contains(_searchResult.toLowerCase()) ||
               (data.uom?.toString() ?? "")
                 .contains(_searchResult.toLowerCase()) ||
@@ -484,15 +438,6 @@ class _CardTableState extends State<CardTable> {
                       DataColumn(
                         label: Text(
                           'Rincian Stock',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Idmas',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
