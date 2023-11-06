@@ -1,36 +1,19 @@
-import 'package:addon/app/modules/controllers/gudangdelete_controller.dart';
-import 'package:addon/app/modules/views/gudangin_view.dart';
-import 'package:addon/app/modules/views/scangudang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'home_view.dart';
-import '../controllers/gudangview_controller.dart';
-import '../utils/sessionmanager.dart';
-import 'package:flutter/src/widgets/basic.dart' as flutter;
-import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:excel/excel.dart';
-
-
-
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: GudangOutView(),
-    );
-  }
-}
+import 'package:flutter/src/widgets/basic.dart' as flutter;
+import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'home_view.dart';
+import 'gudangin_view.dart';
+import 'scangudang_view.dart';
+import '../controllers/gudangview_controller.dart';
+import '../controllers/gudangdelete_controller.dart';
+import '../utils/sessionmanager.dart';
 
 class GudangOutView extends StatefulWidget {
   const GudangOutView({Key? key}) : super(key: key);
@@ -52,8 +35,6 @@ class _GudangOutViewState extends State<GudangOutView> {
   
   @override
   Widget build(BuildContext context) {
-    //print('Building GudangHasilView');
-
     return WillPopScope(
       onWillPop: () async {
         Navigator.push(
@@ -271,13 +252,13 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 class MyData {
-  final int? id;
-  final int? userid;
-  final String? barcode_mobil;
-  final String? lotnumber;
-  final String? name;
-  final int? quantity;
-  final String? state;
+  final int id;
+  final int userid;
+  final String barcode_mobil;
+  final String lotnumber;
+  final String name;
+  final int quantity;
+  final String state;
   final String aksi;
 
   MyData({
@@ -308,18 +289,11 @@ class MyDataTableSource extends DataTableSource {
       index: index,
       cells: [
         DataCell(
-          AksiCellWidget(
-            entry: entry,
-            onDelete: onDelete,
-            data: data,
-          ),
-        ),
-        DataCell(
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.barcode_mobil ?? "",
-              style: const TextStyle(
+              entry.barcode_mobil,
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -330,8 +304,8 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.name ?? "",
-              style: const TextStyle(
+              entry.name,
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -342,8 +316,8 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.lotnumber ?? "",
-              style: const TextStyle(
+              entry.lotnumber,
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -355,7 +329,7 @@ class MyDataTableSource extends DataTableSource {
             alignment: Alignment.centerLeft,
             child: Text(
               entry.quantity.toString(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -366,12 +340,19 @@ class MyDataTableSource extends DataTableSource {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              entry.state ?? "",
-              style: const TextStyle(
+              entry.state,
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+        ),
+        DataCell(
+          AksiCellWidget(
+            entry: entry,
+            onDelete: onDelete,
+            data: data, 
           ),
         ),
       ],
@@ -456,7 +437,6 @@ class _CardTableState extends State<CardTable> {
           state: state,
           aksi: '',
         );
-        //print('$MyData');
       }).toList();
 
       _fetchedData = myDataList;
@@ -598,15 +578,6 @@ class _CardTableState extends State<CardTable> {
                           columns: const [
                             DataColumn(
                               label: Text(
-                                'Aksi',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Text(
                                 'Kode Mobil',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -644,6 +615,15 @@ class _CardTableState extends State<CardTable> {
                             DataColumn(
                               label: Text(
                                 'Status',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Aksi',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,
@@ -721,22 +701,6 @@ class AksiCellWidget extends StatefulWidget {
   State<AksiCellWidget> createState() => _AksiCellWidgetState();
 }
 
-class MyDataProvider extends ChangeNotifier {
-  List<MyData> _data = [];
-
-  List<MyData> get data => _data;
-
-  void setData(List<MyData> newData) {
-    _data = newData;
-    notifyListeners();
-  }
-
-  void deleteData(int id) {
-    _data.removeWhere((element) => element.id == id);
-    notifyListeners();
-  }
-}
-
 class _AksiCellWidgetState extends State<AksiCellWidget> {
   final idController = TextEditingController();
 
@@ -745,39 +709,34 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
     super.initState();
   }
 
-  Future<void> _submitState(BuildContext context) async {
-    try {
-      final myDataProvider =
-          Provider.of<MyDataProvider>(context, listen: false);
-      if (widget.entry.id != null) {
-        myDataProvider.deleteData(
-            widget.entry.id!); 
-      }
+  Future<void> _submitState() async {
+  try {
+    widget.onDelete(widget.entry.id);
 
-      final _data = myDataProvider.data;
+    setState(() {
+      widget.data.removeWhere((element) => element.id == widget.entry.id);
+    });
 
-      setState(() {
-        _data.removeWhere((element) => element.id == widget.entry.id);
-      });
+    final cardTableState = context.findAncestorStateOfType<_CardTableState>();
+    cardTableState?.setState(() {});
 
-      Get.snackbar(
-        'Sukses',
-        'Kode Barang ${widget.entry.lotnumber} berhasil dihapus.',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-      );
+    Get.snackbar(
+      'Sukses',
+      'Kode Barang ${widget.entry.lotnumber} berhasil dihapus.',
+      snackPosition: SnackPosition.TOP, 
+      duration: Duration(seconds: 3), 
+    );
 
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => GudangHasilView()));
-    } catch (e) {
-      Get.snackbar(
-        'Kesalahan',
-        'Terjadi kesalahan saat menghapus data: $e',
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 3),
-      );
-    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => GudangOutView()));
+  } catch (e) {
+    Get.snackbar(
+      'Kesalahan',
+      'Terjadi kesalahan saat menghapus data: $e',
+      snackPosition: SnackPosition.TOP, 
+      duration: Duration(seconds: 3), 
+    );
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -845,7 +804,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                             const SizedBox(width: 10),
                             ElevatedButton(
                               onPressed: () {
-                                _submitState(context);
+                                _submitState();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
