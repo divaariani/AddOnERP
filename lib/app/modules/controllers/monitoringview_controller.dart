@@ -6,7 +6,6 @@ class MonitoringViewController{
   static const String baseUrl = '{YOUR API}';
   static Future<ResponseModel> postFormData({
     required int id,
-    required int idmas,
     required String name,
     required int amount,
     required int qty,
@@ -15,10 +14,9 @@ class MonitoringViewController{
     required String total,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_monitoring_stock_2'),
+      Uri.parse('$baseUrl?function=get_monitoring_stock_3'),
       body: {
         'id': id.toString(),
-        'idmas': idmas.toString(),
         'name': name,
         'amount': amount.toString(),
         'qty': qty.toString(),
