@@ -1,5 +1,6 @@
 library addon.globals;
 
+const String apiBaseUrl = '{API}';
 String globalBarcodeMesinResult = '';
 String globalBarcodeLokasiResult = '';
 String globalBarcodeBarangResult = '';
@@ -17,11 +18,11 @@ void setGlobalBarcodeLokasiResult(String barcodeAuditResult){
   globalBarcodeLokasiResult = barcodeAuditResult;
 }
 
-void setGlobalBarcodeBarangResult(String barcodeBarangResult) {
+void setGlobalBarcodeBarangResult(String barcodeBarangResult) { 
   globalBarcodeBarangResult = barcodeBarangResult;
 }
 
-void setGlobalBarcodeMobilResult(String barcodeGudangResult){
+void setGlobalBarcodeMobilResult(String barcodeGudangResult){ 
   globalBarcodeMobilResult = barcodeGudangResult;
 }
 
