@@ -7,7 +7,6 @@ import 'operatorstatus_view.dart';
 import '../utils/globals.dart';
 import '../utils/sessionmanager.dart';
 import '../utils/app_colors.dart';
-import '../controllers/absensi_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
 import '../controllers/machine_controller.dart';
@@ -89,7 +88,7 @@ class _OperatorPresensiViewState extends State<OperatorPresensiView> {
     try {
       await fetchCurrentTime();
 
-      ResponseModel response = await AbsensiController.postFormData(
+      ResponseModel response = await MachineController.postOperatorInOut(
         idwc: idwc,
         userId: userId,
         oprTap: currentTime.toString(),
