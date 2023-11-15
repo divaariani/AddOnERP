@@ -1,9 +1,33 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'response_model.dart';
+import '../utils/globals.dart';
 
 class MachineController{
-  static const String baseUrl = '{API}';
+
+  static Future<ResponseModel> postOperatorInOut({
+    required int idwc,
+    required int userId,
+    required String oprTap,
+    required String tap,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$apiBaseUrl?function=absensi_operator_id_2'),
+      body: {
+        'idwc': idwc.toString(),
+        'userid': userId.toString(),
+        'oprtap': oprTap,
+        'tap': tap,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body); 
+      return ResponseModel.fromJson(responseData);
+    } else {
+      throw Exception('Failed to post form data');
+    }
+  }
 
   static Future<ResponseModel> postFormOperator({
     required int id,
@@ -13,7 +37,7 @@ class MachineController{
     required String statusmesin,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_workcenter_list'),
+      Uri.parse('$apiBaseUrl?function=get_workcenter_list'),
       body: {
         'id': id.toString(),
         'name': name,
@@ -37,7 +61,7 @@ class MachineController{
     required String timestate,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=insert_machine_status'),
+      Uri.parse('$apiBaseUrl?function=insert_machine_status'),
       body: {
         'pidworkcenter': id.toString(),
         'pstatus': state,
@@ -55,7 +79,7 @@ class MachineController{
 
   static Future<Map<String, dynamic>> getWorkcenterList() async {
     final response = await http.get(
-      Uri.parse('$baseUrl?function=get_workcenter_list'),
+      Uri.parse('$apiBaseUrl?function=get_workcenter_list'),
     );
 
     if (response.statusCode == 200) {
