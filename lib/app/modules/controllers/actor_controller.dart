@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
         
 class ActorController extends GetxController {
   final SessionManager sessionManager = SessionManager();
@@ -19,7 +20,7 @@ class ActorController extends GetxController {
     try {
       final String? userId = await sessionManager.getUserId();      
       final response = await http.post(
-        Uri.parse('{API}' + userId.toString()),
+        Uri.parse('$apiBaseUrl?function=get_user_id&id=$userId'),
         headers: {'Contentri-Type': 'application/json; charset=UTF-8'},
       );
       var data = jsonDecode(response.body);
