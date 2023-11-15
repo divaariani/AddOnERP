@@ -2,10 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'response_model.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
 
 class NotificationController{
-  static const String baseUrl = '{API}';
-
   final SessionManager _sessionManager = SessionManager();
   String userId = "";
 
@@ -28,7 +27,7 @@ class NotificationController{
     required String date,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=insert_notification_activity'),
+      Uri.parse('$apiBaseUrl?function=insert_notification_activity'),
       body: {
         'userid': userid.toString(),
         'title': title,
@@ -55,7 +54,7 @@ class NotificationController{
     final userId = await _sessionManager.getUserId() ?? "";
 
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_notification_activity&userid=$userId'),
+      Uri.parse('$apiBaseUrl?function=get_notification_activity&userid=$userId'),
       body: {
         'id': id.toString(),
         'userid': userid.toString(),
