@@ -1,11 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
-import '../utils/sessionmanager.dart';
 import 'response_model.dart';
+import '../utils/sessionmanager.dart';
+import '../utils/globals.dart';
 
 class AuditController{
-  static const String baseUrl = '{API}';
   late DateTime currentTime;
   late String formattedDate;
   final SessionManager sessionManager = SessionManager();
@@ -32,9 +32,7 @@ class AuditController{
   Future<int> fetchIdInventory() async {
     try {
       final response = await http.get(
-        Uri.parse(
-            '$baseUrl?function=get_inventory_id&nama_auditor=Auditor_$userName' +
-                '_$formattedDate'),
+        Uri.parse('$apiBaseUrl?function=get_inventory_id&nama_auditor=Auditor_$userName' + '_$formattedDate'),
       );
 
       if (response.statusCode == 200) {
@@ -64,8 +62,7 @@ class AuditController{
     try {
       final response = await http.get(
         Uri.parse(
-          '$baseUrl?function=get_inventory_id&nama_auditor=Auditor_$userName' +
-              '_$formattedDate',
+          '$apiBaseUrl?function=get_inventory_id&nama_auditor=Auditor_$userName' + '_$formattedDate',
         ),
       );
 
@@ -94,7 +91,7 @@ class AuditController{
     required DateTime date,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=insert_stock_inventory'),
+      Uri.parse('$apiBaseUrl?function=insert_stock_inventory'),
       body: {
         'userid': userid.toString(),
         'name': name,
@@ -117,7 +114,7 @@ class AuditController{
     required DateTime pdate,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=insert_audit_stock'),
+      Uri.parse('$apiBaseUrl?function=insert_audit_stock'),
       body: {
         'pinventory_id': id.toString(),
         'pnomorbarcode': pbarang,
@@ -143,7 +140,7 @@ class AuditController{
     required String state,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_audit_views'),
+      Uri.parse('$apiBaseUrl?function=get_audit_views'),
       body: {
         'id': id.toString(),
         'lokasi': lokasi,
@@ -165,7 +162,7 @@ class AuditController{
   static Future<void> deleteData(int id) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl?function=delete_audit'),
+        Uri.parse('$apiBaseUrl?function=delete_audit'),
         body: {
           'id': id.toString(),
         },
