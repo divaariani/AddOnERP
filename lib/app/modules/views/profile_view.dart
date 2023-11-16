@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/actor_controller.dart';
 import '../controllers/login_controller.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -76,7 +77,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFAFAFA),
+                                          color: AppColors.white,
                                         ),
                                       ),
                                     ),
@@ -95,7 +96,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   ),
                                   borderRadius: BorderRadius.circular(64),
                                   border: Border.all(
-                                    color: const Color(0xFF084D88),
+                                    color: AppColors.blueOne,
                                     style: BorderStyle.solid,
                                     width: 4,
                                   ),
@@ -111,11 +112,11 @@ class _ProfileViewState extends State<ProfileView> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFAFAFA),
+                              color: AppColors.white,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: AppColors.black.withOpacity(0.1),
                                   spreadRadius: 2,
                                   blurRadius: 4,
                                   offset: const Offset(0, 3),
@@ -128,7 +129,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 Text(
                                   'ID: $userLogin',
                                   style: GoogleFonts.poppins(
-                                    color: const Color(0xFF084D88),
+                                    color: AppColors.blueOne,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -136,7 +137,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 Text(
                                   userName,
                                   style: GoogleFonts.poppins(
-                                    color: const Color(0xFF084D88),
+                                    color: AppColors.blueOne,
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -145,7 +146,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 Text(
                                   'Departemen',
                                   style: GoogleFonts.poppins(
-                                    color: const Color(0xFF084D88),
+                                    color: AppColors.blueOne,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -173,7 +174,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                           ? 'Customer'
                                                           : 'Unknown Staff',
                                   style: GoogleFonts.poppins(
-                                    color: const Color(0xFF084D88),
+                                    color: AppColors.blueOne,
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -182,19 +183,18 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 30, horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF084D88),
+                              color: AppColors.blueOne,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: AppColors.black.withOpacity(0.1),
                                   spreadRadius: 2,
                                   blurRadius: 4,
                                   offset: const Offset(0, 3),
@@ -218,9 +218,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         const SizedBox(width: 10),
                                         const Text("Kehadiran",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Color(0xFFFAFAFA))),
+                                            style: TextStyle(fontSize: 16, color: AppColors.white)),
                                       ],
                                     ),
                                     const Text(
@@ -228,7 +226,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFAFAFA)),
+                                          color: AppColors.white),
                                     )
                                   ],
                                 ),
@@ -243,12 +241,12 @@ class _ProfileViewState extends State<ProfileView> {
                                         Text("Hadir",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                         SizedBox(height: 10),
                                         Text("9",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                       ],
                                     ),
                                     Column(
@@ -256,12 +254,12 @@ class _ProfileViewState extends State<ProfileView> {
                                         Text("Tidak Hadir",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                         SizedBox(height: 10),
                                         Text("-",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                       ],
                                     ),
                                     Column(
@@ -269,12 +267,12 @@ class _ProfileViewState extends State<ProfileView> {
                                         Text("Izin",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                         SizedBox(height: 10),
                                         Text("1",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xFFFAFAFA))),
+                                                color: AppColors.white)),
                                       ],
                                     ),
                                     SizedBox(width: 8),
@@ -311,7 +309,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 12,
-                                                color: const Color(0xff084D88),
+                                                color: AppColors.blueOne,
                                               ),
                                             ),
                                             const SizedBox(height: 10),
@@ -324,47 +322,36 @@ class _ProfileViewState extends State<ProfileView> {
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xffD1D3D9),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:AppColors.greyThree,
                                                     elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
                                                   ),
                                                   child: const Text(
                                                     'Batalkan',
                                                     style: TextStyle(
-                                                      color: Color(0xFF084D88),
+                                                      color: AppColors.blueOne,
                                                     ),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 10),
                                                 ElevatedButton(
                                                   onPressed: () {
-                                                    Get.find<LoginController>()
-                                                        .logout();
+                                                    Get.find<LoginController>().logout();
                                                   },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xFF084D88),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: AppColors.blueOne,
                                                     elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
                                                   ),
                                                   child: const Text(
                                                     'Ya',
                                                     style: TextStyle(
-                                                      color: Color(0xFFFAFAFA),
+                                                      color: AppColors.white,
                                                     ),
                                                   ),
                                                 ),
@@ -384,8 +371,8 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               label: const Text('Keluar'),
                               style: ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFF084D88),
-                                backgroundColor: Color(0xFFFAFAFA),
+                                foregroundColor: AppColors.blueOne,
+                                backgroundColor: AppColors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
