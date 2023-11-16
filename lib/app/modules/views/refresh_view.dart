@@ -5,15 +5,13 @@ import 'audithasil_view.dart';
 import 'laporanhasil_view.dart';
 import 'gudangout_view.dart';
 import 'gudangin_view.dart';
-
+import '../utils/app_colors.dart';
 
 class RefreshAuditor extends StatefulWidget {
-  RefreshAuditor({Key? key}) : super(key: key);
+  const RefreshAuditor({Key? key}) : super(key: key);
 
   @override
-  _RefreshAuditorState createState() => _RefreshAuditorState();
-
-
+  State<RefreshAuditor> createState() => _RefreshAuditorState();
 }
 
 class _RefreshAuditorState extends State<RefreshAuditor> {
@@ -38,12 +36,12 @@ class _RefreshAuditorState extends State<RefreshAuditor> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+            colors: [AppColors.blueTwo, AppColors.blueThree], 
           ),
         ),
         child: const Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white), 
           ),
         ),
       ),
@@ -52,10 +50,10 @@ class _RefreshAuditorState extends State<RefreshAuditor> {
 }
 
 class RefreshAuditTable extends StatefulWidget {
-  RefreshAuditTable({Key? key}) : super(key: key);
+  const RefreshAuditTable({Key? key}) : super(key: key);
 
   @override
-  _RefreshAuditTableState createState() => _RefreshAuditTableState();
+  State<RefreshAuditTable> createState () => _RefreshAuditTableState();
 }
 
 class _RefreshAuditTableState extends State<RefreshAuditTable> {
@@ -80,12 +78,12 @@ class _RefreshAuditTableState extends State<RefreshAuditTable> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+            colors: [AppColors.blueTwo, AppColors.blueThree], 
           ),
         ),
         child: const Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white), 
           ),
         ),
       ),
@@ -94,10 +92,10 @@ class _RefreshAuditTableState extends State<RefreshAuditTable> {
 }
 
 class RefreshLaporanTable extends StatefulWidget {
-  RefreshLaporanTable({Key? key}) : super(key: key);
+  const RefreshLaporanTable({Key? key}) : super(key: key);
 
   @override
-  _RefreshLaporanTableState createState() => _RefreshLaporanTableState();
+  State<RefreshLaporanTable> createState() => _RefreshLaporanTableState();
 }
 
 class _RefreshLaporanTableState extends State<RefreshLaporanTable> {
@@ -122,12 +120,12 @@ class _RefreshLaporanTableState extends State<RefreshLaporanTable> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+            colors: [AppColors.blueTwo, AppColors.blueThree], 
           ),
         ),
         child: const Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white), 
           ),
         ),
       ),
@@ -136,10 +134,10 @@ class _RefreshLaporanTableState extends State<RefreshLaporanTable> {
 }
 
 class RefreshGudangTable extends StatefulWidget {
-  RefreshGudangTable({Key? key}) : super(key: key);
+  const RefreshGudangTable({Key? key}) : super(key: key);
 
   @override
-  _RefreshGudangTableState createState() => _RefreshGudangTableState();
+  State<RefreshGudangTable> createState() => _RefreshGudangTableState();
 }
 
 class _RefreshGudangTableState extends State<RefreshGudangTable> {
@@ -164,12 +162,12 @@ class _RefreshGudangTableState extends State<RefreshGudangTable> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+            colors: [AppColors.blueTwo, AppColors.blueThree], 
           ),
         ),
         child: const Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white), 
           ),
         ),
       ),
@@ -179,10 +177,10 @@ class _RefreshGudangTableState extends State<RefreshGudangTable> {
 
 
 class RefreshGudangInTable extends StatefulWidget {
-  RefreshGudangInTable({Key? key}) : super(key: key);
+  const RefreshGudangInTable({Key? key}) : super(key: key);
 
   @override
-  _RefreshGudangInTableState createState() => _RefreshGudangInTableState();
+  State<RefreshGudangInTable> createState() => _RefreshGudangInTableState();
 }
 
 class _RefreshGudangInTableState extends State<RefreshGudangInTable> {
@@ -207,12 +205,12 @@ class _RefreshGudangInTableState extends State<RefreshGudangInTable> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)], 
+            colors: [AppColors.blueTwo, AppColors.blueThree], 
           ),
         ),
         child: const Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white), 
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white), 
           ),
         ),
       ),
