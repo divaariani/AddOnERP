@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/app_colors.dart';
 
 class OperatorMonitorView extends StatelessWidget {
   const OperatorMonitorView({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class OperatorMonitorView extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment(0.99, -0.14),
               end: Alignment(-0.99, 0.14),
-              colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+              colors: [AppColors.blueTwo, AppColors.blueThree],
             ),
           ),
         ),
@@ -23,7 +24,7 @@ class OperatorMonitorView extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: AppColors.white,
           ),
         ),
         leading: InkWell(
