@@ -1,16 +1,13 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'response_model.dart';
-
+import '../utils/globals.dart';
 class GudangController{
-
-  static const String baseUrl = '{YOUR API}';
-
 
   //Scan check data pada Gudang in
   static Future<ResponseModel> updateWarehouseInScan({required String lotnumber}) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=update_warehouse_in_scan'),
+      Uri.parse('$apiBaseUrl?function=update_warehouse_in_scan'),
       body: {
         'lotnumber': lotnumber,
       },
@@ -29,7 +26,7 @@ class GudangController{
   Future<Map<String, dynamic>> uploadDataToGudang() async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl?function=update_warehouse_in_upload'), 
+        Uri.parse('$apiBaseUrl?function=update_warehouse_in_upload'), 
       );
 
       if (response.statusCode == 200) {
@@ -54,7 +51,7 @@ class GudangController{
     required String uom,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_warehouse_views_in'),
+      Uri.parse('$apiBaseUrl?function=get_warehouse_views_in'),
       body: {
         'checked': checked,
         'id': id.toString(),
@@ -87,7 +84,7 @@ class GudangController{
     required String state,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=get_warehouse_views_out'),
+      Uri.parse('$apiBaseUrl?function=get_warehouse_views_out'),
       body: {
         'id': id.toString(),
         'userid': userid.toString(),
@@ -116,7 +113,7 @@ class GudangController{
     required String plotnumber,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl?function=insert_warehouse_out'),
+      Uri.parse('$apiBaseUrl?function=insert_warehouse_out'),
       body: {
         'puserid': puserid.toString(),
         'pbarcode_mobil': pbarcode_mobil,
@@ -136,7 +133,7 @@ class GudangController{
   static Future<void> deleteData(int id) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl?function=delete_warehouse_out'),
+        Uri.parse('$apiBaseUrl?function=delete_warehouse_out'),
         body: {
           'id': id.toString(),
         },
