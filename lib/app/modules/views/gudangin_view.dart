@@ -1,31 +1,17 @@
-import 'package:addon/app/modules/views/scangudangin_view.dart';
+import 'package:flutter/src/widgets/basic.dart' as flutter;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home_view.dart';
-import '../controllers/gudanginview_controller.dart';
-import '../utils/sessionmanager.dart';
-import 'gudangout_view.dart';
-import 'package:flutter/src/widgets/basic.dart' as flutter;
-import '../controllers/gudangupload_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'refresh_view.dart';
+import 'home_view.dart';
+import 'scangudangin_view.dart';
+import 'gudangout_view.dart';
+import '../controllers/gudang_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
-import 'package:intl/intl.dart';
-
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: GudangInView(),
-    );
-  }
-}
+import '../controllers/gudang_controller.dart';
+import '../utils/sessionmanager.dart';
 
 class GudangInView extends StatefulWidget {
   const GudangInView({Key? key}) : super(key: key);
@@ -34,7 +20,7 @@ class GudangInView extends StatefulWidget {
 }
 
 class _GudangInViewState extends State<GudangInView> {
-  final GudangUploadController _gudangUploadController = Get.put(GudangUploadController());
+  final GudangController _gudangUploadController = Get.put(GudangController());
   final SessionManager _sessionManager = SessionManager();
   final SessionManager sessionManager = SessionManager();
   late DateTime currentTime;
@@ -557,7 +543,7 @@ class _CardTableState extends State<CardTable> {
         _isLoading = true;
       });
       final DateTime tgl_kp = DateTime.now();
-      final response = await GudangInViewController.postFormData(
+      final response = await GudangController.postFormData(
         checked: '',
         id: 1,
         tgl_kp: tgl_kp,
