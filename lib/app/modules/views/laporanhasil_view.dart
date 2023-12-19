@@ -2,21 +2,14 @@ import 'package:addon/app/modules/views/laporantambah_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home_view.dart';
-import '../controllers/laporanview_controller.dart';
-import '../utils/globals.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
-
-
-void main() {
-  runApp( const MaterialApp(
-    home: LaporanHasilView(),
-  ));
-}
+import 'home_view.dart';
+import '../controllers/laporan_controller.dart';
+import '../utils/globals.dart';
 
 class LaporanHasilView extends StatefulWidget {
   const LaporanHasilView({Key? key}) : super(key: key);
+
   @override
   State<LaporanHasilView> createState() => _LaporanHasilViewState();
 }
@@ -308,7 +301,7 @@ class _CardTableState extends State<CardTable> {
         _isLoading = true;
       });
 
-      final response = await LaporanViewController.postFormData(
+      final response = await LaporanController.postFormData(
         nomor_kp: 1,
         tgl_kp: DateTime.now(),
         userid: 1,
