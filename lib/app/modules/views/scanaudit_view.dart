@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import '../utils/globals.dart';
 import 'audit_view.dart';
 import 'auditlokasi_view.dart';
+import '../utils/globals.dart';
+import '../utils/app_colors.dart';
 
 class ScanAuditView extends StatefulWidget {
   const ScanAuditView({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AuditView()),
+          MaterialPageRoute(builder: (context) => const AuditView()),
         );
         return false;
       },
@@ -60,7 +61,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -77,7 +78,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color(0xFF084D88),
+                              color: AppColors.blueOne,
                               width: 4,
                             ),
                             borderRadius: BorderRadius.circular(20),
@@ -125,7 +126,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                         "Scan barcode pada lokasi!",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
@@ -160,7 +161,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
