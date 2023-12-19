@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'home_view.dart';
 import 'gudangout_view.dart';
 import 'scangudangbarang_view.dart';
+import 'refresh_view.dart';
 import '../utils/globals.dart';
-import '../controllers/gudangmobil_controller.dart';
-import '../controllers/response_model.dart';
 import '../utils/sessionmanager.dart';
 import '../controllers/notification_controller.dart';
-import 'package:intl/intl.dart';
-import 'refresh_view.dart';
-
+import '../controllers/gudang_controller.dart';
+import '../controllers/response_model.dart';
 
 class GudangMobilView extends StatefulWidget {
   String result;
   List<String> resultBarangGudang;
 
-  GudangMobilView({required this.result, required this.resultBarangGudang, Key? key})
-      : super(key: key);
+  GudangMobilView({required this.result, required this.resultBarangGudang, Key? key}) : super(key: key);
 
   @override
   State<GudangMobilView> createState() => _GudangMobilViewState();
@@ -108,7 +106,7 @@ class _GudangMobilViewState extends State<GudangMobilView> {
       await _fetchCurrentTime();
       final int userId = int.parse(userIdLogin);
       for (String plotnumber in widget.resultBarangGudang) {
-        ResponseModel response = await GudangMobilController.postFormData(
+        ResponseModel response = await GudangController.postFormDataMobil(
           puserid: userId,
           pbarcode_mobil: pbarcode_mobil,
           plotnumber: plotnumber,
