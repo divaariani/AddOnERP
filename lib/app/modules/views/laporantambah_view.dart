@@ -1,34 +1,29 @@
 import 'package:intl/intl.dart';
-import '../utils/sessionmanager.dart';
-import 'home_view.dart';
-import 'laporanhasil_view.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'scanqcbarang_view.dart';
 import 'package:get/get.dart';
-import '../utils/globals.dart';
-import '../controllers/laporantambah_controller.dart';
-import '../controllers/response_model.dart';
 import 'refresh_view.dart';
-import 'dart:async';
+import 'home_view.dart';
+import 'laporanhasil_view.dart';
+import '../utils/globals.dart';
+import '../utils/sessionmanager.dart';
+import '../controllers/laporan_controller.dart';
+import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
-import 'package:flutter/foundation.dart';
-
-
 
 class LaporanTambahView extends StatefulWidget {
   String result;
   List<String> resultBarangQc;
 
-  LaporanTambahView(
-      {required this.result, required this.resultBarangQc, Key? key})
-      : super(key: key);
+  LaporanTambahView({required this.result, required this.resultBarangQc, Key? key}) : super(key: key);
 
   @override
   State<LaporanTambahView> createState() => _LaporanTambahViewState();
 }
 
 class _LaporanTambahViewState extends State<LaporanTambahView> {
-  String barcodeBarangqcResult = globalBarcodeBarangqcResult;
+  
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
   final plotnumberController = TextEditingController();
@@ -36,12 +31,13 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
   final idController = TextEditingController();
   final _dateController = TextEditingController();
   final _createTglController = TextEditingController();
+  late DateTime currentTime;
   String userIdLogin = "";
+  String barcodeBarangqcResult = globalBarcodeBarangqcResult;
+  String? globalTglKP;
   double fontSize = 16.0;
   DateTime? _selectedDay;
   Timer? _timer;
-  String? globalTglKP;
-  late DateTime currentTime;
   
   
  @override
@@ -180,7 +176,7 @@ class _LaporanTambahViewState extends State<LaporanTambahView> {
           return; 
       }
 
-      ResponseModel response = await LaporanTambahController.postFormData(
+      ResponseModel response = await LaporanController.postFormDataLaporanTambah(
         p_tgl_kp: tglkp,
         p_userid: userId,
         p_uid: uid,
