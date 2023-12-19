@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'auditlokasi_view.dart';
 import '../utils/globals.dart';
+import '../utils/app_colors.dart';
 
 class ScanAuditBarangView extends StatefulWidget {
   const ScanAuditBarangView({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A77AC), Color(0xFF5AB4E1)],
+                  colors: [AppColors.blueTwo, AppColors.blueThree],
                   stops: [0.6, 1.0],
                 ),
               ),
@@ -80,11 +81,11 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                     const SizedBox(height: 70),
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.all(40),
+                        padding: const EdgeInsets.all(40),
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color(0xFF084D88),
+                              color: AppColors.blueOne,
                               width: 4,
                             ),
                             borderRadius: BorderRadius.circular(20),
@@ -112,7 +113,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                                   label: const Text('Scan QR Code',
                                       style: TextStyle(fontSize: 12)),
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(0xFF084D88),
+                                    primary: AppColors.blueOne,
                                     onPrimary: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12.0),
@@ -132,7 +133,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                         "Scan barcode pada Barang!",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
@@ -146,7 +147,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
@@ -168,7 +169,7 @@ class _ScanAuditBarangViewState extends State<ScanAuditBarangView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
