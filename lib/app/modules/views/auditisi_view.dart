@@ -186,12 +186,15 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
-                                    style: GoogleFonts.poppins(
-                                      color: AppColors.blueOne,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
+                                  Flexible(
+                                    child: Text(
+                                      'Auditor_$userName' + "_" + DateFormat('ddMMyyyy').format(DateTime.now()),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.blueOne,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -206,12 +209,13 @@ class _AuditIsiViewState extends State<AuditIsiView> {
                                         fontSize: 14,
                                       )),
                                   Text(
-                                      DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                      style: const TextStyle(
-                                        color: AppColors.blueOne,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                      )),
+                                    DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                                    style: const TextStyle(
+                                      color: AppColors.blueOne,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                    )
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8),
