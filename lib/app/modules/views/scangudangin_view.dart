@@ -1,14 +1,7 @@
 import 'package:addon/app/modules/views/gudangin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import '../controllers/gudanginscan_controller.dart';
-
-
-void main() {
-  runApp(const MaterialApp(
-    home: ScanGudangInView(),
-  ));
-}
+import '../controllers/gudang_controller.dart';
 
 class ScanGudangInView extends StatefulWidget {
   const ScanGudangInView({Key? key}) : super(key: key);
@@ -29,7 +22,7 @@ class _ScanGudangInViewState extends State<ScanGudangInView> {
 
     if (barcodeGudangBarangResult.isNotEmpty) {
     try {
-      await GudangInScanController.updateWarehouseInScan(lotnumber: barcodeGudangBarangResult);
+      await GudangController.updateWarehouseInScan(lotnumber: barcodeGudangBarangResult);
     } catch (e) {
       print('Error: $e');
     }
