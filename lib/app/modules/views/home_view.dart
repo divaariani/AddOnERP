@@ -7,10 +7,12 @@ import 'notification_view.dart';
 import 'profile_view.dart';
 import 'dashboard_view.dart';
 import '../utils/sessionmanager.dart';
+import '../utils/app_colors.dart';
 import '../controllers/actor_controller.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+  
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -84,22 +86,19 @@ class _HomeViewState extends State<HomeView> {
               onTap: (i) => setState(() => _currentIndex = i),
               items: [
                 SalomonBottomBarItem(
-                  icon: Image.asset("assets/icon.home.png",
-                      width: 24, height: 24),
+                  icon: Image.asset("assets/icon.home.png", width: 24, height: 24),
                   title: const Text("Beranda"),
-                  selectedColor: const Color(0xFF2A77AC),
+                  selectedColor: AppColors.blueTwo,
                 ),
                 SalomonBottomBarItem(
-                  icon: Image.asset("assets/icon.bell.png",
-                      width: 24, height: 24),
+                  icon: Image.asset("assets/icon.bell.png", width: 24, height: 24),
                   title: const Text("Notifikasi"),
-                  selectedColor: const Color(0xFF2A77AC),
+                  selectedColor: AppColors.blueTwo,
                 ),
                 SalomonBottomBarItem(
-                  icon: Image.asset("assets/icon.person.png",
-                      width: 24, height: 24),
+                  icon: Image.asset("assets/icon.person.png", width: 24, height: 24),
                   title: const Text("Profile"),
-                  selectedColor: const Color(0xFF2A77AC),
+                  selectedColor: AppColors.blueTwo,
                 ),
               ],
             ),
