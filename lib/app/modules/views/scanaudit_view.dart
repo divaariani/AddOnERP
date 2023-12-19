@@ -106,7 +106,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
                                   label: const Text('Scan QR Code',
                                       style: TextStyle(fontSize: 12)),
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(0xFF084D88),
+                                    primary: AppColors.blueOne,
                                     onPrimary: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12.0),
@@ -140,7 +140,7 @@ class _ScanAuditViewState extends State<ScanAuditView> {
               left: 0,
               right: 0,
               child: AppBar(
-                backgroundColor: const Color(0xFF2A77AC),
+                backgroundColor: AppColors.blueTwo,
                 elevation: 0.0,
                 leading: InkWell(
                   onTap: () {
