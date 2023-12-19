@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'home_view.dart';
+import 'scanoperator_view.dart';
 import '../controllers/machine_controller.dart';
 import '../controllers/response_model.dart';
 import '../controllers/notification_controller.dart';
@@ -16,10 +18,10 @@ class OperatorStatusView extends StatefulWidget {
 }
 
 class _OperatorStatusViewState extends State<OperatorStatusView> {
-  List<MyData> _data = [];
-
+  final SessionManager sessionManager = SessionManager();
   late DateTime currentTime;
-
+  List<MyData> _data = [];
+  
   Future<void> fetchCurrentTime() async {
     try {
       setState(() {
@@ -265,12 +267,8 @@ class _CardTableState extends State<CardTable> {
 
       setState(() {
         _data = myDataList.where((data) {
-          return data.mesin
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
-              data.operator
-                  .toLowerCase()
-                  .contains(_searchResult.toLowerCase()) ||
+          return data.mesin.toLowerCase().contains(_searchResult.toLowerCase()) ||
+              data.operator.toLowerCase().contains(_searchResult.toLowerCase()) ||
               data.status.toLowerCase().contains(_searchResult.toLowerCase());
         }).toList();
         _isLoading = false;
@@ -347,7 +345,7 @@ class _CardTableState extends State<CardTable> {
           child: Padding(
             padding: const EdgeInsets.all(1),
             child: PaginatedDataTable(
-              columns: [
+              columns: const [
                 DataColumn(
                   label: Flexible(
                     child: Text(
@@ -418,9 +416,11 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
   final stateController = TextEditingController();
   final idController = TextEditingController();
   String userIdLogin = "";
+  String userName = '';
 
   Future<void> _fetchUserId() async {
     userIdLogin = await sessionManager.getUserId() ?? "";
+    userName = await sessionManager.getUsername() ?? "";
     setState(() {});
   }
 
@@ -552,7 +552,77 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
               final id = widget.entry.id;
               idController.text = id;
               stateController.text = "Start";
-              _submitState();
+
+              if(widget.entry.operator.isEmpty || widget.entry.operator != userName) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      content: Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 10, left: 16, right: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Anda belum absen pada mesin',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 12, color: AppColors.blueOne),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _submitState(); 
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:AppColors.greyThree,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Start Saja',
+                                    style: TextStyle(color: AppColors.blueOne),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const ScanOperatorView()),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.blueOne,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Absen',
+                                    style: TextStyle(color: AppColors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else {
+                _submitState();
+              }
             },
             child: Image.asset(
               'assets/icon.start.png',
@@ -662,8 +732,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Pause (Pergi/Istirahat)";
+                                  stateController.text = "Pause (Pergi/Istirahat)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -750,8 +819,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Material Availability)";
+                                  stateController.text = "Block (Material Availability)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -773,8 +841,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Equiment Failure)";
+                                  stateController.text = "Block (Equiment Failure)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -796,8 +863,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Setup Adjustments)";
+                                  stateController.text = "Block (Setup Adjustments)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -819,8 +885,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Reduced Speed)";
+                                  stateController.text = "Block (Reduced Speed)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -842,8 +907,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Process Defect)";
+                                  stateController.text = "Block (Process Defect)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -865,8 +929,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Reduced Yield)";
+                                  stateController.text = "Block (Reduced Yield)";
                                   _submitState();
                                 },
                                 child: const Text(
@@ -888,8 +951,7 @@ class _AksiCellWidgetState extends State<AksiCellWidget> {
                                 onPressed: () {
                                   final id = widget.entry.id;
                                   idController.text = id;
-                                  stateController.text =
-                                      "Block (Fully Productive Time)";
+                                  stateController.text = "Block (Fully Productive Time)";
                                   _submitState();
                                 },
                                 child: const Text(
