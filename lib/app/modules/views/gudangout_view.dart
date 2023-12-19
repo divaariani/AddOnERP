@@ -5,14 +5,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/src/widgets/basic.dart' as flutter;
-import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'home_view.dart';
 import 'gudangin_view.dart';
 import 'scangudang_view.dart';
-import '../controllers/gudangview_controller.dart';
-import '../controllers/gudangdelete_controller.dart';
+import '../controllers/gudang_controller.dart';
 import '../utils/sessionmanager.dart';
 
 class GudangOutView extends StatefulWidget {
@@ -405,7 +403,7 @@ class _CardTableState extends State<CardTable> {
         _isLoading = true;
       });
 
-      final response = await GudangViewController.postFormData(
+      final response = await GudangController.postFormGudangOut(
         id: 1,
         userid: 1,
         barcode_mobil: '',
@@ -632,7 +630,7 @@ class _CardTableState extends State<CardTable> {
                             ),
                           ],
                           source: MyDataTableSource(_data, onDelete: (int id) {
-                            GudangDeleteController.deleteData(id);
+                            GudangController.deleteData(id);
                           }),
                           rowsPerPage: 10,
                         ),
