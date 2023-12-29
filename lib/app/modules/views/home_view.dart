@@ -19,8 +19,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   ActorController controller = Get.put(ActorController());
-
   var _currentIndex = 0;
+  DateTime? currentBackPressTime;
   
   final SessionManager sessionManager = SessionManager();
   final SessionManager _sessionManager = SessionManager();
@@ -29,8 +29,6 @@ class _HomeViewState extends State<HomeView> {
     const NotificationView(),
     const ProfileView(),
   ];
-
-  DateTime? currentBackPressTime;
 
   void checkInternetConnection(BuildContext context) async {
     var connectivityResult = await Connectivity().checkConnectivity();
